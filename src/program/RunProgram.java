@@ -1502,20 +1502,28 @@ public class RunProgram implements runningThreadInterface {
             properties.put("Commandline_Running",cmdm);
         }
         
+        properties = Cluster.tansfertWorkboxToProperties(workbox, properties);
+        
         boolean runLocal = false;
         boolean isRunning = false;
         boolean cantDownload = false;
         
-        boolean b = Cluster.isClusterNeedInfoHere(workbox,properties);
+        boolean b = Cluster.isClusterNeedInfoHere(properties);
         if (b){
             runLocal = true;
             setStatus(status_running, "\tNot enougth information to run on Cluster");
+            if (!Cluster.isP2RsaHere(workbox)){
+                setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
+            }
         }
         
         if (!runLocal)
-            if (!Cluster.getAccessToCluster(workbox,properties)){
+            if (!Cluster.getAccessToCluster(properties)){
                 runLocal = true;
                 setStatus(status_running, "\tUnable to access to the server");
+                setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress(workbox));
+            if (!Cluster.isP2RsaHere(workbox))
+                setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
             }
         
         if (Cluster.isAClusterTasksNumberHere(properties)&&!runLocal) {
@@ -1524,14 +1532,14 @@ public class RunProgram implements runningThreadInterface {
             
         if(!isRunning){
             if (!runLocal)
-                if (!Cluster.isTheProgramOnCluster(workbox,properties)){
+                if (!Cluster.isTheProgramOnCluster(properties)){
                     runLocal = true;
                     setStatus(status_running, "\tThe program and it's version has not been found online. Check the program properties");
                 } else {
                     setStatus(status_running,"\t<-The program is available on the server->");
                 }
             if (!runLocal)
-                if (!Cluster.createClusterDir(workbox,properties)) {
+                if (!Cluster.createClusterDir(properties)) {
                     runLocal = true;
                     setStatus(status_running, "\tNot able to create a directory on the server.");
                 } else {
@@ -1539,7 +1547,7 @@ public class RunProgram implements runningThreadInterface {
                 }
 
             if (!runLocal)
-                if (!Cluster.sendFilesOnCluster(workbox,properties)) {
+                if (!Cluster.sendFilesOnCluster(properties)) {
                     runLocal = true;
                     setStatus(status_running, "\tNot able to send files to the server.");
                 } else {
@@ -1547,7 +1555,7 @@ public class RunProgram implements runningThreadInterface {
                 }
 
             if (!runLocal)
-                if (!Cluster.clusterPbs(workbox,properties)) {
+                if (!Cluster.clusterPbs(properties)) {
                     runLocal = true;
                     setStatus(status_running, "\tNot able to create and send the pbs file to the server.");
                 } else {
@@ -1557,13 +1565,13 @@ public class RunProgram implements runningThreadInterface {
         }
         
         if (!runLocal)
-            if (!Cluster.isStillRunning(workbox,properties)) {
+            if (!Cluster.isStillRunning(properties)) {
                 setStatus(status_BadRequirements, "\tThe program is still running. The workflow will stop and you will be able to test it later.");
                 return false;
             }
         
         if (!runLocal)
-            if (!Cluster.downloadResults(workbox,properties)) {
+            if (!Cluster.downloadResults(properties)) {
                 cantDownload = true;
                 setStatus(status_BadRequirements, "\tNot able to download results from the server.");
                 return false;
@@ -1582,8 +1590,8 @@ public class RunProgram implements runningThreadInterface {
                 Logger.getLogger(RunProgram.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            String stdOut = Cluster.getPgrmStdoutOutput(workbox,properties);
-            String stdErr = Cluster.getPgrmStderrorOutput(workbox,properties);
+            String stdOut = Cluster.getPgrmStdoutOutput(properties);
+            String stdErr = Cluster.getPgrmStderrorOutput(properties);
             properties.put("SDOUT",stdOut);
             properties.put("STDERROR",stdErr);
             outputText.add(stdOut+"\n");
@@ -1593,19 +1601,15 @@ public class RunProgram implements runningThreadInterface {
             properties.remove("ClusterTasksNumber");
         }
             
-        if (properties.isSet("ClusterDeleteAllFiles"))
+        if (properties.isSet("ClusterDeleteAllFiles")){
             if (Boolean.parseBoolean((properties.get("ClusterDeleteAllFiles")))){
-                Cluster.removeFilesFromCluster(workbox,properties);
+                Cluster.removeFilesFromCluster(properties);
                 setStatus(status_running,"\t<-Sorry, Deleted files on cluster is not yet available->");
             } else {
                 Cluster.savePathOfFilesOnCluster(properties);
                 setStatus(status_running,"\t<-Sorry, Keep files on cluster is not yet available->");
             }
-            /*
-            
-            REMOVE FILES ON CLUSTER !
-            
-            */
+        }
         int exitvalue=0;
         if (properties.isSet("NormalExitValue"))
             exitvalue=Integer.parseInt(properties.get("NormalExitValue"));

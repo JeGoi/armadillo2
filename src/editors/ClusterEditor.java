@@ -65,7 +65,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     workflow_properties_dictionnary dict=new workflow_properties_dictionnary();
     String selected="";             // Selected properties
     Frame frame;
-    workflow_properties properties=new workflow_properties("Cluster.properties","./src/configuration/");
+    workflow_properties properties=new workflow_properties();
     armadillo_workflow parent_workflow;
     
     
@@ -219,6 +219,11 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         p2rsa_text.setMinimumSize(new java.awt.Dimension(179, 27));
         p2rsa_text.setName("p2rsa_text"); // NOI18N
         p2rsa_text.setPreferredSize(new java.awt.Dimension(179, 27));
+        p2rsa_text.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                p2rsa_textFocusLost(evt);
+            }
+        });
 
         jButton1.setText("...");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +349,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ClusterInfosUpdate)
@@ -437,7 +442,21 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             properties.remove("PathToRSAFile");
             p2rsa_text.setText("path to Private Key");
         }
+        updateValues();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void p2rsa_textFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_p2rsa_textFocusLost
+        // TODO add your handling code here:
+        String s = p2rsa_text.getText();
+        if (s.isEmpty()||s==""||s=="path to Private Key"){
+            properties.remove("PathToRSAFile");
+            p2rsa_text.setText("path to Private Key");
+        } else {
+            properties.put("PathToRSAFile",s);
+            p2rsa_text.setText(s);
+        }
+        updateValues();
+    }//GEN-LAST:event_p2rsa_textFocusLost
     
     /*
      * Other clusters for the futur
@@ -528,7 +547,13 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         Workbox workbox = parent_workflow.getWorkbox();
         workflow_properties selection = workbox.getWorkFlowJInternalFrame().getProperties();
         selection.put("ClusterAccessAddress",properties.get("Description"));
-        selection.put("PathToRSAFile",properties.get("PathToRSAFile"));
+        String s = p2rsa_text.getText();
+        if (s.isEmpty()||s==""||s=="path to Private Key"){
+            properties.remove("PathToRSAFile");
+        } else {
+            properties.put("PathToRSAFile",s);
+            selection.put("PathToRSAFile",s);
+        }
         boolean b = workbox.isWorkboxOnCLuster();
         if (b) {
             clusterEnabled.setSelected(true);

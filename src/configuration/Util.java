@@ -690,8 +690,9 @@ public class Util {
      * @return current jar path
      */
 
-    public static String getCurrentJarPath(){
-        return  System.getProperty("user.dir");
+    public static String currentPath(){
+        return  config.currentPath();
+        //return  System.getProperty("user.dir");
     }
     
     /**
@@ -699,7 +700,7 @@ public class Util {
      * @return the owner's name of the current jar file
      */
     public static String getOwnerJar() {
-        Path jpath = Paths.get(getCurrentJarPath());
+        Path jpath = Paths.get(currentPath());
         try {
             return Files.getOwner(jpath).getName();
         } catch (IOException ex) {
@@ -715,7 +716,7 @@ public class Util {
      * @return the owner's group of the  current jar file
      */
     public static String getGroupJar() {
-        Path jpath = Paths.get(getCurrentJarPath());
+        Path jpath = Paths.get(currentPath());
         try {
             GroupPrincipal group = Files.readAttributes(jpath, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS).group();
             return group.getName();
@@ -733,7 +734,7 @@ public class Util {
      * @return true if dir owner is changed
      */
     public static boolean changeOwnerDir(String filepath) {
-        Path jpath = Paths.get(getCurrentJarPath());
+        Path jpath = Paths.get(currentPath());
         Path dpath = Paths.get(filepath);
         UserPrincipal owner;
         try {
@@ -754,7 +755,7 @@ public class Util {
      * @return true if file is changed
      */
     public static boolean changeOwnerFile(String filepath) {
-        Path jpath = Paths.get(getCurrentJarPath());
+        Path jpath = Paths.get(currentPath());
         Path fpath = Paths.get(filepath);
         UserPrincipal owner;
         try {

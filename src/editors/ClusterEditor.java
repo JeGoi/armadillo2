@@ -18,7 +18,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package editor;
+package editors;
 
 
 import editor.DatabaseSQLite3_cellRenderer;
@@ -36,6 +36,9 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import editor.ConnectorInfoBox;
 import editor.EditorInterface;
+import editor.EditorInterface;
+import editor.EditorInterface;
+import editors.HelpEditor;
 import editors.HelpEditor;
 import java.awt.Component;
 import java.util.Arrays;
@@ -62,7 +65,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     workflow_properties_dictionnary dict=new workflow_properties_dictionnary();
     String selected="";             // Selected properties
     Frame frame;
-    workflow_properties properties=new workflow_properties();
+    workflow_properties properties=new workflow_properties("Cluster.properties","./src/configuration/");
     armadillo_workflow parent_workflow;
     
     

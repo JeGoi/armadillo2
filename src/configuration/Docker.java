@@ -163,7 +163,7 @@ public class Docker {
      */
     public static void prepareDockerBashFile(workflow_properties properties, String doName, String dockerCli) {
         String dockerCommand = Util.getOSCommandLine(properties);
-        String s = Util.getCurrentJarPath()+File.separator+"tmp"+File.separator+"dockerBash.sh";
+        String s = Util.currentPath()+File.separator+"tmp"+File.separator+"dockerBash.sh";
         Util.CreateFile(s);
         Path file = Paths.get(s);
         String userName = Util.getOwnerJar();

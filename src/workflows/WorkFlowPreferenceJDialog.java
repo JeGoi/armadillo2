@@ -879,7 +879,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
         Config config=new Config();
         config.set("DeveloperMode", this.jCheckBox6.isSelected());
 
-        Message("Change will take place when you restard Armadilo.","");
+        Message("Change will take place when you restart Armadillo.","");
         config.Save();
     }//GEN-LAST:event_jCheckBox6ActionPerformed
 

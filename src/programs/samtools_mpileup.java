@@ -16,6 +16,7 @@ import biologic.BamFile;
 import biologic.BedFile;
 import configuration.Docker;
 import biologic.Results;
+import configuration.Cluster;
 import configuration.Util;
 import java.io.File;
 import java.util.Vector;
@@ -51,19 +52,25 @@ public class samtools_mpileup extends RunProgram {
     private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
     private String input1       = "";
+    private String inputId1     = "";
     private String inputPath1   = "";
     private String input2       = "";
+    private String inputId2     = "";
     private String inputPath2   = "";
     private String input3       = "";
+    private String inputId3     = "";
     private String inputPath3   = "";
     private String[] inputsPath3= {};
+    private String[] inputsIDs3 = {};
     private String input4       = "";
+    private String inputId4     = "";
     private String inputPath4   = "";
+    private String allDoInputs  = "";
     //OUTPUTS
     private String output1       = "";
     private String outputInDo1   = "";
     //PATHS
-    private static final String outputsPath = "."+File.separator+"results"+File.separator+"SAMTOOLS"+File.separator+"mpileup"+File.separator+"";
+    private static final String outputsPath = "."+File.separator+"results"+File.separator+"samtools"+File.separator+"mpileup"+File.separator+"";
     private static final String[] Advanced_Options = {
         "AO_AO__illumina1DOT3PLUS_box",
         "AO_OO__BCF_box"
@@ -78,6 +85,9 @@ public class samtools_mpileup extends RunProgram {
     @Override
     public boolean init_checkRequirements(){
 
+        // In case program is started without edition
+        pgrmStartWithoutEdition(properties);
+        
         // TEST OUTPUT PATH
         String specificId = Util.returnRandomAndDate();
         if (properties.isSet("ObjectID")) {
@@ -90,41 +100,32 @@ public class samtools_mpileup extends RunProgram {
             setStatus(status_BadRequirements,"Not able to access or create OUTPUTS directory files");
             return false;
         }
-
         
         // TEST INPUT VARIABLES HERE
         // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
 
         Vector<Integer>BedFile1    = properties.getInputID("BedFile",PortInputDOWN2);
         inputPath1 = BedFile.getVectorFilePath(BedFile1);
+        inputId1   = BedFile.getVectorFileId(BedFile1);
         input1     = Util.getFileNameAndExt(inputPath1);
 
         Vector<Integer>FastaFile2    = properties.getInputID("FastaFile",PortInputUP);
         inputPath2 = FastaFile.getVectorFilePath(FastaFile2);
+        inputId2   = FastaFile.getVectorFileId(FastaFile2);
         input2     = Util.getFileNameAndExt(inputPath2);
 
         Vector<Integer>BamFile3    = properties.getInputID("BamFile",PortInputDOWN);
         inputPath3 = BamFile.getVectorFilePath(BamFile3);
+        inputId2   = BamFile.getVectorFileId(BamFile3);
         input3     = Util.getFileNameAndExt(inputPath3);
         // Get the multiple inputs
         inputsPath3 = BamFile.getAllVectorFilePath(BamFile3);
+        inputsIDs3  = BamFile.getVectorFileIds(BamFile3);
         
         Vector<Integer>BamBaiFile4    = properties.getInputID("BamBaiFile",PortInputDOWN);
         inputPath4 = BamBaiFile.getVectorFilePath(BamBaiFile4);
+        inputId4   = BamBaiFile.getVectorFileId(BamBaiFile4);
         input4     = Util.getFileNameAndExt(inputPath4);
-        
-        //Create ouputs
-        output1 = specificPath+File.separator+"OutputOf_"+input3+".bam";
-        outputInDo1 = " --output " +doOutputs+"OutputOf_"+input3+".bam";
-        if (properties.isSet("AO_OO__VCF_box")) {
-            output1 = specificPath+File.separator+"OutputOf_"+input3+".vcf";
-            outputInDo1 = " --output " +doOutputs+"OutputOf_"+input3+".vcf";
-        } else if (properties.isSet("AO_OO__BCF_box")) {
-            output1 = specificPath+File.separator+"OutputOf_"+input3+".bcf";
-            outputInDo1 = " --output " +doOutputs+"OutputOf_"+input3+".bcf";
-        }
-        output1 = Util.onlyOneOutputOf(output1);
-        outputInDo1 = Util.onlyOneOutputOf(outputInDo1);
         
         //INSERT YOUR INPUT TEST HERE
         if (BedFile1.isEmpty()||input1.equals("Unknown")||input1.equals("")){
@@ -143,13 +144,45 @@ public class samtools_mpileup extends RunProgram {
             return false;
         }
 
-        //PREPARE DOCKER SHARED FILES
-        String[] tmp = {inputPath1,inputPath2,inputPath3,inputPath4};
-        String[] allInputsPath = Util.merge2TablesWithoutDup(tmp, inputsPath3);
-        sharedFolders = Docker.createSharedFolders(allInputsPath,doInputs);
+        // DOCKER VARIABLES
+        // Prepare ouputs
+        output1 = specificPath+File.separator+"OutputOf_"+input3+".bam";
+        outputInDo1 = doOutputs+"OutputOf_"+input3+".bam";
+        if (properties.isSet("AO_OO__VCF_box")) {
+            output1 = specificPath+File.separator+"OutputOf_"+input3+".vcf";
+            outputInDo1 = doOutputs+"OutputOf_"+input3+".vcf";
+        } else if (properties.isSet("AO_OO__BCF_box")) {
+            output1 = specificPath+File.separator+"OutputOf_"+input3+".bcf";
+            outputInDo1 = doOutputs+"OutputOf_"+input3+".bcf";
+        }
+        output1 = Util.onlyOneOutputOf(output1);
+        outputInDo1 = Util.onlyOneOutputOf(outputInDo1);
+        
+        // Prepare shared folders
+        String[] simplePath = {inputPath1,inputPath2,inputPath3,inputPath4};
+        String[] allInputsPath = Util.merge2TablesWithoutDup(simplePath, inputsPath3);
+        String[] simpleId = {inputId1,inputId2,inputId3,inputId4};
+        String[] allInputsId = Util.merge2TablesWithoutDup(simpleId, inputsIDs3);
+        sharedFolders = Docker.createSharedFolders(allInputsPath,allInputsId,doInputs);
         sharedFolders.put(specificPath,doOutputs);
 
-        // Launch Docker
+        // Prepare inputs
+        HashMap<String,String> allInputsPathArg  =  new HashMap<String,String>();
+        allInputsPathArg.put(inputPath1,"--positions");
+        allInputsPathArg.put(inputPath2,"--fasta-ref");
+        allInputsPathArg.put(inputPath3,"");
+        allInputsPathArg.put(inputPath4,"");
+        for (String st:inputsPath3){
+            if (allInputsPathArg.get(st)==null)
+                allInputsPathArg.put(st,"");
+        }
+        allDoInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,allInputsId,doInputs);
+
+        // Prepare cluster relations
+        properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
+        Cluster.createLinkDockerClusterInputs(properties, allInputsPath,allInputsId, doInputs);
+
+        // DOCKER INIT
         if (Docker.isDockerHere(properties)){
             doName = Docker.getContainerName(properties,doName);
             if (!dockerInitContainer(properties,sharedFolders, doName, doImage))
@@ -160,37 +193,33 @@ public class samtools_mpileup extends RunProgram {
         }
         return true;
     }
+    
+        // def functions for init_createCommandLine
+        // In case program is started without edition and params need to be setted
+        private void pgrmStartWithoutEdition (workflow_properties properties){
+            if (!(properties.isSet("Default_Options"))
+                && !(properties.isSet("Advanced_Options"))
+            ){
+                Util.getDefaultPgrmValues(properties,false);
+            }
+        }
+        
+
     @Override
     public String[] init_createCommandLine() {
 
-        // In case program is started without edition
-        pgrmStartWithoutEdition(properties);
-
-        
         // Program and Options
         String options = "";
         if (properties.isSet("Advanced_Options"))
             options += Util.findOptionsNew(Advanced_Options,properties);
         
         // Docker command line
-        String[] tmp = {inputPath1,inputPath2,inputPath3,inputPath4};
-        String[] allInputsPathOrder = Util.merge2TablesWithoutDup(tmp, inputsPath3);
-        HashMap<String,String> allInputsPath  =  new HashMap<String,String>();
-        allInputsPath.put(inputPath1,"--positions");
-        allInputsPath.put(inputPath2,"--fasta-ref");
-        allInputsPath.put(inputPath3,"");
-        allInputsPath.put(inputPath4,"");
-        for (String st:inputsPath3){
-            if (allInputsPath.get(st)==null)
-                allInputsPath.put(st,"");
-        }
-        
-        String allDockerInputs = Docker.createAllDockerInputs(allInputsPath,allInputsPathOrder,doInputs);
-        String dockerCli = doPgrmPath+" "+options + allDockerInputs + outputInDo1;
+        String dockerCli = doPgrmPath+" "+options + allDoInputs + " --output " + outputInDo1;
         Docker.prepareDockerBashFile(properties,doName,dockerCli);
 
         setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
         String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
+        properties.put("DockerRunningCommandLineForCluster",dockerCli);
         
         // Command line creation
         String[] com = new String[30];
@@ -202,17 +231,6 @@ public class samtools_mpileup extends RunProgram {
         com[3]= dockerBashCli;
         return com;
     }
-
-        // def functions for init_createCommandLine
-        // In case program is started without edition and params need to be setted
-        private void pgrmStartWithoutEdition (workflow_properties properties){
-            if (!(properties.isSet("Default_Options"))
-                && !(properties.isSet("Advanced_Options"))
-            ){
-                Util.getDefaultPgrmValues(properties,false);
-            }
-        }
-        
 
     /*
     * Output Parsing

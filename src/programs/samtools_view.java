@@ -13,6 +13,7 @@ import biologic.SamFile;
 import biologic.BamFile;
 import configuration.Docker;
 import biologic.Results;
+import configuration.Cluster;
 import configuration.Util;
 import java.io.File;
 import java.util.Vector;
@@ -47,18 +48,22 @@ public class samtools_view extends RunProgram {
     private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
     private String input1       = "";
+    private String inputId1     = "";
     private String inputPath1   = "";
     private String input2       = "";
+    private String inputId2     = "";
     private String inputPath2   = "";
     private String input3       = "";
+    private String inputId3     = "";
     private String inputPath3   = "";
+    private String allDockerInputs = "";
     //OUTPUTS
     private String output1       = "";
     private String outputInDo1   = "";
     private String output2       = "";
     private String outputInDo2   = "";
     //PATHS
-    private static final String outputsPath = "."+File.separator+"results"+File.separator+"SAMTOOLS"+File.separator+"view"+File.separator+"";
+    private static final String outputsPath = "."+File.separator+"results"+File.separator+"samtools"+File.separator+"view"+File.separator+"";
     private static final String[] Advanced_Options_1 = {
         "AO_AO1_h_box",
         "AO_AO1_H_box",
@@ -76,6 +81,9 @@ public class samtools_view extends RunProgram {
     @Override
     public boolean init_checkRequirements(){
 
+        // In case program is started without edition
+        pgrmStartWithoutEdition(properties);
+        
         // TEST OUTPUT PATH
         String specificId = Util.returnRandomAndDate();
         if (properties.isSet("ObjectID")) {
@@ -94,14 +102,17 @@ public class samtools_view extends RunProgram {
 
         Vector<Integer>SamFile1    = properties.getInputID("SamFile",PortInputDOWN);
         inputPath1 = SamFile.getVectorFilePath(SamFile1);
+        inputId1   = SamFile.getVectorFileId(SamFile1);
         input1     = Util.getFileNameAndExt(inputPath1);
 
         Vector<Integer>BamFile2    = properties.getInputID("BamFile",PortInputDOWN);
         inputPath2 = BamFile.getVectorFilePath(BamFile2);
+        inputId2   = BamFile.getVectorFileId(BamFile2);
         input2     = Util.getFileNameAndExt(inputPath2);
 
         Vector<Integer>CramFile3    = properties.getInputID("CramFile",PortInputDOWN);
         inputPath3 = CramFile.getVectorFilePath(CramFile3);
+        inputId3   = CramFile.getVectorFileId(CramFile3);
         input3     = Util.getFileNameAndExt(inputPath3);
         
         //INSERT YOUR INPUT TEST HERE
@@ -112,31 +123,42 @@ public class samtools_view extends RunProgram {
             return false;
         }
         
-        // CREATE OUTPUTS
+        // DOCKER VARIABLES
+        // Prepare ouputs
         String outputFinal="OutputOf_"+input1;
         if (input2!="")
             outputFinal="OutputOf_"+input2;
         if (input3!="")
             outputFinal="OutputOf_"+input3;
         if (properties.isSet("AO_AO1_b_box")){
-            output2 = specificPath+File.separator+outputFinal+".bam";
-            outputInDo2 = doOutputs+outputFinal+".bam";
+            output1 = specificPath+File.separator+outputFinal+".bam";
+            outputInDo1 = doOutputs+outputFinal+".bam";
         } else {
             output1 = specificPath+File.separator+outputFinal+".sam";
             outputInDo1 = doOutputs+outputFinal+".sam";
         }
         output1 = Util.onlyOneOutputOf(output1);
         outputInDo1 = Util.onlyOneOutputOf(outputInDo1);
-        output2 = Util.onlyOneOutputOf(output2);
-        outputInDo2 = Util.onlyOneOutputOf(outputInDo2);
-        
-        
-        //PREPARE DOCKER SHARED FILES
+        Util.dm(outputInDo1);
+        Util.dm(output1);
+        // Prepare shared folders
         String[] allInputsPath = {inputPath1,inputPath2,inputPath3};
-        sharedFolders = Docker.createSharedFolders(allInputsPath,doInputs);
+        String[] simpleId = {inputId1,inputId2,inputId3};
+        sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
         sharedFolders.put(specificPath,doOutputs);
 
-        // Launch Docker
+        // Prepare inputs
+        HashMap<String,String> allInputsPathArg = new HashMap<String,String>();
+        allInputsPathArg.put(inputPath1,"");
+        allInputsPathArg.put(inputPath2,"");
+        allInputsPathArg.put(inputPath3,"");
+        allDockerInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
+
+        // Prepare cluster relations
+        properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
+        Cluster.createLinkDockerClusterInputs(properties, allInputsPath,simpleId, doInputs);
+
+        // DOCKER INIT
         if (Docker.isDockerHere(properties)){
             doName = Docker.getContainerName(properties,doName);
             if (!dockerInitContainer(properties,sharedFolders, doName, doImage))
@@ -147,34 +169,33 @@ public class samtools_view extends RunProgram {
         }
         return true;
     }
+
+        // def functions for init_createCommandLine
+        // In case program is started without edition and params need to be setted
+        private void pgrmStartWithoutEdition (workflow_properties properties){
+            if (!(properties.isSet("Default_Options"))
+                && !(properties.isSet("Advanced_Options"))
+            ){
+                Util.getDefaultPgrmValues(properties,false);
+            }
+        }
+    
+    
     @Override
     public String[] init_createCommandLine() {
 
-        // In case program is started without edition
-        pgrmStartWithoutEdition(properties);
-        
         // Program and Options
         String options = "";
         if (properties.isSet("Advanced_Options"))
             options += Util.findOptionsNew(Advanced_Options_1,properties);
         
-        
         // Docker command line
-        String[] allInputsPathOrder = {inputPath1,inputPath2,inputPath3};
-        HashMap<String,String> allInputsPath = new HashMap<String,String>();
-        allInputsPath.put(inputPath1,"");
-        allInputsPath.put(inputPath2,"");
-        allInputsPath.put(inputPath3,"");
-        
-        String allDockerInputs = Docker.createAllDockerInputs(allInputsPath,allInputsPathOrder,doInputs);
         String dockerCli = doPgrmPath+" "+options + allDockerInputs;
-        if (properties.isSet("AO_AO1_b_box"))
-            dockerCli = dockerCli+" > "+ outputInDo2;
-        else
-            dockerCli = dockerCli+" > "+ outputInDo1;
+        dockerCli = dockerCli+" > "+ outputInDo1;
         Docker.prepareDockerBashFile(properties,doName,dockerCli);
         setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
         String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
+        properties.put("DockerRunningCommandLineForCluster",dockerCli);
         
         // Command line creation
         String[] com = new String[30];
@@ -187,17 +208,6 @@ public class samtools_view extends RunProgram {
         return com;
     }
 
-        // def functions for init_createCommandLine
-        // In case program is started without edition and params need to be setted
-        private void pgrmStartWithoutEdition (workflow_properties properties){
-            if (!(properties.isSet("Default_Options"))
-                && !(properties.isSet("Advanced_Options"))
-            ){
-                Util.getDefaultPgrmValues(properties,false);
-            }
-        }
-        
-
     /*
     * Output Parsing
     */
@@ -205,10 +215,10 @@ public class samtools_view extends RunProgram {
     @Override
     public void post_parseOutput(){
         Docker.cleanContainer(properties,doName);
-        if (output1!="")
+        if (output1.endsWith("sam"))
             SamFile.saveFile(properties,output1,"samtools_view","SamFile");
-        if (output2!="")
-            BamFile.saveFile(properties,output2,"samtools_view","BamFile");
+        if (output1.endsWith("bam"))
+            BamFile.saveFile(properties,output1,"samtools_view","BamFile");
         Results.saveResultsPgrmOutput(properties,this.getPgrmOutput(),"samtools_view");
     }
 }

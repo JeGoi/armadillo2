@@ -224,7 +224,7 @@ public class Docker {
             for (int y=0;y<b.length;y+=1){
                 b[y]=sharedF.get(y);
             }
-            Util.pl(Arrays.toString(b));
+            //Util.dm(Arrays.toString(b));
             try {
                 boolean sl = runCommand4Docker(b);
                 return sl;
@@ -560,6 +560,17 @@ public class Docker {
         return sharedFolders;
     }
     
+    public static HashMap<String,String> createSharedFolders(String[] tabPath, String[] tabID, String doInputs) {
+        HashMap<String,String> sharedFolders = new HashMap<String,String>();
+        for(int i = 0; i < tabPath.length; i++) {
+            if (tabPath[i]!="") {
+                String dir = Util.getParentOfFile(tabPath[i]);
+                sharedFolders.put(dir, doInputs+tabID[i]+"/");
+            }
+        }
+        return sharedFolders;
+    }
+    
     /**
      * 
      * @deprecated Be cause we merge the two tables before create the shared folder
@@ -618,6 +629,18 @@ public class Docker {
         }
         return allDockerInputs;
     }
+    public static String createAllDockerInputs(HashMap<String,String> pathAndArg,String[] tabPath, String[] tabId, String doInputs) {
+        String allDockerInputs = "";
+        for(int i = 0; i < tabPath.length; i++) {
+            if (tabPath[i]!="") {
+                String v = pathAndArg.get(tabPath[i]);
+                String c = Util.getCanonicalPath(tabPath[i]);
+                String name = Util.getFileNameAndExt(c);
+                allDockerInputs += " "+v+" "+doInputs+tabId[i]+"/"+name+" ";
+            }
+        }
+        return allDockerInputs;
+    }
     
     /**
      * Used in docker command line creation
@@ -654,10 +677,10 @@ public class Docker {
         Process p;
         p = r.exec(Util.toString(commandline));
         int exitvalue=p.waitFor();
-        Util.pl("int>"+p.getInputStream().toString());
-        Util.pl("int>"+p.getErrorStream().toString());
-        Util.pl("int>"+p.getOutputStream().toString());
-        Util.pl("int>"+Integer.toString(exitvalue));
+        Util.dm("int>"+p.getInputStream().toString());
+        Util.dm("int>"+p.getErrorStream().toString());
+        Util.dm("int>"+p.getOutputStream().toString());
+        Util.dm("int>"+Integer.toString(exitvalue));
         return true;
     }
     

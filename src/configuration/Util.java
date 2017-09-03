@@ -1987,6 +1987,16 @@ public class Util {
         return f;
     }
     
+    public static Integer[] merge2TablesWithoutDup(Integer[] t1, Integer[] t2){
+        List<Integer> sL1 = new ArrayList<Integer>(Arrays.asList(t1));
+        for (int i = 0; i < t2.length ; i ++){
+            if (!sL1.contains(t2[i]))
+                sL1.add(t2[i]);
+        }
+        Integer[] f = sL1.toArray(new Integer[0]);
+        return f;
+    }
+    
     /**
      * Added by JG 2017
      * @param s a string from outputs program
@@ -2004,8 +2014,9 @@ public class Util {
      * @param s a string you want to print in the terminal
      * @return None it's printed in the terminal
      */
-    public static void pl(String s){
-        System.out.println(s);
+    public static void dm(String s){
+        if(config.isDevelopperMode())
+            System.out.println(s);
     }
     
 }

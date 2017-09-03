@@ -119,7 +119,6 @@ public class Workbox {
         if (this.testClusterPresence()){
             this.getWorkFlowJInternalFrame().cleanClusterObject();
             this.getWorkFlowJInternalFrame().setCluster(false);
-            Util.pl("yes");
         }
     }
     

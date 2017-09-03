@@ -375,14 +375,11 @@ public class Unknown implements Biologic, Iterator, Serializable {
     }
     
     public static String getVectorFilePath(Vector<Integer> f){
-        String s = "";
-        for (int ids:f) {
-            if (ids!=0) {
-                Unknown fas =new Unknown(ids);
-                s = fas.getFilename();
-            }
+        if (f.size()>=1){
+            Unknown fas =new Unknown(f.elementAt(0));
+            return fas.getFilename();
         }
-        return s;
+        return "";
     }
     
     public static String[] getAllVectorFilePath(Vector<Integer> f){
@@ -400,5 +397,27 @@ public class Unknown implements Biologic, Iterator, Serializable {
             s = l.toArray(new String[l.size()]);
         return s;
     }
-    
+
+    public static String getVectorFileId(Vector<Integer> f){
+        if (f.size()>=1){
+            return Integer.toString(f.elementAt(0));
+        }
+        return "";
+    }
+
+    public static String[] getVectorFileIds(Vector<Integer> f){
+        List<String> l = new ArrayList<String>();
+        String[] s = {};
+        for (int ids:f) {
+            if (ids!=0) {
+                l.add(Integer.toString(ids));
+            }
+        }
+        if (l.isEmpty())
+            return s;
+        else
+            s = l.toArray(new String[l.size()]);
+        return s;
+    }
+
 }

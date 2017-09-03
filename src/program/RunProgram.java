@@ -419,7 +419,7 @@ public class RunProgram implements runningThreadInterface {
                         // Print the command line
                         String s = Util.toString(commandline);
                         
-                        Util.pl(s);
+                        Util.dm(s);
                                 
                                 
                         //if (!s.contains("Not Set")) System.out.println(s);

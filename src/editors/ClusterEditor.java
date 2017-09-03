@@ -182,7 +182,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
 
         jLabel9.setText("Used");
 
-        ClusterNames2_list.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Briaree_nom@briaree.calculquebec.ca", "Colosse_nom@colosse.calculquebec.ca", "Cottos_nom@cottos.calculquebec.ca", "Guillimin_nom@guillimin.hpc.mcgill.ca", "Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca", "Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca", "Psi_nom@psi.concordia.ca", " " }));
+        ClusterNames2_list.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca", "* = NOT TESTED", "*Briaree_nom@briaree.calculquebec.ca", "*Colosse_nom@colosse.calculquebec.ca", "*Cottos_nom@cottos.calculquebec.ca", "*Guillimin_nom@guillimin.hpc.mcgill.ca", "*Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca", "*Psi_nom@psi.concordia.ca", " " }));
         ClusterNames2_list.setMaximumSize(new java.awt.Dimension(373, 3856));
         ClusterNames2_list.setMinimumSize(new java.awt.Dimension(373, 27));
         ClusterNames2_list.setName("ClusterNames2_list"); // NOI18N
@@ -214,7 +214,6 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
 
         jLabel3.setText("Path to Privatekey");
 
-        p2rsa_text.setText("path to private key");
         p2rsa_text.setMaximumSize(new java.awt.Dimension(179, 27));
         p2rsa_text.setMinimumSize(new java.awt.Dimension(179, 27));
         p2rsa_text.setName("p2rsa_text"); // NOI18N
@@ -547,12 +546,8 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         Workbox workbox = parent_workflow.getWorkbox();
         workflow_properties selection = workbox.getWorkFlowJInternalFrame().getProperties();
         selection.put("ClusterAccessAddress",properties.get("Description"));
-        String s = p2rsa_text.getText();
-        if (s.isEmpty()||s==""||s=="path to Private Key"){
-            properties.remove("PathToRSAFile");
-        } else {
-            properties.put("PathToRSAFile",s);
-            selection.put("PathToRSAFile",s);
+        if (properties.isSet("PathToRSAFile")) {
+            selection.put("PathToRSAFile",properties.get("PathToRSAFile"));
         }
         boolean b = workbox.isWorkboxOnCLuster();
         if (b) {
@@ -567,7 +562,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     /**
      * Load Saved Values
      */
-    public void loadSavedValues(workflow_properties properties) {
+    public void loadSavedValues() {
         ClusterAccess.setEnabled(false);
         ClusterName.setEnabled(false);
         ClusterUserName.setEnabled(false);
@@ -626,7 +621,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         this.properties=properties;
         setTitle(properties.getName());
 //        if (properties.isSet("Description")) this.ClusterAccess.setText(properties.get("Description"));
-        loadSavedValues(properties);
+        loadSavedValues();
     }
     
     ///////////////////////////////////////////////////////////////////////////

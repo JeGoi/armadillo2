@@ -41,6 +41,7 @@ import splash.AboutJDialog;
 import biologic.seqclasses.InformationJDialog;
 import biologic.seqclasses.LoadAlignmentFrame;
 import biologic.seqclasses.StandardInputSequenceJDialog;
+import configuration.Cluster;
 import configuration.SequenceFilter;
 import configuration.TreeFilter;
 import configuration.WorkflowImportExportFilter;
@@ -340,7 +341,6 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         Run_jMenuItem = new javax.swing.JMenuItem();
-        RunOnCHP_jMenuItem = new javax.swing.JMenuItem();
         RunSelected_jMenuItem7 = new javax.swing.JMenuItem();
         RunIterationjMenuItem = new javax.swing.JMenuItem();
         Stop_jMenuItem = new javax.swing.JMenuItem();
@@ -739,16 +739,6 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
             }
         });
         jMenu1.add(Run_jMenuItem);
-
-        RunOnCHP_jMenuItem.setText("Run on CHP");
-        RunOnCHP_jMenuItem.setToolTipText("This is the default execution. Run all program on  the workflow even if already executed.");
-        RunOnCHP_jMenuItem.setName("RunOnCHP_jMenuItem"); // NOI18N
-        RunOnCHP_jMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RunOnCHP_jMenuItemActionPerformed(evt);
-            }
-        });
-        jMenu1.add(RunOnCHP_jMenuItem);
 
         RunSelected_jMenuItem7.setText("Run (unfinished only)");
         RunSelected_jMenuItem7.setToolTipText("Run only the un-executed programs or those with error state.");
@@ -1361,7 +1351,7 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
     
     private void Run_jMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Run_jMenuItemActionPerformed
         this.workbox.resetState();
-        this.workbox.setWorkboxAsCluster(false);
+        Cluster.setClusterEnable(workbox.getCurrentArmadilloWorkflow(),false);
         this.workbox.Run();
     }//GEN-LAST:event_Run_jMenuItemActionPerformed
     
@@ -1418,12 +1408,6 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
         dialog.setVisible(true);
         
     }//GEN-LAST:event_RunIterationjMenuItemActionPerformed
-
-    private void RunOnCHP_jMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunOnCHP_jMenuItemActionPerformed
-        this.workbox.resetState();
-        this.workbox.setWorkboxAsCluster(true);
-        this.workbox.Run();
-    }//GEN-LAST:event_RunOnCHP_jMenuItemActionPerformed
     
     ////////////////////////////////////////////////////////////////////////////
     /// Generate Application report
@@ -2483,7 +2467,6 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
     private javax.swing.JMenuItem ReportjMenuItem14;
     private javax.swing.JMenuItem ResetDevelopperStatejMenuItem5;
     private javax.swing.JMenuItem RunIterationjMenuItem;
-    private javax.swing.JMenuItem RunOnCHP_jMenuItem;
     private javax.swing.JMenuItem RunSelected_jMenuItem7;
     private javax.swing.JMenuItem Run_jMenuItem;
     private javax.swing.JMenu Sample_jMenu;

@@ -21,6 +21,7 @@
 package editors;
 
 
+import configuration.Cluster;
 import editor.DatabaseSQLite3_cellRenderer;
 import workflows.workflow_properties;
 import configuration.Config;
@@ -41,7 +42,10 @@ import editor.EditorInterface;
 import editors.HelpEditor;
 import editors.HelpEditor;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import program.*;
 import workflows.Workbox;
@@ -97,7 +101,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         ClusterGroupName = new javax.swing.JTextField();
-        ClusterAccess = new javax.swing.JTextField();
+        ClusterAccessAddress = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         ClusterNames2_list = new javax.swing.JComboBox();
         clusterEnabled = new javax.swing.JCheckBox();
@@ -110,6 +114,13 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         jButton1 = new javax.swing.JButton();
         ClosejButton = new javax.swing.JButton();
         ClusterInfosUpdate = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        ClusterPWD = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ClusterModules = new javax.swing.JTextArea();
+        jLabel10 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
         setTitle("Properties");
@@ -168,15 +179,15 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
-        ClusterAccess.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        ClusterAccess.setText("username@(groupName)clustername");
-        ClusterAccess.setMaximumSize(new java.awt.Dimension(324, 27));
-        ClusterAccess.setMinimumSize(new java.awt.Dimension(324, 27));
-        ClusterAccess.setName("ClusterAccess"); // NOI18N
-        ClusterAccess.setPreferredSize(new java.awt.Dimension(324, 27));
-        ClusterAccess.addActionListener(new java.awt.event.ActionListener() {
+        ClusterAccessAddress.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ClusterAccessAddress.setText("username@(groupName)clustername");
+        ClusterAccessAddress.setMaximumSize(new java.awt.Dimension(324, 27));
+        ClusterAccessAddress.setMinimumSize(new java.awt.Dimension(324, 27));
+        ClusterAccessAddress.setName("ClusterAccessAddress"); // NOI18N
+        ClusterAccessAddress.setPreferredSize(new java.awt.Dimension(324, 27));
+        ClusterAccessAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClusterAccessActionPerformed(evt);
+                ClusterAccessAddressActionPerformed(evt);
             }
         });
 
@@ -255,7 +266,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ClusterAccess, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(clusterEnabled)
@@ -298,7 +309,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClusterAccess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -330,6 +341,13 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
+        jButton2.setText("Test and Saved");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -340,6 +358,8 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(ClusterInfosUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ClosejButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -352,11 +372,58 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ClusterInfosUpdate)
-                    .addComponent(ClosejButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ClosejButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Cluster Access Options", jPanel9);
+
+        jLabel4.setText("cluster pwd");
+
+        ClusterPWD.setToolTipText("");
+        ClusterPWD.setMaximumSize(new java.awt.Dimension(220, 27));
+        ClusterPWD.setMinimumSize(new java.awt.Dimension(220, 27));
+        ClusterPWD.setName("ClusterPWD"); // NOI18N
+        ClusterPWD.setPreferredSize(new java.awt.Dimension(220, 27));
+
+        ClusterModules.setColumns(20);
+        ClusterModules.setLineWrap(true);
+        ClusterModules.setRows(5);
+        jScrollPane1.setViewportView(ClusterModules);
+
+        jLabel10.setText("modules");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel10))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ClusterPWD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(ClusterPWD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Informations Saved", jPanel1);
 
         jButton3.setText("?");
         jButton3.setToolTipText("Help / Informations");
@@ -370,11 +437,8 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -382,7 +446,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -418,9 +482,9 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         updateValues();
     }//GEN-LAST:event_ClusterGroupNameFocusLost
     
-    private void ClusterAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterAccessActionPerformed
+    private void ClusterAccessAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterAccessAddressActionPerformed
         
-    }//GEN-LAST:event_ClusterAccessActionPerformed
+    }//GEN-LAST:event_ClusterAccessAddressActionPerformed
     
     private void ClusterInfosUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterInfosUpdateActionPerformed
         updateValues();
@@ -456,6 +520,39 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         }
         updateValues();
     }//GEN-LAST:event_p2rsa_textFocusLost
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        updateValues();
+        Workbox workbox = parent_workflow.getWorkbox();
+        workflow_properties selection = workbox.getWorkFlowJInternalFrame().getProperties();
+        boolean b1 = Cluster.isP2RsaHere(parent_workflow.getWorkbox());
+        if (b1){
+            if (!properties.isSet("PathToRSAFile"))
+                properties.put("PathToRSAFile", Cluster.getP2Rsa(workbox));
+            boolean b2 = Cluster.getAccessToCluster(properties);
+            if (b2) {
+                selection.put("ClusterPWD",properties.get("ClusterPWD"));
+                ClusterPWD.setText(properties.get("ClusterPWD"));
+                ArrayList<String> tab = Cluster.getModules(properties);
+                if (!tab.isEmpty()){
+                    for (String s : tab) {
+                        ClusterModules.append(s);
+                        ClusterModules.append("\n");
+                    }
+                }
+                String s = Arrays.toString(tab.toArray());
+                selection.put("ClusterModules",s);
+                properties.put("ClusterModules",s);
+            } else {
+                properties.remove("ClusterModules");
+                properties.remove("ClusterPWD");
+                selection.remove("ClusterModules");
+                selection.remove("ClusterPWD");
+            }
+        }
+        updateValues();
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     /*
      * Other clusters for the futur
@@ -473,7 +570,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
      * General Update
      */
     private void updateValues() {
-        ClusterAccess.setEnabled(false);
+        ClusterAccessAddress.setEnabled(false);
         ClusterName.setEnabled(false);
         
         int i = this.ClusterNames2_list.getSelectedIndex();
@@ -533,9 +630,9 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             if (s.matches("^Mp2.*")||s.matches("^Ms2.*"))
                 group = properties.get(ClusterGroupName.getName());
             String access  = name+"@"+group+cluster;
-            ClusterAccess.setText(access);
-            properties.put(ClusterAccess.getName(),access);
-            properties.put("Description",access);
+            ClusterAccessAddress.setText(access);
+            properties.put(ClusterAccessAddress.getName(),access);
+            properties.put("Description","Cluster address used:\n"+access+"\nPrivate key path used:\n"+properties.get("PathToRSAFile"));
         }
     }
     
@@ -545,9 +642,15 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     public void updateEnabled(){
         Workbox workbox = parent_workflow.getWorkbox();
         workflow_properties selection = workbox.getWorkFlowJInternalFrame().getProperties();
-        selection.put("ClusterAccessAddress",properties.get("Description"));
+        selection.put("ClusterAccessAddress",properties.get(ClusterAccessAddress.getName()));
         if (properties.isSet("PathToRSAFile")) {
             selection.put("PathToRSAFile",properties.get("PathToRSAFile"));
+        }
+        if (properties.isSet("ClusterPWD")) {
+            selection.put("ClusterPWD",properties.get("ClusterPWD"));
+        }
+        if (properties.isSet("ClusterModules")) {
+            selection.put("ClusterModules",properties.get("ClusterModules"));
         }
         boolean b = workbox.isWorkboxOnCLuster();
         if (b) {
@@ -563,7 +666,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
      * Load Saved Values
      */
     public void loadSavedValues() {
-        ClusterAccess.setEnabled(false);
+        ClusterAccessAddress.setEnabled(false);
         ClusterName.setEnabled(false);
         ClusterUserName.setEnabled(false);
         ClusterGroupName.setEnabled(false);
@@ -589,9 +692,9 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                 int i = Integer.parseInt(properties.get(ClusterNames2_list.getName()));
                 ClusterNames2_list.setSelectedIndex(i);
             }
-            if (properties.isSet(ClusterAccess.getName())){
-                String s2 = properties.get(ClusterAccess.getName());
-                ClusterAccess.setText(s2);
+            if (properties.isSet(ClusterAccessAddress.getName())){
+                String s2 = properties.get(ClusterAccessAddress.getName());
+                ClusterAccessAddress.setText(s2);
             }
             if (properties.isSet(clusterEnabled.getName())){
                 clusterEnabled.setSelected(true);
@@ -610,6 +713,21 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             p2rsa_text.setText(properties.get("PathToRSAFile"));
         }
 
+        if (properties.isSet("ClusterPWD"))
+            ClusterPWD.setText(properties.get("ClusterPWD"));
+        if (properties.isSet("ClusterModules"))
+            ClusterModules.setText(properties.get("ClusterModules"));
+        if (properties.isSet("ClusterPWD"))
+            ClusterPWD.setText(properties.get("ClusterPWD"));
+        if (properties.isSet("ClusterModules"))
+            ClusterModules.setText(properties.get("ClusterModules"));
+        
+        if (properties.isSet("clusterEnabled"))
+            clusterEnabled.setEnabled(Boolean.getBoolean(properties.get("clusterEnabled")));
+        else
+            clusterEnabled.setEnabled(false);
+        
+        
         updateEnabled();
     }
     
@@ -652,25 +770,32 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ClosejButton;
-    private javax.swing.JTextField ClusterAccess;
+    private javax.swing.JTextField ClusterAccessAddress;
     private javax.swing.JTextField ClusterGroupName;
     private javax.swing.JButton ClusterInfosUpdate;
+    private javax.swing.JTextArea ClusterModules;
     private javax.swing.JTextField ClusterName;
     private javax.swing.JComboBox ClusterNames2_list;
+    private javax.swing.JTextField ClusterPWD;
     private javax.swing.JTextField ClusterUserName;
     private javax.swing.JCheckBox clusterEnabled;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;

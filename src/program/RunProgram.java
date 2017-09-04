@@ -1502,25 +1502,35 @@ public class RunProgram implements runningThreadInterface {
             properties.put("Commandline_Running",cmdm);
         }
         
-        properties = Cluster.tansfertWorkboxToProperties(workbox, properties);
+        properties = Cluster.tansfertClusterEditorProperties(workbox, properties);
         
         boolean runLocal = false;
         boolean isRunning = false;
         boolean cantDownload = false;
         
-        boolean b = Cluster.isClusterNeedInfoHere(properties);
+        boolean b = Cluster.isClusterNeededInfoHere(properties);
         if (b){
             runLocal = true;
             setStatus(status_running, "\tNot enougth information to run on Cluster");
             if (!Cluster.isP2RsaHere(workbox)){
-                setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
+                setStatus(status_running, "\tThe path to private key is not setted >"+Cluster.getP2Rsa(workbox));
             }
         }
         
-        if (!runLocal)
+        if(Cluster.isDocker(properties)){
+            boolean d = Cluster.isClusterDockerNeededInfoHere(properties);
+            if (d){
+                runLocal = true;
+                setStatus(status_running, "\tNot enougth information from Docker to run on Cluster");
+            }
+        }
+        
+        boolean testAccessAlreadyDone = properties.isSet("ClusterModules");
+        
+        if (!runLocal&&!testAccessAlreadyDone)
             if (!Cluster.getAccessToCluster(properties)){
                 runLocal = true;
-                setStatus(status_running, "\tUnable to access to the server");
+                setStatus(status_running, "\tUnable to access to the cluster");
                 setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress(workbox));
             if (!Cluster.isP2RsaHere(workbox))
                 setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
@@ -1532,35 +1542,50 @@ public class RunProgram implements runningThreadInterface {
             
         if(!isRunning){
             if (!runLocal)
-                if (!Cluster.isTheProgramOnCluster(properties)){
-                    runLocal = true;
-                    setStatus(status_running, "\tThe program and it's version has not been found online. Check the program properties");
-                } else {
-                    setStatus(status_running,"\t<-The program is available on the server->");
+                if (testAccessAlreadyDone){
+                    boolean moduleIsHere = Cluster.isTheProgramOnClusterFromLocal(properties);
+                    if (!moduleIsHere){
+                        setStatus(status_running, "\tThe program and it's version has not been found on local. We will check online");
+                        if (!Cluster.isTheProgramOnCluster(properties)){
+                            runLocal = true;
+                            setStatus(status_running, "\tThe program and it's version has not been found online. Check the program properties");
+                        } else {
+                            setStatus(status_running,"\t<-The program is available on the cluster->");
+                        }
+                    } else {
+                        setStatus(status_running,"\t<-The program is available on the cluster->\nStart to create directories.");
+                    }
                 }
+            
             if (!runLocal)
                 if (!Cluster.createClusterDir(properties)) {
                     runLocal = true;
-                    setStatus(status_running, "\tNot able to create a directory on the server.");
+                    setStatus(status_running, "\tNot able to create a directory on the cluster.");
                 } else {
-                    setStatus(status_running,"\t<-Directory created on the server->");
+                    setStatus(status_running,"\t<-Directories created on the cluster->\nStart to send file(s)");
                 }
 
             if (!runLocal)
                 if (!Cluster.sendFilesOnCluster(properties)) {
                     runLocal = true;
-                    setStatus(status_running, "\tNot able to send files to the server.");
+                    setStatus(status_running, "\tNot able to send files to the cluster.");
                 } else {
-                    setStatus(status_running,"\t<-Files sended->");
+                    setStatus(status_running,"\t<-Files sended->\nStart create PBS file, send and execute");
                 }
 
             if (!runLocal)
                 if (!Cluster.clusterPbs(properties)) {
                     runLocal = true;
-                    setStatus(status_running, "\tNot able to create and send the pbs file to the server.");
+                    setStatus(status_running, "\tNot able to create and send the pbs file to the cluster.");
                 } else {
-                    setStatus(status_running, "\tRunning program on cluster...");
                     setStatus(status_running,"\t<-Program Cluster Status->");
+                    setStatus(status_running, "\tRunning program on cluster...");
+                    setStatus(status_running, "\n>> PBS File on cluster contains\n"+properties.get("ClusterPBSInfo"));
+                    setStatus(status_running, "\n>> Command line running on cluster is\n"+properties.get("ClusterCommandLineRunning"));
+                    setStatus(status_running, "\n>> The CLuster task number is \n"+properties.get("ClusterTasksNumber"));
+                    setStatus(status_running,"\n\nWait until job is done or time is up (after 68 minutes)"+
+                            "\nIn seconds, the time between two tests is 60,60,60,60,60,60,120,240,480,960,1920"+
+                            "\nSo it means each minute during the first six minutes then 2 minutes, 4, 8, 16, 32");
                 }
         }
         
@@ -1573,10 +1598,10 @@ public class RunProgram implements runningThreadInterface {
         if (!runLocal)
             if (!Cluster.downloadResults(properties)) {
                 cantDownload = true;
-                setStatus(status_BadRequirements, "\tNot able to download results from the server.");
+                setStatus(status_BadRequirements, "\tNot able to download results from the cluster.");
                 return false;
             } else {
-                setStatus(status_running,"\t<-Results downloaded from server->");
+                setStatus(status_running,"\t<-Results downloaded from cluster->");
             }
 
         if (runLocal){
@@ -1614,6 +1639,12 @@ public class RunProgram implements runningThreadInterface {
         if (properties.isSet("NormalExitValue"))
             exitvalue=Integer.parseInt(properties.get("NormalExitValue"));
         properties.put("ExitValue", exitvalue);
+        msg("\tProgram Exit Value: "+getExitVal());
+        /*
+         * Have to found a way to check exit value
+         * To be tested with exitValue
+         */
+        
         return true;
     }
     

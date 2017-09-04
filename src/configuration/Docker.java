@@ -149,10 +149,11 @@ public class Docker {
             //System.out.println("Warnings already 100 containers have been send with this name. Please remove few of them to continue");
             return name+"_OUT";
         } else {
-            if (!isContainersAlreadyUsed(properties,name+i)) {
-                return name+Integer.toString(i);
+            String s = name+Integer.toString(i);
+            if (!isContainersAlreadyUsed(properties,s)) {
+                return s;
             } else {
-                i=i+1;
+                i+=1;
                 return getContainerNextName(properties,name,i);
             }
         }
@@ -274,7 +275,7 @@ public class Docker {
         ArrayList<String> ls = Util.runSilentUnixCommand(c,"./");
         if (ls.size()>=1)
             for (String s:ls)  
-                if (s.contains(name))
+                if (s.equals(name))
                     return true;
         return false;
     }

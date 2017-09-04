@@ -215,32 +215,7 @@ public class Cluster {
             armadillo.redraw();
         }
     }
-/*    
-    public void loadFromSavedCluster(armadillo_workflow armadillo){
-        boolean b = isClusterHere(armadillo);
-        if (b) {
-            workflow_object tmp = getClusterObject();
-            if (tmp!=null){
-                workflow_properties properties = tmp.getProperties();
-                boolean b1 = properties.isSet("clusterEnabled");
-                selection.put("ClusterAccessAddress",properties.get("Description"));
-                if (b1){
-                    RunOptions_jComboBox.setSelectedIndex(1);
-                    selection.put("WF_Cluster",true);
-                    cluster=true;
-                } else {
-                    RunOptions_jComboBox.setSelectedIndex(0);
-                    selection.put("WF_Cluster",false);
-                    cluster=false;
-                }
-            } else {
-                System.out.println("Impossible to load Cluster object");
-            }
-        }
-        armadillo.force_redraw=true;
-        armadillo.redraw();
-    }
-*/    
+
     public static void updateClusterObjectPosition(armadillo_workflow armadillo){
         boolean b = isClusterHere(armadillo);
         if (b) {
@@ -250,7 +225,7 @@ public class Cluster {
                 if (b1){
                     tmp.move(225,10);
                 } else {
-                    Util.dm("move1");
+                    //Util.dm("move1");
                     tmp.move(-25000,0);
                 }
                 armadillo.updateCurrentWorkflow(tmp.getProperties());
@@ -559,12 +534,21 @@ public class Cluster {
                 }
             }
             if (b){
-                Util.dm("key>"+l);
-                Util.dm("no");
                 return true;
             }
         }
         return false;
+    }
+    
+    public static Integer getExitValue(String s){
+        Pattern p = Pattern.compile(".*ExitStatus>(\\d+)<.*");
+        Matcher m = p.matcher(s);
+        Util.dm(m.toString());
+        if (m.find()){
+            int i = Integer.parseInt(m.group(1));
+            return i;
+        }
+        return -1;
     }
     
 
@@ -770,8 +754,7 @@ public class Cluster {
     
     public static boolean isClusterDockerNeededInfoHere (workflow_properties properties){
         List<String> lines = Arrays.asList("ClusterDockerInput_",
-                "ClusterDockerRunningCLi", "ExecutableDocker",
-                "ClusterLocalOutput_");
+                "ClusterDockerRunningCLi", "ExecutableDocker");
         return extractInfo(properties,lines);
     }
     
@@ -819,7 +802,7 @@ public class Cluster {
             String p2rsa = getP2Rsa(properties);
             String clusterDir = properties.get("ClusterDirPath");
             ArrayList<String> tab = runSshCommand(properties,p2rsa, program+" "+clusterDir+"/outputs");
-            Util.dm(Arrays.toString(tab.toArray()));
+            //Util.dm(Arrays.toString(tab.toArray()));
             if (tab.size()==1)
                 if(tab.get(0).contains("ExitCode: >0<")||tab.get(0).contains("ExitCode: >null<"))
                     return true;
@@ -905,7 +888,7 @@ public class Cluster {
         String stdDoc   = "#PBS -o "+stdOut+"";
         String stdDec   = "#PBS -e "+stdErr+"";
         String email    = "#PBS -M "+emailV+"";
-        String exitValue= "exit $?";
+        String exitValue= "a=\"ExitStatus>\"$?\"<\"\necho $a";
         /*
         WARNINGS ITS ONLY FOR ONE MODULE not if there is dependencies
         */
@@ -1042,34 +1025,14 @@ public class Cluster {
     
     /////////////
     // Step 8
-    public static String getPgrmStdoutOutput(workflow_properties properties){
+    public static String getPgrmOutput(workflow_properties properties,String std){
         String p2rsa = getP2Rsa(properties);
-        String fClus = getClusterFilePath(properties,"stdOutFile");
+        String fClus = getClusterFilePath(properties,std);
         ArrayList<String> tab = runSshCommand(properties,p2rsa,"cat "+fClus);
         if (tab.size()==1 && tab.get(0).contains("cat"))
             return "";
-        else {
-            String output = "";
-            for (String s:tab){
-                output+=s+"\n";
-            }
-            return output;
-        }
-    }
-    
-    public static String getPgrmStderrorOutput(workflow_properties properties){
-        String p2rsa = getP2Rsa(properties);
-        String fClus  = getClusterFilePath(properties,"stdErrFile");
-        ArrayList<String> tab = runSshCommand(properties,p2rsa,"cat "+fClus);
-        if (tab.size()==1 && tab.get(0).contains("cat"))
-            return "";
-        else {
-            String output = "";
-            for (String s:tab){
-                output+=s+"\n";
-            }
-            return output;
-        }
+        else
+            return Arrays.toString(tab.toArray());
     }
     
     /////////////

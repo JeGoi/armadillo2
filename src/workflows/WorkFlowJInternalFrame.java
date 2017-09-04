@@ -698,17 +698,8 @@ public class WorkFlowJInternalFrame extends javax.swing.JInternalFrame {
         String s = (String)j.getModel().getElementAt(j.getSelectedIndex());
         if (s.equalsIgnoreCase("local")) {
             cluster = false;
-            selection.put("WF_Cluster",false);
         } else if (s.equalsIgnoreCase("cluster")) {
             cluster = true;
-            //File dir = new File("./tmp/cluster/");
-            //if (!dir.exists())
-            //    dir.mkdir();
-//            String wid = String.valueOf(database_workflow.getId());
-//            String sb = "./tmp/cluster/export_num_workflow_before"+wid+".txt";
-//            database_workflow.updateCurrentWorkflow();
-//            database_workflow.saveWorkflow(sb);
-            selection.put("WF_Cluster",true);
             insertClusterObject();
         }
         updateClusterObject();
@@ -743,14 +734,11 @@ public class WorkFlowJInternalFrame extends javax.swing.JInternalFrame {
             if (tmp!=null){
                 workflow_properties properties = tmp.getProperties();
                 boolean b1 = properties.isSet("clusterEnabled");
-                selection.put("ClusterAccessAddress",properties.get("Description"));
                 if (b1){
                     RunOptions_jComboBox.setSelectedIndex(1);
-                    selection.put("WF_Cluster",true);
                     cluster=true;
                 } else {
                     RunOptions_jComboBox.setSelectedIndex(0);
-                    selection.put("WF_Cluster",false);
                     cluster=false;
                 }
             } else {
@@ -768,8 +756,7 @@ public class WorkFlowJInternalFrame extends javax.swing.JInternalFrame {
             tmp = current_workflow.getWorkFlow().getClusterObject();
             //System.out.println(tmp.getProperties().getPropertiesToString());
             if (tmp!=null){
-                boolean b1 = Boolean.parseBoolean(selection.get("WF_Cluster"));
-                if (b1){
+                if (cluster){
                     tmp.getProperties().put("clusterEnabled",true);
                     tmp.move(225,10);
                 } else {
@@ -786,28 +773,11 @@ public class WorkFlowJInternalFrame extends javax.swing.JInternalFrame {
     
     
     public void setSelectedWay(javax.swing.JComboBox j) {
-        if (selection.isSet("WF_Cluster")){
-            boolean b = Boolean.parseBoolean(selection.get("WF_Cluster"));
-            if (b) {
-                j.setSelectedIndex(1);
-                //File dir = new File("./tmp/cluster/");
-                //if (!dir.exists())
-                //    dir.mkdir();
-//                String wid = String.valueOf(database_workflow.getId());
-//                String sb = "./tmp/cluster/export_num_workflow_before"+wid+".txt";
-//                database_workflow.updateCurrentWorkflow();
-//                database_workflow.saveWorkflow(sb);
-            } else {
-                notOnCluster(j);
-            }
+        if (cluster) {
+            j.setSelectedIndex(1);
         } else {
-            notOnCluster(j);
+            j.setSelectedIndex(0);
         }
-    }
-    
-    private void notOnCluster(javax.swing.JComboBox j){
-        selection.put("WF_Cluster",false);
-        j.setSelectedIndex(0);
     }
     
     public void resetWorkflowStatus(armadillo_workflow work) {

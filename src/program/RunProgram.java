@@ -1615,8 +1615,8 @@ public class RunProgram implements runningThreadInterface {
                 Logger.getLogger(RunProgram.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            String stdOut = Cluster.getPgrmStdoutOutput(properties);
-            String stdErr = Cluster.getPgrmStderrorOutput(properties);
+            String stdOut = Cluster.getPgrmOutput(properties,"stdOutFile");
+            String stdErr = Cluster.getPgrmOutput(properties,"stdErrFile");
             properties.put("SDOUT",stdOut);
             properties.put("STDERROR",stdErr);
             outputText.add(stdOut+"\n");
@@ -1636,8 +1636,8 @@ public class RunProgram implements runningThreadInterface {
             }
         }
         int exitvalue=0;
-        if (properties.isSet("NormalExitValue"))
-            exitvalue=Integer.parseInt(properties.get("NormalExitValue"));
+        if (properties.isSet("SDOUT"))
+            exitvalue=Cluster.getExitValue(properties.get("SDOUT"));
         properties.put("ExitValue", exitvalue);
         msg("\tProgram Exit Value: "+getExitVal());
         /*

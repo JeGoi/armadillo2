@@ -524,32 +524,21 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         updateValues();
-        Workbox workbox = parent_workflow.getWorkbox();
-        workflow_properties selection = workbox.getWorkFlowJInternalFrame().getProperties();
-        boolean b1 = Cluster.isP2RsaHere(parent_workflow.getWorkbox());
-        if (b1){
-            if (!properties.isSet("PathToRSAFile"))
-                properties.put("PathToRSAFile", Cluster.getP2Rsa(workbox));
-            boolean b2 = Cluster.getAccessToCluster(properties);
-            if (b2) {
-                selection.put("ClusterPWD",properties.get("ClusterPWD"));
-                ClusterPWD.setText(properties.get("ClusterPWD"));
-                ArrayList<String> tab = Cluster.getModules(properties);
-                if (!tab.isEmpty()){
-                    for (String s : tab) {
-                        ClusterModules.append(s);
-                        ClusterModules.append("\n");
-                    }
+        boolean b2 = Cluster.getAccessToCluster(properties);
+        if (b2) {
+            ClusterPWD.setText(properties.get("ClusterPWD"));
+            ArrayList<String> tab = Cluster.getModules(properties);
+            if (!tab.isEmpty()){
+                for (String s : tab) {
+                    ClusterModules.append(s);
+                    ClusterModules.append("\n");
                 }
-                String s = Arrays.toString(tab.toArray());
-                selection.put("ClusterModules",s);
-                properties.put("ClusterModules",s);
-            } else {
-                properties.remove("ClusterModules");
-                properties.remove("ClusterPWD");
-                selection.remove("ClusterModules");
-                selection.remove("ClusterPWD");
             }
+            String s = Arrays.toString(tab.toArray());
+            properties.put("ClusterModules",s);
+        } else {
+            properties.remove("ClusterModules");
+            properties.remove("ClusterPWD");
         }
         updateValues();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -641,17 +630,6 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
      */
     public void updateEnabled(){
         Workbox workbox = parent_workflow.getWorkbox();
-        workflow_properties selection = workbox.getWorkFlowJInternalFrame().getProperties();
-        selection.put("ClusterAccessAddress",properties.get(ClusterAccessAddress.getName()));
-        if (properties.isSet("PathToRSAFile")) {
-            selection.put("PathToRSAFile",properties.get("PathToRSAFile"));
-        }
-        if (properties.isSet("ClusterPWD")) {
-            selection.put("ClusterPWD",properties.get("ClusterPWD"));
-        }
-        if (properties.isSet("ClusterModules")) {
-            selection.put("ClusterModules",properties.get("ClusterModules"));
-        }
         boolean b = workbox.isWorkboxOnCLuster();
         if (b) {
             clusterEnabled.setSelected(true);

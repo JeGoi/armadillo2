@@ -3510,7 +3510,7 @@ public class Bowtie2MapEditors extends javax.swing.JDialog implements EditorInte
         // Set the program properties
         this.setProperties(properties);
         
-        if (workbox.isWorkboxOnCLuster())
+        if (Cluster.isClusterEnable(workbox))
             ClusterProgramButton.setVisible(true);
         else
             ClusterProgramButton.setVisible(false);

@@ -161,9 +161,8 @@ public class bwa_mem extends RunProgram {
         allDoInputs = Docker.createAllDockerInputs(pathAndArg,allInputsPath,simpleId,doInputs);
 
         // Prepare cluster relations
-        properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
         Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
-        
+        Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
         // DOCKER INIT
         if (Docker.isDockerHere(properties)){
             doName = Docker.getContainerName(properties,doName);
@@ -198,9 +197,8 @@ public class bwa_mem extends RunProgram {
         // Docker command line
         String dockerCli = doPgrmPath+" "+options + allDoInputs +  " > " +  outputInDo1;
         Docker.prepareDockerBashFile(properties,doName,dockerCli);
+        Cluster.createLinkDockerClusterCli(properties, dockerCli);
         setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli);
-        properties.put("DockerRunningCommandLineForCluster",dockerCli);
-
         String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
         
         // Command line creation

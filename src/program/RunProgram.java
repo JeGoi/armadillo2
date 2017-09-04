@@ -1537,6 +1537,7 @@ public class RunProgram implements runningThreadInterface {
         if (!runLocal){
             if (!testAccessAlreadyDone) {
                 long startTime = System.nanoTime();
+                setStatus(status_running, "\tStart test online. PSSST, you can do a pre-test before in the cluster editor box.");
                 if (!Cluster.getAccessToCluster(properties)){
                     runLocal = true;
                     setStatus(status_running, "\tUnable to access to the cluster");
@@ -1552,7 +1553,7 @@ public class RunProgram implements runningThreadInterface {
                     setStatus(status_running, "Start Test if module is here");
                 }
             } else {
-                setStatus(status_running, "\tTest to access and get modules on cluster already done");
+                setStatus(status_running, "\tTest to access and get modules on cluster already done! Congratulation.");
                 setStatus(status_running, "\tCan access to the cluster");
                 setStatus(status_running, "Start Test if module is here");
             }
@@ -1641,18 +1642,28 @@ public class RunProgram implements runningThreadInterface {
             setStatus(status_running, "\tRunning will done on the local machine...");
             return false;
         } else {
+            long startTime = System.nanoTime();
             if (!Cluster.isStillRunning(properties)) {
                 setStatus(status_BadRequirements, "\tThe program is still running. The workflow will stop and you will be able to test it later.");
                 properties.put("ClusterWaitJob",true);
+                long endTime = System.nanoTime();
+                long duration = (endTime - startTime);
+                duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                setStatus(status_running, "\t<TIME> Time to wait until tasks is still running on the cluster is >"+duration+" s");
                 return false;
-            } else
+            } else {
                 properties.remove("ClusterWaitJob");
-
-            long startTime = System.nanoTime();
+                long endTime = System.nanoTime();
+                long duration = (endTime - startTime);
+                duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                setStatus(status_running, "\t<TIME> Time to wait until tasks done on the cluster is >"+duration+" s");
+            }
+            startTime = System.nanoTime();
             if (!Cluster.downloadResults(properties)) {
                 cantDownload = true;
                 setStatus(status_BadRequirements, "\tNot able to download results from the cluster.");
                 properties.put("ClusterFilesDownload",false);
+                addClusterStdFilesInfos();
                 return false;
             } else {
                 properties.remove("ClusterFilesDownload");
@@ -1662,13 +1673,8 @@ public class RunProgram implements runningThreadInterface {
                 duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
                 setStatus(status_running, "\t<TIME> Time to donwload files from the cluster is >"+duration+" s");
             }
-            String stdOut = Cluster.getPgrmOutput(properties,"stdOutFile");
-            String stdErr = Cluster.getPgrmOutput(properties,"stdErrFile");
-            properties.put("SDOUT",stdOut);
-            properties.put("STDERROR",stdErr);
-            outputText.add(stdOut+"\n");
-            outputText.add(stdErr+"\n");
-
+            addClusterStdFilesInfos();
+            
             if (!cantDownload){
                 properties.remove("ClusterTasksNumber");
             }
@@ -1688,6 +1694,15 @@ public class RunProgram implements runningThreadInterface {
             properties.put("ExitValue", exitvalue);
             return true;
         }
+    }
+    
+    private void addClusterStdFilesInfos(){
+        String stdOut = Cluster.getPgrmOutput(properties,"stdOutFile");
+        String stdErr = Cluster.getPgrmOutput(properties,"stdErrFile");
+        properties.put("SDOUT",stdOut);
+        properties.put("STDERROR",stdErr);
+        outputText.add(stdOut+"\n");
+        outputText.add(stdErr+"\n");
     }
     
     ////////////////////////////////////////////////////////////////////////////

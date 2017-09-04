@@ -929,7 +929,7 @@ public class Cluster {
             return false;
         }
         properties.put("ClusterCommandLineRunning", c);
-        properties.put("ClusterPBSInfo", String.join(" and ", lines));
+        properties.put("ClusterPBSInfo", String.join("\n", lines));
         Util.deleteFile(fBash);
         String tasksNum = executePbsOnCluster(properties,p2rsa,clusterDir+"/clusterPbs.sh");
         if (tasksNum!=""){

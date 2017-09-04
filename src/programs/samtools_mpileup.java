@@ -30,6 +30,7 @@ import static program.RunProgram.status_error;
 import workflows.workflow_properties;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public class samtools_mpileup extends RunProgram {
 
         Vector<Integer>BamFile3    = properties.getInputID("BamFile",PortInputDOWN);
         inputPath3 = BamFile.getVectorFilePath(BamFile3);
-        inputId2   = BamFile.getVectorFileId(BamFile3);
+        inputId3   = BamFile.getVectorFileId(BamFile3);
         input3     = Util.getFileNameAndExt(inputPath3);
         // Get the multiple inputs
         inputsPath3 = BamFile.getAllVectorFilePath(BamFile3);
@@ -165,7 +166,7 @@ public class samtools_mpileup extends RunProgram {
         String[] allInputsId = Util.merge2TablesWithoutDup(simpleId, inputsIDs3);
         sharedFolders = Docker.createSharedFolders(allInputsPath,allInputsId,doInputs);
         sharedFolders.put(specificPath,doOutputs);
-
+        
         // Prepare inputs
         HashMap<String,String> allInputsPathArg  =  new HashMap<String,String>();
         allInputsPathArg.put(inputPath1,"--positions");
@@ -177,9 +178,9 @@ public class samtools_mpileup extends RunProgram {
                 allInputsPathArg.put(st,"");
         }
         allDoInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,allInputsId,doInputs);
-
+        
         // Prepare cluster relations
-        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
+        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,allInputsId,doInputs);
         Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
         
         // DOCKER INIT

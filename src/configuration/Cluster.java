@@ -284,7 +284,7 @@ public class Cluster {
 
     /////////////
     // Add ClusterAccessAddress and PathToRSAFile from internaljframe properties to program properties
-    public static workflow_properties tansfertClusterEditorProperties(Workbox workbox, workflow_properties properties){
+    public static workflow_properties transferClusterEditorProperties(Workbox workbox, workflow_properties properties){
         workflow_properties clusterP = getClusterProperties(workbox);
         String[] tab = {"ClusterPWD","ClusterAccessAddress","PathToRSAFile","ClusterModules"};
         for (String s:tab){
@@ -295,7 +295,7 @@ public class Cluster {
         return properties;
     }
     
-    public static void tansfertClusterEditorPropertiesVoid(Workbox workbox, workflow_properties properties){
+    public static void transferClusterEditorPropertiesVoid(Workbox workbox, workflow_properties properties){
         workflow_properties clusterP = getClusterProperties(workbox);
         String[] tab = {"ClusterPWD","ClusterAccessAddress","PathToRSAFile","ClusterModules"};
         for (String s:tab){

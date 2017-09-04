@@ -1509,7 +1509,7 @@ public class RunProgram implements runningThreadInterface {
      * Cluster ZONE
      */
     public boolean do_runOnCluster() throws IOException, InterruptedException {
-        properties = Cluster.tansfertClusterEditorProperties(workbox, properties);
+        properties = Cluster.transferClusterEditorProperties(workbox, properties);
         
         boolean runLocal = false;
         boolean isRunning = false;
@@ -1707,7 +1707,7 @@ public class RunProgram implements runningThreadInterface {
     
     
     public boolean isItClusturable(){
-        Cluster.tansfertClusterEditorPropertiesVoid(workbox, properties);
+        Cluster.transferClusterEditorPropertiesVoid(workbox, properties);
         boolean b = Cluster.isClusterNeededInfoHere(properties);
         if (b){
             setStatus(status_running, "\tNot enough information to run on Cluster");

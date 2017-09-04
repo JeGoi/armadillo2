@@ -341,7 +341,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
-        jButton2.setText("Test and Saved");
+        jButton2.setText("Test and Save");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

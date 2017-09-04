@@ -295,6 +295,16 @@ public class Cluster {
         return properties;
     }
     
+    public static void tansfertClusterEditorPropertiesVoid(Workbox workbox, workflow_properties properties){
+        workflow_properties clusterP = getClusterProperties(workbox);
+        String[] tab = {"ClusterPWD","ClusterAccessAddress","PathToRSAFile","ClusterModules"};
+        for (String s:tab){
+            if (clusterP.isSet(s)){
+                properties.put(s,clusterP.get(s));
+            }
+        }
+    }
+    
     ///////////////////////////////////////////////////////////////////////////
     // Get some program properties
     public static boolean isDocker(workflow_properties p) {

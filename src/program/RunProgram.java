@@ -1518,7 +1518,7 @@ public class RunProgram implements runningThreadInterface {
         boolean b = Cluster.isClusterNeededInfoHere(properties);
         if (b){
             runLocal = true;
-            setStatus(status_running, "\tNot enougth information to run on Cluster");
+            setStatus(status_running, "\tNot enough information to run on Cluster");
             if (!Cluster.isP2RsaHere(workbox)){
                 setStatus(status_running, "\tThe path to private key is not setted >"+Cluster.getP2Rsa(workbox));
             }
@@ -1528,7 +1528,7 @@ public class RunProgram implements runningThreadInterface {
             boolean d = Cluster.isClusterDockerNeededInfoHere(properties);
             if (d){
                 runLocal = true;
-                setStatus(status_running, "\tNot enougth information from Docker to run on Cluster");
+                setStatus(status_running, "\tNot enough information from Docker to run on Cluster");
             }
         }
         
@@ -1611,7 +1611,7 @@ public class RunProgram implements runningThreadInterface {
                     long endTime = System.nanoTime();
                     long duration = (endTime - startTime);
                     duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                    setStatus(status_running, "\t<TIME> Time to create directories on cluster is >"+duration+" s");
+                    setStatus(status_running, "\t<TIME> Time to send files on cluster is >"+duration+" s");
                     setStatus(status_running,"\nStart create PBS file, send and execute");
                 }
             }
@@ -1703,6 +1703,77 @@ public class RunProgram implements runningThreadInterface {
         properties.put("STDERROR",stdErr);
         outputText.add(stdOut+"\n");
         outputText.add(stdErr+"\n");
+    }
+    
+    
+    public boolean isItClusturable(){
+        Cluster.tansfertClusterEditorPropertiesVoid(workbox, properties);
+        boolean b = Cluster.isClusterNeededInfoHere(properties);
+        if (b){
+            setStatus(status_running, "\tNot enough information to run on Cluster");
+            if (!Cluster.isP2RsaHere(workbox)){
+                setStatus(status_running, "\tThe path to private key is not setted >"+Cluster.getP2Rsa(workbox));
+                return false;
+            }
+            return false;
+        } else {
+            setStatus(status_running, "\tGet enough information to run on Cluster");
+        }
+        
+        if(Cluster.isDocker(properties)){
+            boolean d = Cluster.isClusterDockerNeededInfoHere(properties);
+            if (d){
+                setStatus(status_running, "\tNot enough information from Docker to run on Cluster");
+            return false;
+            }
+        } else {
+            setStatus(status_running, "\tGet enough information from Docker");
+        }
+        
+        boolean testAccessAlreadyDone = properties.isSet("ClusterModules");
+        
+        if (!testAccessAlreadyDone) {
+            long startTime = System.nanoTime();
+            setStatus(status_running, "\tStart test online. PSSST, you can do a pre-test before in the cluster editor box.");
+            if (!Cluster.getAccessToCluster(properties)){
+                setStatus(status_running, "\tUnable to access to the cluster");
+                setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress(workbox));
+                if (!Cluster.isP2RsaHere(workbox))
+                    setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
+                return false;
+            } else {
+                setStatus(status_running, "\tCan access to the cluster");
+                long endTime = System.nanoTime();
+                long duration = (endTime - startTime);
+                duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                setStatus(status_running, "\t<TIME> Time to test access to the cluster and get the cluster path is >"+duration+" s");
+                setStatus(status_running, "Start Test if module is here");
+            }
+        } else {
+            setStatus(status_running, "\tTest to access and get modules on cluster already done! Congratulation.");
+            setStatus(status_running, "\tCan access to the cluster");
+            setStatus(status_running, "Start Test if module is here");
+            
+            boolean moduleIsHere = Cluster.isTheProgramOnClusterFromLocal(properties);
+            if (!moduleIsHere){
+                setStatus(status_running, "\tThe program and it's version has not been found on local. We will check online");
+                long startTime = System.nanoTime();
+                if (!Cluster.isTheProgramOnCluster(properties)){
+                    setStatus(status_running, "\tThe program and it's version has not been found online. Check the program properties");
+                    return false;
+                } else {
+                    setStatus(status_running,"\t<-The program is available on the cluster->");
+                    long endTime = System.nanoTime();
+                    long duration = (endTime - startTime);
+                    duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                    setStatus(status_running, "\t<TIME> Time to check program availability on line is >"+duration+" s");
+                    setStatus(status_running,"\t<-The program is available on the cluster->\nStart to create directories.");
+                }
+            } else {
+                setStatus(status_running, "\tStart to run...");
+            }
+        }
+        return true;
     }
     
     ////////////////////////////////////////////////////////////////////////////

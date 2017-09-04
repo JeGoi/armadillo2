@@ -179,9 +179,9 @@ public class samtools_mpileup extends RunProgram {
         allDoInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,allInputsId,doInputs);
 
         // Prepare cluster relations
-        properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
-        Cluster.createLinkDockerClusterInputs(properties, allInputsPath,allInputsId, doInputs);
-
+        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
+        Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
+        
         // DOCKER INIT
         if (Docker.isDockerHere(properties)){
             doName = Docker.getContainerName(properties,doName);
@@ -216,10 +216,9 @@ public class samtools_mpileup extends RunProgram {
         // Docker command line
         String dockerCli = doPgrmPath+" "+options + allDoInputs + " --output " + outputInDo1;
         Docker.prepareDockerBashFile(properties,doName,dockerCli);
-
+        Cluster.createLinkDockerClusterCli(properties, dockerCli);
         setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
         String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
-        properties.put("DockerRunningCommandLineForCluster",dockerCli);
         
         // Command line creation
         String[] com = new String[30];

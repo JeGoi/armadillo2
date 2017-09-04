@@ -155,9 +155,9 @@ public class samtools_view extends RunProgram {
         allDockerInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
 
         // Prepare cluster relations
-        properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
-        Cluster.createLinkDockerClusterInputs(properties, allInputsPath,simpleId, doInputs);
-
+        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
+        Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
+        
         // DOCKER INIT
         if (Docker.isDockerHere(properties)){
             doName = Docker.getContainerName(properties,doName);
@@ -190,12 +190,11 @@ public class samtools_view extends RunProgram {
             options += Util.findOptionsNew(Advanced_Options_1,properties);
         
         // Docker command line
-        String dockerCli = doPgrmPath+" "+options + allDockerInputs;
-        dockerCli = dockerCli+" > "+ outputInDo1;
+        String dockerCli = doPgrmPath+" "+options + allDockerInputs +" > "+ outputInDo1;
         Docker.prepareDockerBashFile(properties,doName,dockerCli);
+        Cluster.createLinkDockerClusterCli(properties, dockerCli);
         setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
         String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
-        properties.put("DockerRunningCommandLineForCluster",dockerCli);
         
         // Command line creation
         String[] com = new String[30];

@@ -97,9 +97,9 @@ public class bwa_mem extends RunProgram {
             setStatus(status_BadRequirements,"Not able to access or create OUTPUTS directory files");
             return false;
         }
+        
         // TEST INPUT VARIABLES HERE
         // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
-
         Vector<Integer>GenomeFile1    = properties.getInputID("GenomeFile",PortInputDOWN2);
         inputPath1 = GenomeFile.getVectorFilePath(GenomeFile1);
         inputId1   = GenomeFile.getVectorFileId(GenomeFile1);
@@ -163,6 +163,7 @@ public class bwa_mem extends RunProgram {
         // Prepare cluster relations
         Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
         Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
+        
         // DOCKER INIT
         if (Docker.isDockerHere(properties)){
             doName = Docker.getContainerName(properties,doName);

@@ -155,8 +155,8 @@ public class samtools_sort extends RunProgram {
         allDockerInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
 
         // Prepare cluster relations
-        properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
-        Cluster.createLinkDockerClusterInputs(properties, allInputsPath,simpleId, doInputs);
+        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
+        Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
 
         // DOCKER INIT
         if (Docker.isDockerHere(properties)){
@@ -192,10 +192,9 @@ public class samtools_sort extends RunProgram {
         // Docker command line
         String dockerCli = doPgrmPath+" "+options + allDockerInputs +  " -o " +  outputInDo1 ;
         Docker.prepareDockerBashFile(properties,doName,dockerCli);
-
+        Cluster.createLinkDockerClusterCli(properties, dockerCli);
         setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
         String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
-        properties.put("DockerRunningCommandLineForCluster",dockerCli);
         
         // Command line creation
         String[] com = new String[30];

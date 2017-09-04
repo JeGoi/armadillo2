@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -338,16 +340,27 @@ public class RunProgram implements runningThreadInterface {
                     setStatus(status_running,"Initialization...");
                     if (init_run()&&!isInterrupted()) {
                         // JG 2015 Start
+                        boolean jobNotDoneOnCluster=true;
                         if (workbox.isWorkboxOnCLuster()) {
                             if (do_runOnCluster()&&!isInterrupted()) {
                                 // JG 2015 Start
                                 setStatus(status_running,"<-End Program Output ->");
                                 msg("\tProgram Exit Value: "+getExitVal());
+                                jobNotDoneOnCluster=false;
+                            } else {
+                                if (properties.isSet("ClusterFilesDownload"))
+                                    setStatus(status_BadRequirements,"<- Wait to download files later ->");
+                                else if (properties.isSet("ClusterWaitJob"))
+                                    setStatus(status_BadRequirements,"<- Wait to download until job is done on cluster ->");
+                                else
+                                    jobNotDoneOnCluster=true;
                             }
-                        } else if (do_run()&&!isInterrupted()) {
-                            setStatus(status_running,"<-End Program Output ->");
-                            msg("\tProgram Exit Value: "+getExitVal());
                         }
+                        if (jobNotDoneOnCluster)
+                            if (do_run()&&!isInterrupted()) {
+                                setStatus(status_running,"<-End Program Output ->");
+                                msg("\tProgram Exit Value: "+getExitVal());
+                            }
                         // JG 2015 End
                     }
                     //--Note: work Even if not set because We return 0...
@@ -1496,12 +1509,6 @@ public class RunProgram implements runningThreadInterface {
      * Cluster ZONE
      */
     public boolean do_runOnCluster() throws IOException, InterruptedException {
-        //--Test August 2011 - For Mac OS X
-        if ((config.getBoolean("MacOSX")||SystemUtils.IS_OS_MAC_OSX)) {
-            String cmdm = Cluster.macOSX_cmd_Modifications(properties, commandline);
-            properties.put("Commandline_Running",cmdm);
-        }
-        
         properties = Cluster.tansfertClusterEditorProperties(workbox, properties);
         
         boolean runLocal = false;
@@ -1527,14 +1534,29 @@ public class RunProgram implements runningThreadInterface {
         
         boolean testAccessAlreadyDone = properties.isSet("ClusterModules");
         
-        if (!runLocal&&!testAccessAlreadyDone)
-            if (!Cluster.getAccessToCluster(properties)){
-                runLocal = true;
-                setStatus(status_running, "\tUnable to access to the cluster");
-                setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress(workbox));
-            if (!Cluster.isP2RsaHere(workbox))
-                setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
+        if (!runLocal){
+            if (!testAccessAlreadyDone) {
+                long startTime = System.nanoTime();
+                if (!Cluster.getAccessToCluster(properties)){
+                    runLocal = true;
+                    setStatus(status_running, "\tUnable to access to the cluster");
+                    setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress(workbox));
+                    if (!Cluster.isP2RsaHere(workbox))
+                        setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
+                } else {
+                    setStatus(status_running, "\tCan access to the cluster");
+                    long endTime = System.nanoTime();
+                    long duration = (endTime - startTime);
+                    duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                    setStatus(status_running, "\t<TIME> Time to test access to the cluster and get the cluster path is >"+duration+" s");
+                    setStatus(status_running, "Start Test if module is here");
+                }
+            } else {
+                setStatus(status_running, "\tTest to access and get modules on cluster already done");
+                setStatus(status_running, "\tCan access to the cluster");
+                setStatus(status_running, "Start Test if module is here");
             }
+        }
         
         if (Cluster.isAClusterTasksNumberHere(properties)&&!runLocal) {
             isRunning = true;
@@ -1546,38 +1568,63 @@ public class RunProgram implements runningThreadInterface {
                     boolean moduleIsHere = Cluster.isTheProgramOnClusterFromLocal(properties);
                     if (!moduleIsHere){
                         setStatus(status_running, "\tThe program and it's version has not been found on local. We will check online");
+                        long startTime = System.nanoTime();
                         if (!Cluster.isTheProgramOnCluster(properties)){
                             runLocal = true;
                             setStatus(status_running, "\tThe program and it's version has not been found online. Check the program properties");
                         } else {
                             setStatus(status_running,"\t<-The program is available on the cluster->");
+                            long endTime = System.nanoTime();
+                            long duration = (endTime - startTime);
+                            duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                            setStatus(status_running, "\t<TIME> Time to check program availability on line is >"+duration+" s");
+                            setStatus(status_running,"\t<-The program is available on the cluster->\nStart to create directories.");
                         }
                     } else {
-                        setStatus(status_running,"\t<-The program is available on the cluster->\nStart to create directories.");
+                        setStatus(status_running,"\nStart to create directories.");
                     }
                 }
             
-            if (!runLocal)
+            if (!runLocal){
+                long startTime = System.nanoTime();
                 if (!Cluster.createClusterDir(properties)) {
                     runLocal = true;
                     setStatus(status_running, "\tNot able to create a directory on the cluster.");
                 } else {
-                    setStatus(status_running,"\t<-Directories created on the cluster->\nStart to send file(s)");
+                    setStatus(status_running,"\t<-Directories created on the cluster->");
+                    long endTime = System.nanoTime();
+                    long duration = (endTime - startTime);
+                    duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                    setStatus(status_running, "\t<TIME> Time to create directories on cluster is >"+duration+" s");
+                    setStatus(status_running,"\nStart to send file(s)");
                 }
+            }
 
-            if (!runLocal)
+            if (!runLocal){
+                long startTime = System.nanoTime();
                 if (!Cluster.sendFilesOnCluster(properties)) {
                     runLocal = true;
                     setStatus(status_running, "\tNot able to send files to the cluster.");
                 } else {
-                    setStatus(status_running,"\t<-Files sended->\nStart create PBS file, send and execute");
+                    setStatus(status_running,"\t<-Files sended->");
+                    long endTime = System.nanoTime();
+                    long duration = (endTime - startTime);
+                    duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                    setStatus(status_running, "\t<TIME> Time to create directories on cluster is >"+duration+" s");
+                    setStatus(status_running,"\nStart create PBS file, send and execute");
                 }
-
-            if (!runLocal)
+            }
+            
+            if (!runLocal){
+                long startTime = System.nanoTime();
                 if (!Cluster.clusterPbs(properties)) {
                     runLocal = true;
                     setStatus(status_running, "\tNot able to create and send the pbs file to the cluster.");
                 } else {
+                    long endTime = System.nanoTime();
+                    long duration = (endTime - startTime);
+                    duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                    setStatus(status_running, "\t<TIME> Time to create pbs file and launch it on cluster is >"+duration+" s");
                     setStatus(status_running,"\t<-Program Cluster Status->");
                     setStatus(status_running, "\tRunning program on cluster...");
                     setStatus(status_running, "\n>> PBS File on cluster contains\n"+properties.get("ClusterPBSInfo"));
@@ -1585,67 +1632,62 @@ public class RunProgram implements runningThreadInterface {
                     setStatus(status_running, "\n>> The CLuster task number is \n"+properties.get("ClusterTasksNumber"));
                     setStatus(status_running,"\n\nWait until job is done or time is up (after 68 minutes)"+
                             "\nIn seconds, the time between two tests is 60,60,60,60,60,60,120,240,480,960,1920"+
-                            "\nSo it means each minute during the first six minutes then 2 minutes, 4, 8, 16, 32");
+                            "\nSo it means a test each minute during the first six minutes, then a test in 2, 4, 8, 16, 32 minutes");
                 }
+            }
         }
         
-        if (!runLocal)
+        if (runLocal){
+            setStatus(status_running, "\tRunning will done on the local machine...");
+            return false;
+        } else {
             if (!Cluster.isStillRunning(properties)) {
                 setStatus(status_BadRequirements, "\tThe program is still running. The workflow will stop and you will be able to test it later.");
+                properties.put("ClusterWaitJob",true);
                 return false;
-            }
-        
-        if (!runLocal)
+            } else
+                properties.remove("ClusterWaitJob");
+
+            long startTime = System.nanoTime();
             if (!Cluster.downloadResults(properties)) {
                 cantDownload = true;
                 setStatus(status_BadRequirements, "\tNot able to download results from the cluster.");
+                properties.put("ClusterFilesDownload",false);
                 return false;
             } else {
+                properties.remove("ClusterFilesDownload");
                 setStatus(status_running,"\t<-Results downloaded from cluster->");
+                long endTime = System.nanoTime();
+                long duration = (endTime - startTime);
+                duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+                setStatus(status_running, "\t<TIME> Time to donwload files from the cluster is >"+duration+" s");
             }
-
-        if (runLocal){
-            setStatus(status_running, "\tRunning will done on the local machine...");
-            try {
-                if (do_run()) {
-                    setStatus(status_running,"\t<-End Program Output ->");
-                    msg("\tProgram Exit Value: "+getExitVal());
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(RunProgram.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
             String stdOut = Cluster.getPgrmOutput(properties,"stdOutFile");
             String stdErr = Cluster.getPgrmOutput(properties,"stdErrFile");
             properties.put("SDOUT",stdOut);
             properties.put("STDERROR",stdErr);
             outputText.add(stdOut+"\n");
             outputText.add(stdErr+"\n");
-        }
-        if (!cantDownload){
-            properties.remove("ClusterTasksNumber");
-        }
-            
-        if (properties.isSet("ClusterDeleteAllFiles")){
-            if (Boolean.parseBoolean((properties.get("ClusterDeleteAllFiles")))){
-                Cluster.removeFilesFromCluster(properties);
-                setStatus(status_running,"\t<-Sorry, Deleted files on cluster is not yet available->");
-            } else {
-                Cluster.savePathOfFilesOnCluster(properties);
-                setStatus(status_running,"\t<-Sorry, Keep files on cluster is not yet available->");
+
+            if (!cantDownload){
+                properties.remove("ClusterTasksNumber");
             }
+
+            if (properties.isSet("ClusterDeleteAllFiles")){
+                if (Boolean.parseBoolean((properties.get("ClusterDeleteAllFiles")))){
+                    Cluster.removeFilesFromCluster(properties);
+                    setStatus(status_running,"\t<-Sorry, Deleted files on cluster is not yet available->");
+                } else {
+                    Cluster.savePathOfFilesOnCluster(properties);
+                    setStatus(status_running,"\t<-Sorry, Keep files on cluster is not yet available->");
+                }
+            }
+            int exitvalue=0;
+            if (properties.isSet("SDOUT"))
+                exitvalue=Cluster.getExitValue(properties.get("SDOUT"));
+            properties.put("ExitValue", exitvalue);
+            return true;
         }
-        int exitvalue=0;
-        if (properties.isSet("SDOUT"))
-            exitvalue=Cluster.getExitValue(properties.get("SDOUT"));
-        properties.put("ExitValue", exitvalue);
-        msg("\tProgram Exit Value: "+getExitVal());
-        /*
-         * Have to found a way to check exit value
-         * To be tested with exitValue
-         */
-        
-        return true;
     }
     
     ////////////////////////////////////////////////////////////////////////////

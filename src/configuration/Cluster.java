@@ -534,6 +534,7 @@ public class Cluster {
                 }
             }
             if (b){
+                Util.dm("This is not in properties>>"+l);
                 return true;
             }
         }
@@ -702,20 +703,21 @@ public class Cluster {
      * @return 
      */
     public static boolean getModule(workflow_properties properties,ArrayList<String> tab,String ref){
+        ref = ref.toLowerCase();
         Pattern pat1 = Pattern.compile(ref);
         Pattern pat2 = Pattern.compile("\\s*[(]\\w[)]");
         if (tab.size()>0){
             for (String s:tab){
+                s = s.toLowerCase();
                 Matcher mat1 = pat1.matcher(s);
                 Matcher mat2 = pat2.matcher(s);
                 if (mat1.find()){
-                    if (mat2.find()){
+                    if (mat2.find())
                         s = mat2.replaceAll("");
-                        if (s!="") {
-                            Util.removeTrailingSpace(s);
-                            properties.put("ClusterModuleIs", s);
-                            return true;
-                        }
+                    if (s!="") {
+                        Util.removeTrailingSpace(s);
+                        properties.put("ClusterModuleIs", s);
+                        return true;
                     }
                 }
             }

@@ -3191,7 +3191,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
                                             int num = (connector_next_indice[c.number]++);
                                             obj.getProperties().put("input_"+type+"_id"+c.number+num,id);
                                             obj.getProperties().put("inputObject_"+type+"_id"+c.number+num+"_properties",st);
-                                            Cluster.addSpecificClusterProperties(o,obj,c.number+num);
+                                            Cluster.addSpecificClusterProperties(o,obj,id);
                                         }
                                     }
                                 } else {
@@ -3201,7 +3201,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
                                         int num = (connector_next_indice[c.number]++);
                                         obj.getProperties().put("input_"+type+"_id"+c.number+num,id);
                                         obj.getProperties().put("inputObject_"+type+"_id"+c.number+num+"_properties",st);
-                                        Cluster.addSpecificClusterProperties(o,obj,c.number+num);
+                                        Cluster.addSpecificClusterProperties(o,obj,id);
                                         //Config.log(o+"UpdateDependance : "+id+c);
                                         //--delete next input
                                         //obj.getProperties().remove("input_"+type+"_id"+c.number+(connector_next_indice[c.number]));

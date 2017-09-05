@@ -554,7 +554,7 @@ public class Cluster {
     public static Integer getExitValue(String s){
         Pattern p = Pattern.compile(".*ExitStatus>(\\d+)<.*");
         Matcher m = p.matcher(s);
-        Util.dm(m.toString());
+        //Util.dm(m.toString());
         if (m.find()){
             int i = Integer.parseInt(m.group(1));
             return i;

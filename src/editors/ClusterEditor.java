@@ -193,7 +193,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
 
         jLabel9.setText("Used");
 
-        ClusterNames2_list.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca", "* = NOT TESTED", "*Briaree_nom@briaree.calculquebec.ca", "*Colosse_nom@colosse.calculquebec.ca", "*Cottos_nom@cottos.calculquebec.ca", "*Guillimin_nom@guillimin.hpc.mcgill.ca", "*Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca", "*Psi_nom@psi.concordia.ca", " " }));
+        ClusterNames2_list.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca", "=== NOT TESTED ====", "Briaree_nom@briaree.calculquebec.ca", "Colosse_nom@colosse.calculquebec.ca", "Cottos_nom@cottos.calculquebec.ca", "Guillimin_nom@guillimin.hpc.mcgill.ca", "Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca" }));
         ClusterNames2_list.setMaximumSize(new java.awt.Dimension(373, 3856));
         ClusterNames2_list.setMinimumSize(new java.awt.Dimension(373, 27));
         ClusterNames2_list.setName("ClusterNames2_list"); // NOI18N

@@ -748,8 +748,22 @@ public class RunProgram implements runningThreadInterface {
         InputStreamThread stdout = new InputStreamThread(p.getInputStream());
 
         int exitvalue=p.waitFor();
-        properties.put("ExitValue", exitvalue);
-        
+        if (Docker.isProgramUseDocker(properties)){
+            String s = getPgrmOutput().toString();
+            s = s.toLowerCase();
+            Pattern p = Pattern.compile(".*exit is -(\\d+)-.*");
+            Matcher m = p.matcher(s);
+            //Util.dm(m.toString());
+            int i = -1;
+            if (m.find()){
+                i = Integer.parseInt(m.group(1));
+            }
+            Util.dm("Docker exit value is >"+Integer.toString(i)+"<");
+            properties.put("ExitValue", i);
+        } else {
+            //--Wait for the exitValue
+            properties.put("ExitValue", exitvalue);
+        }
         return true;
     }
     

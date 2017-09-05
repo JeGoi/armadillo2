@@ -172,7 +172,14 @@ public class Docker {
         String dockerAddUser = "useradd "+userName+"";
         String dockerAddGrp = "groupadd "+grpName+"";
         String dockerChangeOwner = "chown -R "+userName+":"+grpName+" /data/outputs/";
-        List<String> lines = Arrays.asList("#!/bin/bash", dockerCli, dockerAddUser, dockerAddGrp, dockerChangeOwner, "exit $?");
+        String exitValue = "echo exit is -$?-";
+        String timeStart= "START=$(date +%s)";
+        String timeEnd  = "END=$(date +%s)";
+        String timeDiff = "DIFF=$(( $END - $START ))";
+        String timeEcho = "echo \"It took $DIFF seconds\"";
+        
+        
+        List<String> lines = Arrays.asList("#!/bin/bash", timeStart, dockerCli, exitValue, timeEnd, timeDiff, timeEcho,dockerAddUser, dockerAddGrp, dockerChangeOwner);
         try {
             Files.write(file, lines);
         } catch (IOException ex) {

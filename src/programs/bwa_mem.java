@@ -32,7 +32,9 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
+import static program.RunProgram.status_running;
 
 
 /**
@@ -165,6 +167,7 @@ public class bwa_mem extends RunProgram {
         Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
         
         // DOCKER INIT
+        long startTime = System.nanoTime();
         if (Docker.isDockerHere(properties)){
             doName = Docker.getContainerName(properties,doName);
             if (!dockerInitContainer(properties,sharedFolders, doName, doImage))
@@ -173,6 +176,10 @@ public class bwa_mem extends RunProgram {
             setStatus(status_BadRequirements,"Docker is not found. Please install docker");
             return false;
         }
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+        setStatus(status_running, "\t<TIME> Time to launch docker container is >"+duration+" s");
         return true;
     }
     
@@ -197,7 +204,12 @@ public class bwa_mem extends RunProgram {
         
         // Docker command line
         String dockerCli = doPgrmPath+" "+options + allDoInputs +  " > " +  outputInDo1;
+        long startTime = System.nanoTime();
         Docker.prepareDockerBashFile(properties,doName,dockerCli);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+        setStatus(status_running, "\t<TIME> Time to prepare docker bash file is >"+duration+" s");
         Cluster.createLinkDockerClusterCli(properties, dockerCli);
         setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli);
         String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
@@ -219,7 +231,12 @@ public class bwa_mem extends RunProgram {
 
     @Override
     public void post_parseOutput(){
+        long startTime = System.nanoTime();
         Docker.cleanContainer(properties,doName);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+        setStatus(status_running, "\t<TIME> Time to stop and remove docker container is >"+duration+" s");
         SamFile.saveFile(properties,output1,"bwa_mem","SamFile");
         Results.saveResultsPgrmOutput(properties,this.getPgrmOutput(),"bwa_mem");
     }

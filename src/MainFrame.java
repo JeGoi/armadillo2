@@ -282,7 +282,6 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
         Cluster.updateCluster(workbox);
         Config.log("Setting Cluster options if present.");
         System.out.println("Setting Cluster options if present.");
-        //workbox.getWorkFlowJInternalFrame().loadFromSavedCluster();
         
     }
     

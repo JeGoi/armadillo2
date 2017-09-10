@@ -687,13 +687,11 @@ public class WorkFlowJInternalFrame extends javax.swing.JInternalFrame {
         if (s.equalsIgnoreCase("local")) {
             RunOptions_jComboBox.setSelectedIndex(0);
             Cluster.setClusterEnable(current_workflow,false);
-            Util.dm("local");
         } else if (s.equalsIgnoreCase("cluster")) {
             RunOptions_jComboBox.setSelectedIndex(1);
             if(!Cluster.isClusterHere(current_workflow))
                 Cluster.insertClusterObject(current_workflow);
             Cluster.setClusterEnable(current_workflow,true);
-            Util.dm("cluster");
         }
         Cluster.updateClusterObjectPosition(current_workflow);
     }

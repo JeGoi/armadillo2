@@ -92,9 +92,9 @@ public class Workbox {
             
             try {
                 //--Creation of the main armadillo_workflow 0bject
-                current_workflow = new armadillo_workflow();
+                current_workflow   = new armadillo_workflow();
                 database_workflow  = new Workflows(current_workflow);
-                workflow_int_frame=new WorkFlowJInternalFrame(frame, database_workflow);
+                workflow_int_frame = new WorkFlowJInternalFrame(frame, database_workflow);
             } catch(Exception e) {
                 Config.log("Unable to initialize Workbox->workflow_int_frame");
             }
@@ -116,10 +116,6 @@ public class Workbox {
             Workbox.project=project;
         }
         workflow_int_frame=new WorkFlowJInternalFrame(frame, workflow);
-        if (this.testClusterPresence()){
-            this.getWorkFlowJInternalFrame().cleanClusterObject();
-            this.getWorkFlowJInternalFrame().setCluster(false);
-        }
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -162,6 +158,11 @@ public class Workbox {
         return workflow_int_frame;
     }
     
+    public WorkFlowJInternalFrame getWorkFlowJInternalFrame(){
+        return workflow_int_frame;
+    }
+
+    
     /**
      * Return the currently displayed project
      * @return
@@ -181,10 +182,6 @@ public class Workbox {
     
     public Workflows getCurrentWorkflows() {
         return database_workflow;
-    }
-    
-    public boolean testClusterPresence(){
-        return this.getWorkFlowJInternalFrame().isCluster();
     }
     
     public RunWorkflow getCurrentRunWorkflow() {
@@ -312,18 +309,18 @@ public class Workbox {
     public boolean saveWorkflowToDatabaseWOSW(String WorkflowName) {
         //--TO DO: Find why it bug!
         database_workflow.setName(WorkflowName);
-        if (!workflow_int_frame.isCluster()){
+        //if (!workflow_int_frame.isCluster()){
             workflow_int_frame.Message("Saving workflow "+WorkflowName+" to database...","");
-        }
+        //}
         //workflow_int_frame.database_workflow.updateCurrentWorkflow();
         database_workflow.setId(0); //--Reset ID for a new workflow
         boolean saved=database_workflow.saveToDatabase();
         if (saved) {
-            if (workflow_int_frame.isCluster()){
+            //if (workflow_int_frame.isCluster()){
                 //workflow_int_frame.Message("PreRun1 Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")","");
-            } else {
+            //} else {
                 workflow_int_frame.Message("Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")","");
-            }
+            //}
             workflow_int_frame.setWorkflowName(database_workflow.getName(), "");
             toolbox.reloadCurrentWorkflowsTree(getCurrentArmadilloWorkflow());
         }
@@ -771,11 +768,11 @@ public class Workbox {
                     saved=database_workflow.saveToDatabase();
                     setProgress(75);
                     if (saved) {
-                        if (workflow_int_frame.isCluster()) {
-                            publish("PreRun2 Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")");
-                        } else {
+                        //if (workflow_int_frame.isCluster()) {
+                        //    publish("PreRun2 Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")");
+                        //} else {
                             publish("Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")");
-                        }
+                        //}
                         workflow_int_frame.setWorkflowName(database_workflow.getName(), "");
                         toolbox.reloadDatabaseTree();
                         toolbox.reloadCurrentWorkflowsTree(getCurrentArmadilloWorkflow());
@@ -1124,27 +1121,6 @@ public class Workbox {
      */
     public String getCurrentWorkflowFilename() {
         return databaseFunction.db.dbFileName;
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////////
-    /// Workbox tested JG 2016
-    
-    /**
-     * @return the workflow test status
-     */
-    public boolean isWorkboxOnCLuster() {
-        return workflow_int_frame.isCluster();
-    }
-    
-    /**
-     * @param initialized the initialized to set
-     */
-    public void setWorkboxAsCluster(boolean tested) {
-        workflow_int_frame.setCluster(tested);
-    }
-    
-    public WorkFlowJInternalFrame getWorkFlowJInternalFrame(){
-        return workflow_int_frame;
     }
     
 }

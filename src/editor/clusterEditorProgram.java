@@ -21,6 +21,7 @@
 package editor;
 
 
+import configuration.Cluster;
 import editor.DatabaseSQLite3_cellRenderer;
 import workflows.workflow_properties;
 import configuration.Config;
@@ -599,6 +600,7 @@ public class clusterEditorProgram extends javax.swing.JDialog implements EditorI
                         
     private void ClusterDeleteAllFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterDeleteAllFilesActionPerformed
         // TODO add your handling code here:
+        //Util.boxEventSpinner(properties, ClusterDeleteAllFiles, null);
         if (ClusterDeleteAllFiles.isSelected()==true){
             properties.put(ClusterDeleteAllFiles.getName(),true);
         } else {
@@ -805,11 +807,10 @@ public class clusterEditorProgram extends javax.swing.JDialog implements EditorI
         this.resetDictionaries(properties);
         this.perpareDictionaries(properties);
         this.setProperties(properties);
-        if (workbox.isWorkboxOnCLuster()) {
+        if (Cluster.isClusterEnable(workbox))
             clusterEnabled.setSelected(true);
-        } else {
+        else
             clusterEnabled.setSelected(false);
-        }
 
         this.loadSavedValues(properties);
         if (!properties.isSet(ClusterDeleteAllFiles.getName())){

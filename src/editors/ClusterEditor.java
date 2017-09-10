@@ -22,9 +22,12 @@ package editors;
 
 
 import configuration.Cluster;
+import configuration.Cluster;
 import editor.DatabaseSQLite3_cellRenderer;
 import workflows.workflow_properties;
 import configuration.Config;
+import configuration.Config;
+import configuration.Util;
 import configuration.Util;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -39,6 +42,10 @@ import editor.ConnectorInfoBox;
 import editor.EditorInterface;
 import editor.EditorInterface;
 import editor.EditorInterface;
+import editor.EditorInterface;
+import editor.EditorInterface;
+import editors.HelpEditor;
+import editors.HelpEditor;
 import editors.HelpEditor;
 import editors.HelpEditor;
 import java.awt.Component;
@@ -104,7 +111,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         ClusterAccessAddress = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         ClusterNames2_list = new javax.swing.JComboBox();
-        clusterEnabled = new javax.swing.JCheckBox();
+        ClusterEnabled = new javax.swing.JCheckBox();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -204,10 +211,10 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
-        clusterEnabled.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        clusterEnabled.setText("Cluster is enabled");
-        clusterEnabled.setEnabled(false);
-        clusterEnabled.setName("clusterEnabled"); // NOI18N
+        ClusterEnabled.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        ClusterEnabled.setText("Cluster is enabled");
+        ClusterEnabled.setEnabled(false);
+        ClusterEnabled.setName("ClusterEnabled"); // NOI18N
 
         jTextField1.setText("insert@your.email.com");
         jTextField1.setMaximumSize(new java.awt.Dimension(324, 27));
@@ -269,7 +276,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                             .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(clusterEnabled)
+                            .addComponent(ClusterEnabled)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,7 +297,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(clusterEnabled)
+                .addComponent(ClusterEnabled)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -368,7 +375,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ClusterInfosUpdate)
@@ -488,6 +495,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     
     private void ClusterInfosUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterInfosUpdateActionPerformed
         updateValues();
+        jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_ClusterInfosUpdateActionPerformed
 
     private void ClusterNames2_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterNames2_listActionPerformed
@@ -540,6 +548,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             properties.remove("ClusterModules");
             properties.remove("ClusterPWD");
         }
+        jTabbedPane1.setSelectedIndex(1);
         updateValues();
     }//GEN-LAST:event_jButton2ActionPerformed
     
@@ -630,13 +639,13 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
      */
     public void updateEnabled(){
         Workbox workbox = parent_workflow.getWorkbox();
-        boolean b = workbox.isWorkboxOnCLuster();
+        boolean b = Cluster.isClusterEnable(workbox);
         if (b) {
-            clusterEnabled.setSelected(true);
-            properties.put(clusterEnabled.getName(),true);
+            ClusterEnabled.setSelected(true);
+            properties.put(ClusterEnabled.getName(),true);
         } else {
-            clusterEnabled.setSelected(false);
-            properties.remove(clusterEnabled.getName());
+            ClusterEnabled.setSelected(false);
+            properties.remove(ClusterEnabled.getName());
         }
     }
     
@@ -674,10 +683,10 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                 String s2 = properties.get(ClusterAccessAddress.getName());
                 ClusterAccessAddress.setText(s2);
             }
-            if (properties.isSet(clusterEnabled.getName())){
-                clusterEnabled.setSelected(true);
+            if (properties.isSet(ClusterEnabled.getName())){
+                ClusterEnabled.setSelected(true);
             } else {
-                clusterEnabled.setSelected(false);
+                ClusterEnabled.setSelected(false);
             }
         } else {
             ClusterNames2_list.setSelectedIndex(0);
@@ -685,7 +694,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             ClusterName.setText("Select a cluster");
             ClusterUserName.setText("Add user name");
             ClusterGroupName.setText("Add group name");
-            clusterEnabled.setSelected(false);
+            ClusterEnabled.setSelected(false);
         }
         if (properties.isSet("PathToRSAFile")) {
             p2rsa_text.setText(properties.get("PathToRSAFile"));
@@ -701,9 +710,9 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             ClusterModules.setText(properties.get("ClusterModules"));
         
         if (properties.isSet("clusterEnabled"))
-            clusterEnabled.setEnabled(Boolean.getBoolean(properties.get("clusterEnabled")));
+            ClusterEnabled.setEnabled(Boolean.getBoolean(properties.get("clusterEnabled")));
         else
-            clusterEnabled.setEnabled(false);
+            ClusterEnabled.setEnabled(false);
         
         
         updateEnabled();
@@ -749,6 +758,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ClosejButton;
     private javax.swing.JTextField ClusterAccessAddress;
+    private javax.swing.JCheckBox ClusterEnabled;
     private javax.swing.JTextField ClusterGroupName;
     private javax.swing.JButton ClusterInfosUpdate;
     private javax.swing.JTextArea ClusterModules;
@@ -756,7 +766,6 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     private javax.swing.JComboBox ClusterNames2_list;
     private javax.swing.JTextField ClusterPWD;
     private javax.swing.JTextField ClusterUserName;
-    private javax.swing.JCheckBox clusterEnabled;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

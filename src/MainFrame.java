@@ -227,8 +227,8 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
         ////////////////////////////////////////////////////////////////////////
         /// Enable some informations frames...
         
-        Config.log("done loading...");
-        System.out.println("done loading...");
+        Config.log("Done loading...");
+        System.out.println("Done loading...");
         //--Display Welcome Message + Information
         if (config.isSet("FirstTime")) {
             //this.jDesktopPane.add(new FirstTime_JIternalFrame(this));
@@ -279,9 +279,11 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
         
         ////////////////////////////////////////////////////////////////////////
         /// Cluster (cloud) options
+        Cluster.updateCluster(workbox);
         Config.log("Setting Cluster options if present.");
         System.out.println("Setting Cluster options if present.");
-        workbox.getWorkFlowJInternalFrame().loadFromSavedCluster();
+        //workbox.getWorkFlowJInternalFrame().loadFromSavedCluster();
+        
     }
     
     

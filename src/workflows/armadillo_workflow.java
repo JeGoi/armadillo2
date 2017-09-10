@@ -1025,7 +1025,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
             workflow_object o=workflow.work.get(i);
             this.workflow.RemoveAllConnection(o);
             if (!o.getProperties().get("ObjectType").equals("Program")) {
-                if (!isCluster(o))
+                if (!Cluster.isCluster(o))
                     this.workflow.delete(o);
             } else {
                 //--Verify if we have the name to remove duplicate
@@ -2193,7 +2193,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
         Paste_count=0;
         
         for (workflow_object obj:this.workflow.work) {
-            if (obj.selected && !isCluster(obj)) {
+            if (obj.selected && !Cluster.isCluster(obj)) {
                 CopyPaste_selection.work.add(obj);
             }
         }
@@ -2493,16 +2493,6 @@ public class armadillo_workflow extends PApplet implements ActionListener {
     public Workflow getWorkFlow(){
         return workflow;
     }
-    
-    public boolean isCluster(workflow_object tmp){
-        if (tmp.getProperties().isSet("ObjectType")) {
-            String s = tmp.getProperties().get("ObjectType");
-            if (s.equals("Cluster"))
-                return true;
-        }
-        return false;
-    }
-
     
     ////////////////////////////////////////////////////////////////////////////
     /// CLASSES
@@ -2899,66 +2889,6 @@ public class armadillo_workflow extends PApplet implements ActionListener {
             return null;
         }
         
-        public boolean testClusterPresence() {
-            cleanClusterPresence();
-            for(int i=0; i<work.size();i++) {
-                workflow_object obj=work.get(i);
-                if (obj.getProperties().get("Name").equals("Cluster") &&
-                        obj.getProperties().get("ObjectType").equals("Cluster")
-                        ) {
-                    //--debug Config.log(obj.getName());
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        public boolean cleanClusterPresence(){
-            ArrayList<workflow_object> list = new ArrayList<workflow_object>();
-            for(int i=0; i<work.size();i++) {
-                workflow_object obj=work.get(i);
-                if (obj.getProperties().get("Name").equals("Cluster") &&
-                        obj.getProperties().get("ObjectType").equals("Cluster")
-                        ) {
-                    //--debug Config.log(obj.getName());
-                    list.add(obj);
-                }
-            }
-            if (list.size()>1){
-                workflow_object objFinal = list.get(0);
-                list.remove(0);
-                for (workflow_object obj:list)
-                    work.remove(obj);
-                return true;
-            }
-            return false;
-        }
-
-        public workflow_object getClusterObject() {
-            for(int i=0; i<work.size();i++) {
-                workflow_object obj=work.get(i);
-                if (obj.getProperties().get("Name").equals("Cluster") &&
-                        obj.getProperties().get("ObjectType").equals("Cluster")
-                        ) {
-                    return obj;
-                }
-            }
-            return null;
-        }
-
-        public boolean isClusterActive() {
-            for(int i=0; i<work.size();i++) {
-                workflow_object obj=work.get(i);
-                if (obj.getProperties().get("Name").equals("Cluster") &&
-                        obj.getProperties().isSet("clusterEnabled")
-                        ) {
-                    //--debug Config.log(obj.getName());
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public Vector<workflow_object> findIf() {
             Vector<workflow_object>tmp=new Vector<workflow_object>();
             for(int i=0; i<work.size();i++) {
@@ -3802,7 +3732,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
             
             for (int i=work.size()-1;i>-1;i--) {
                 workflow_object tmp=(workflow_object)work.get(i);
-                if (tmp.selected && !isCluster(tmp)) {
+                if (tmp.selected && !Cluster.isCluster(tmp)) {
                     delete(tmp);
                 }
             }
@@ -4047,7 +3977,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
         public void selectAll() {
             for (int i=0;i<work.size(); i++) {
                 workflow_object tmp=(workflow_object)work.get(i);
-                if (!isCluster(tmp))
+                if (!Cluster.isCluster(tmp))
                     tmp.selected=true;
             }
             for (int i=0; i<work_connection.size();i++) {
@@ -4070,7 +4000,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
         public void inverseSelection() {
             for (int i=0;i<work.size(); i++) {
                 workflow_object tmp=(workflow_object)work.get(i);
-                if (!isCluster(tmp))
+                if (!Cluster.isCluster(tmp))
                     tmp.selected=!tmp.selected;
             }
             for (int i=0; i<work_connection.size();i++) {
@@ -4090,7 +4020,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
                 if (selected instanceof workflow_object) {
                     for (int i=0;i<work.size(); i++) {
                         workflow_object tmp=(workflow_object)work.get(i);
-                        if ((tmp.selected||tmp.moving)&&!isCluster(tmp))
+                        if ((tmp.selected||tmp.moving)&&!Cluster.isCluster(tmp))
                             tmp.featureTranslate(px,py);
                     }
                     //((workflow_object)selected).featureTranslate(px,py);

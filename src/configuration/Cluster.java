@@ -77,6 +77,7 @@ import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 import java.awt.Point;
 import org.apache.commons.io.IOUtils;
+import workflows.WorkFlowJInternalFrame;
 import workflows.armadillo_workflow.*;
 
 /**
@@ -103,6 +104,16 @@ public class Cluster {
     /***************************************************************************
      * CLUSTER FUNCTIONS
      **************************************************************************/
+    public static void updateCluster(Workbox workbox){
+        if (isClusterEnable(workbox)){
+            workbox.getWorkFlowJInternalFrame().setSelectedWay("cluster");
+            Util.dm("cluster 1");
+        } else {
+            workbox.getWorkFlowJInternalFrame().setSelectedWay("local");
+            Util.dm("cluster no1");
+        }
+    }
+    
     public static workflow_properties getClusterProperties(Workbox workbox){
         armadillo_workflow armadillo = workbox.getCurrentArmadilloWorkflow();
         return getClusterProperties(armadillo);
@@ -112,6 +123,7 @@ public class Cluster {
         workflow_object obj = getClusterObject(armadillo);
         if (obj!=null)
             return obj.properties;
+        Util.dm("isnull");
         return null;
     }
     
@@ -147,90 +159,51 @@ public class Cluster {
 
     public static boolean isClusterEnable(workflow_properties clusterP){
         if (clusterP!=null)
-            if (!clusterP.isSet("clusterEnabled"))
-                return false;
-            else
-                return Boolean.getBoolean(clusterP.get("clusterEnabled"));
+            if (clusterP.isSet("ClusterEnabled"))
+                return true;
         return false;
     }
 
     public static boolean isClusterHere(armadillo_workflow armadillo) {
         workflow_object cluster = getClusterObject(armadillo);
-        if (cluster==null)
-            return false;
-        else
+        if (cluster!=null)
             return true;
+        return false;
     }
         
     public static boolean setClusterEnable(armadillo_workflow armadillo,boolean b) {
         workflow_properties clusterP = getClusterProperties(armadillo);
-        if (clusterP==null)
+        if (clusterP==null) {
             return false;
+        }
         else {
-            if (!isClusterEnable(armadillo))
-                clusterP.put("clusterEnabled", Boolean.toString(b));
-            updateClusterObjectPosition(armadillo);
+            if (b)
+                clusterP.put("ClusterEnabled", Boolean.toString(b));
+            else
+                clusterP.remove("ClusterEnabled");
             return true;
         }
     }
         
-    public boolean cleanClusterPresence(armadillo_workflow armadillo){
-        ArrayList<workflow_object> list = new ArrayList<workflow_object>();
-        Vector<workflow_object> workTmp = armadillo.workflow.work;
-        for(int i=0; i<workTmp.size();i++) {
-            workflow_object obj=workTmp.get(i);
-            if (obj.getProperties().get("Name").equals("Cluster") &&
-                    obj.getProperties().get("ObjectType").equals("Cluster")
-                    ) {
-                //--debug Config.log(obj.getName());
-                list.add(obj);
-            }
-        }
-        if (list.size()>1){
-            list.remove(0);
-            for (workflow_object obj:list)
-                armadillo.workflow.work.remove(obj);
-            return true;
-        }
-        return false;
-    }
-
     public static void insertClusterObject(armadillo_workflow armadillo){
         workflow_properties tmp=new workflow_properties();
-        tmp.load("./src/configuration/CLUSTER.properties");
-        armadillo.createObject(tmp,new Point(95,5));
+        tmp.load("./src/configuration/Cluster.properties");
+        armadillo.createObject(tmp,new Point(225,10));
         if (tmp==null) {
             System.out.println("Unable to create object from cluster properties");
         }
-        //updateClusterObjectPosition(armadillo);
         armadillo.force_redraw=true;
         armadillo.redraw();
     }
     
-    // ??
-    public void cleanClusterObject(armadillo_workflow armadillo){
-        boolean b = cleanClusterPresence(armadillo);
-        if (b){
-            armadillo.force_redraw=true;
-            armadillo.redraw();
-        }
-    }
-
     public static void updateClusterObjectPosition(armadillo_workflow armadillo){
         boolean b = isClusterHere(armadillo);
         if (b) {
             workflow_object tmp = getClusterObject(armadillo);
-            if (tmp!=null){
-                boolean b1 = isClusterEnable(armadillo);
-                if (b1){
-                    tmp.move(225,10);
-                } else {
-                    //Util.dm("move1");
-                    tmp.move(-25000,0);
-                }
-                armadillo.updateCurrentWorkflow(tmp.getProperties());
+            if (tmp.getProperties().isSet("ClusterEnabled")){
+                tmp.move(225,10);
             } else {
-                System.out.println("Impossible to load Cluster object");
+                tmp.move(-25000,0);
             }
         }
         armadillo.force_redraw=true;

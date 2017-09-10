@@ -1624,11 +1624,7 @@ public class programs implements ActionListener {
         workflows.setId(0); //--Reset ID for a new workflow
         boolean saved=workflows.saveToDatabase();
         if (saved) {
-            if (work.isWorkboxOnCLuster()) {
-                publish_text("PreRun Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")");
-            } else {
-                publish_text("Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")");
-            }            
+            publish_text("Successfully saved workflow to database ("+Util.returnCurrentDateAndTime()+")");
         }
         return saved;
     }
@@ -1701,28 +1697,6 @@ public class programs implements ActionListener {
                             setProgress(0);
                             if (runningObject.getId()!=0) {
                                 runningObject.update();
-//                                System.out.println(runningObject.getInformation());
-//                                //TOPTOP
-//                                String str =runningProperties.getPropertiesToVarStringWithEOL();
-//                                //System.out.println("\""+str+"\"");
-//                                String line;
-//                                str = "\'"+str+"\'";
-//                                str = str.replaceAll(" ", "_____");
-//                                Process p = Runtime.getRuntime().exec("python ./cluster.py "+str+"");
-//                                BufferedReader bri = new BufferedReader
-//                                  (new InputStreamReader(p.getInputStream()));
-//                                BufferedReader bre = new BufferedReader
-//                                  (new InputStreamReader(p.getErrorStream()));
-//                                while ((line = bri.readLine()) != null) {
-//                                  System.out.println(line);
-//                                }
-//                                bri.close();
-//                                while ((line = bre.readLine()) != null) {
-//                                  System.out.println(line);
-//                                }
-//                                bre.close();
-//                                p.waitFor();
-//                                System.out.println("Done.");                                
                             } else {
                                 
                                 runningObject.saveToDatabase();
@@ -1813,10 +1787,6 @@ public class programs implements ActionListener {
                     tool.reloadDatabaseTree();
                     setDone(true);
                     work.resetState();
-//                    String wid = String.valueOf(workflows.getId());
-//                    String s = "./tmp/cluster/export_num_workflow_after"+wid+".txt";
-//                    workflows.updateCurrentWorkflow();
-//                    workflows.saveWorkflow(s);
                 }
             }
             

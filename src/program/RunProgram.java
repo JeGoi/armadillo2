@@ -341,7 +341,7 @@ public class RunProgram implements runningThreadInterface {
                     if (init_run()&&!isInterrupted()) {
                         // JG 2015 Start
                         boolean jobNotDoneOnCluster=true;
-                        if (workbox.isWorkboxOnCLuster()) {
+                        if (Cluster.isClusterEnable(workbox)) {
                             if (do_runOnCluster()&&!isInterrupted()) {
                                 // JG 2015 Start
                                 setStatus(status_running,"<-End Program Output ->");

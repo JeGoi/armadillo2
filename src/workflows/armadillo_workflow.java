@@ -3112,7 +3112,6 @@ public class armadillo_workflow extends PApplet implements ActionListener {
                             for (workflow_object o:input) {
                                 //System.out.println("\t"+o);
                                 //--Special case for If (which might have more than 1 inputs...)
-                                String st = o.getProperties().getPropertiesToVarString();
                                 if (o instanceof workflow_object_if) {
                                     for (String ifo:o.getProperties().Outputed()) {
                                         String type=ifo.toLowerCase();
@@ -3120,7 +3119,6 @@ public class armadillo_workflow extends PApplet implements ActionListener {
                                         for (workflow_connector c:findConnection(o,obj)) {
                                             int num = (connector_next_indice[c.number]++);
                                             obj.getProperties().put("input_"+type+"_id"+c.number+num,id);
-                                            obj.getProperties().put("inputObject_"+type+"_id"+c.number+num+"_properties",st);
                                             Cluster.addSpecificClusterProperties(o,obj,id);
                                         }
                                     }
@@ -3130,7 +3128,6 @@ public class armadillo_workflow extends PApplet implements ActionListener {
                                     for (workflow_connector c:findConnection(o,obj)) {
                                         int num = (connector_next_indice[c.number]++);
                                         obj.getProperties().put("input_"+type+"_id"+c.number+num,id);
-                                        obj.getProperties().put("inputObject_"+type+"_id"+c.number+num+"_properties",st);
                                         Cluster.addSpecificClusterProperties(o,obj,id);
                                         //Config.log(o+"UpdateDependance : "+id+c);
                                         //--delete next input

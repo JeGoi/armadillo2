@@ -19,48 +19,55 @@
 */
 package configuration;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Random;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipInputStream;
 import workflows.workflow_properties;
-import configuration.Util;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.UserPrincipal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.commons.lang.SystemUtils;
-import program.RunProgram;
-import static program.RunProgram.config;
-import static program.RunProgram.status_running;
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.core.*;
+import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.CreateNetworkResponse;
+import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.exception.ConflictException;
+import com.github.dockerjava.api.exception.DockerException;
+import com.github.dockerjava.api.model.Bind;
+import com.github.dockerjava.api.model.ContainerNetwork;
+import com.github.dockerjava.api.model.Device;
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.Frame;
+import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.Link;
+import com.github.dockerjava.api.model.LogConfig;
+import com.github.dockerjava.api.model.Network;
+import com.github.dockerjava.api.model.Ports;
+import com.github.dockerjava.api.model.RestartPolicy;
+import com.github.dockerjava.api.model.Ulimit;
+import com.github.dockerjava.api.model.Volume;
+import com.github.dockerjava.api.model.VolumesFrom;
+import com.github.dockerjava.api.model.Ports.Binding;
+import java.security.SecureRandom;
 
+
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.command.ListContainersCmd;
+import com.github.dockerjava.api.command.ListImagesCmd;
+import com.github.dockerjava.api.model.Container;
+import com.github.dockerjava.api.model.Image;
+import com.github.dockerjava.api.model.Info;
+import com.github.dockerjava.api.model.Version;
+import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.command.PullImageResultCallback;
 /**
  * Collection of util command
  * @author Jérémy Goimard
@@ -78,7 +85,135 @@ public class Docker {
     /***************************************************************************
      * DOCKER FUNCTIONS
      **************************************************************************/
+
+    public static boolean isDockerHereByRootDir() {
+        String s = getDockerRootDir();
+        if (s.contains("docker")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isDockerHereByVersion() {
+        Version v = version();
+        if (v.getGoVersion().length() > 0)
+            return true;
+        if (v.getVersion().length() > 0)
+            return true;
+        return false;
+    }
     
+    public static Version version(){
+        DockerClient dockerClient = getDockerClient();
+        Version version = dockerClient.versionCmd().exec();
+        return version;
+    }
+    
+    public static String getDockerRootDir() {
+        DockerClient dockerClient = getDockerClient();
+        Info info = dockerClient.infoCmd().exec();
+        closeDockerClient(dockerClient);
+        return info.getDockerRootDir();
+    }
+    
+    public static DockerClientConfig createDockerClientConfig() {
+        return DefaultDockerClientConfig.createDefaultConfigBuilder().build();
+    }
+    
+    public static DockerClient getDockerClient() {
+        return DockerClientBuilder.getInstance(createDockerClientConfig()).build();
+    }    
+    
+    public static String[] getImagesID() {
+        DockerClient dockerClient = getDockerClient();
+        List<Image> images = dockerClient.listImagesCmd().exec();
+        String[] list = new String[images.size()];
+        for(int i=0; i < images.size(); i++){
+            //System.out.println(images.get(i).getId());
+            list[i] = images.get(i).getId();
+        }
+        return list;
+    }
+    
+    public static boolean closeDockerClient(DockerClient dockerClient) {
+        try {
+            dockerClient.close();
+            return true;
+        } catch (IOException ex) {
+            System.out.println(Docker.class.getName());
+            System.out.println(ex);
+        }
+        return false;
+    }
+    
+    public static boolean pullImage(String dockerImage) {
+        DockerClient dockerClient = getDockerClient();
+        try {
+            dockerClient.pullImageCmd(dockerImage).exec(new PullImageResultCallback()).awaitCompletion();
+        } catch (InterruptedException ex) {
+            closeDockerClient(dockerClient);
+            System.out.println(Docker.class.getName());
+            System.out.println(ex);
+            return false;
+        }
+        return true;
+    }
+    
+    public static Volume[] createListVolumes (HashMap<String,String> sharedFolders) {
+        Volume[] list_v = new Volume[sharedFolders.size()];
+        int i =0;
+        for (String k :sharedFolders.keySet()){
+            list_v[i] = new Volume(k);
+            i++;
+        }
+        return list_v;
+    }
+    
+    public static Bind[] createListBinds (HashMap<String,String> sharedFolders, Volume[] list_v) {
+        Bind[] list_bd = new Bind[sharedFolders.size()];
+        int i =0;
+        for (String k : sharedFolders.keySet()){
+            list_bd[i] = new Bind(sharedFolders.get(k),list_v[i]);
+            i++;
+        }
+        return list_bd;
+    }
+    
+    public static boolean prepareContainer(workflow_properties properties, String dockerImage, HashMap<String,String> sharedFolders) {
+        String containerName = "Armadillo_WF_" + new SecureRandom().nextInt();
+        DockerClient dockerClient = getDockerClient();
+        Volume[] list_v = createListVolumes(sharedFolders);
+        Bind[] list_bd = createListBinds(sharedFolders,list_v);
+        CreateContainerResponse container = dockerClient.createContainerCmd(dockerImage)
+                .withVolumes(list_v)
+                .withBinds(list_bd)
+                .withTty(true)
+                .withCmd("/bin/bash")
+                .withName(containerName)
+                .exec();
+        String DockerContainerID = container.getId();
+        closeDockerClient(dockerClient);
+        if (Integer.parseInt(DockerContainerID)!=0){
+            properties.put("DockerContainerID",DockerContainerID);
+            return true;
+        }
+        return false;
+    }
+    
+    public static void startContainer(workflow_properties properties) {
+        String DockerContainerID = properties.get("DockerContainerID");
+        DockerClient dockerClient = getDockerClient();
+        dockerClient.startContainerCmd(DockerContainerID).exec();
+        closeDockerClient(dockerClient);
+    }
+
+    public static void stopContainer(workflow_properties properties) {
+        String DockerContainerID = properties.get("DockerContainerID");
+        DockerClient dockerClient = getDockerClient();
+        dockerClient.stopContainerCmd(DockerContainerID).exec();
+        closeDockerClient(dockerClient);
+    }
+
     /**
      * Test if docker program is installed
      */

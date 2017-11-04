@@ -98,6 +98,37 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        dockerOperatingSystemText = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        dockerClusterAdvertiseText = new javax.swing.JTextField();
+        dockerHttpProxyText = new javax.swing.JTextField();
+        dockerOsTypeText = new javax.swing.JTextField();
+        dockerServerVersionText = new javax.swing.JTextField();
+        dockerNCPUText = new javax.swing.JTextField();
+        dockerNFdText = new javax.swing.JTextField();
+        dockerInitPathText = new javax.swing.JTextField();
+        dockerRootDirText = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        dockerDriverText = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        dockerArchitectureText = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        dockerClusterStoreText = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        dockerExecutionDriverText = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        dockerSocketsText = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -109,10 +140,10 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
         D_UI_list = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         D_AC_list = new javax.swing.JList();
-        jButton2 = new javax.swing.JButton();
         ClosejButton = new javax.swing.JButton();
         Update_docker_button = new javax.swing.JButton();
         HelpjButton = new javax.swing.JButton();
+        dockerAvailability = new javax.swing.JLabel();
 
         setTitle("Properties");
         setResizable(false);
@@ -131,22 +162,269 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
             }
         });
 
+        dockerOperatingSystemText.setEditable(false);
+        dockerOperatingSystemText.setText("jTextField1");
+        dockerOperatingSystemText.setEnabled(false);
+        dockerOperatingSystemText.setFocusable(false);
+
+        jLabel1.setText("Parameters");
+
+        jLabel2.setText("ClusterAdvertise");
+
+        jLabel5.setText(" HttpProxy");
+
+        jLabel6.setText("OperatingSystem");
+
+        jLabel7.setText("OsType");
+
+        jLabel10.setText("ServerVersion");
+
+        jLabel11.setText("NCPU");
+
+        jLabel12.setText("NFd");
+
+        jLabel13.setText("InitPath");
+
+        jLabel14.setText("DockerRootDir");
+
+        dockerClusterAdvertiseText.setEditable(false);
+        dockerClusterAdvertiseText.setText("jTextField1");
+        dockerClusterAdvertiseText.setEnabled(false);
+        dockerClusterAdvertiseText.setFocusable(false);
+        dockerClusterAdvertiseText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dockerClusterAdvertiseTextActionPerformed(evt);
+            }
+        });
+
+        dockerHttpProxyText.setEditable(false);
+        dockerHttpProxyText.setText("jTextField1");
+        dockerHttpProxyText.setEnabled(false);
+        dockerHttpProxyText.setFocusable(false);
+
+        dockerOsTypeText.setEditable(false);
+        dockerOsTypeText.setText("jTextField1");
+        dockerOsTypeText.setEnabled(false);
+        dockerOsTypeText.setFocusable(false);
+
+        dockerServerVersionText.setEditable(false);
+        dockerServerVersionText.setText("jTextField1");
+        dockerServerVersionText.setEnabled(false);
+        dockerServerVersionText.setFocusable(false);
+
+        dockerNCPUText.setEditable(false);
+        dockerNCPUText.setText("jTextField1");
+        dockerNCPUText.setEnabled(false);
+        dockerNCPUText.setFocusable(false);
+
+        dockerNFdText.setEditable(false);
+        dockerNFdText.setText("jTextField1");
+        dockerNFdText.setEnabled(false);
+        dockerNFdText.setFocusable(false);
+
+        dockerInitPathText.setEditable(false);
+        dockerInitPathText.setText("jTextField1");
+        dockerInitPathText.setEnabled(false);
+        dockerInitPathText.setFocusable(false);
+
+        dockerRootDirText.setEditable(false);
+        dockerRootDirText.setText("jTextField1");
+        dockerRootDirText.setEnabled(false);
+        dockerRootDirText.setFocusable(false);
+
+        jLabel15.setText("Values");
+
+        jLabel16.setText("Driver");
+
+        dockerDriverText.setEditable(false);
+        dockerDriverText.setText("jTextField1");
+        dockerDriverText.setEnabled(false);
+        dockerDriverText.setFocusable(false);
+
+        jLabel17.setText("Architecture");
+
+        dockerArchitectureText.setEditable(false);
+        dockerArchitectureText.setText("jTextField1");
+        dockerArchitectureText.setEnabled(false);
+        dockerArchitectureText.setFocusable(false);
+
+        jLabel18.setText("ClusterStore");
+
+        dockerClusterStoreText.setEditable(false);
+        dockerClusterStoreText.setText("jTextField1");
+        dockerClusterStoreText.setEnabled(false);
+        dockerClusterStoreText.setFocusable(false);
+        dockerClusterStoreText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dockerClusterStoreTextActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setText("Execution Driver");
+
+        dockerExecutionDriverText.setEditable(false);
+        dockerExecutionDriverText.setText("jTextField1");
+        dockerExecutionDriverText.setEnabled(false);
+        dockerExecutionDriverText.setFocusable(false);
+        dockerExecutionDriverText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dockerExecutionDriverTextActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setText("Sockets");
+
+        dockerSocketsText.setEditable(false);
+        dockerSocketsText.setText("jTextField1");
+        dockerSocketsText.setEnabled(false);
+        dockerSocketsText.setFocusable(false);
+        dockerSocketsText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dockerSocketsTextActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(72, 72, 72)
+                                .addComponent(jLabel15))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel10)
+                                        .addComponent(jLabel11)
+                                        .addComponent(jLabel12)
+                                        .addComponent(jLabel16))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(dockerDriverText)
+                                        .addComponent(dockerOperatingSystemText)
+                                        .addComponent(dockerOsTypeText)
+                                        .addComponent(dockerServerVersionText)
+                                        .addComponent(dockerNCPUText)
+                                        .addComponent(dockerNFdText)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel13)
+                                        .addComponent(jLabel14))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(dockerRootDirText)
+                                        .addComponent(dockerInitPathText)
+                                        .addComponent(dockerHttpProxyText)
+                                        .addComponent(dockerClusterAdvertiseText, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel17))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dockerArchitectureText, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dockerClusterStoreText, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dockerExecutionDriverText, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dockerSocketsText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(dockerRootDirText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(dockerInitPathText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(dockerHttpProxyText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(dockerClusterAdvertiseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(dockerOperatingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(dockerOsTypeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(dockerServerVersionText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(dockerNCPUText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(dockerNFdText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(dockerDriverText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(dockerArchitectureText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(dockerClusterStoreText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(dockerExecutionDriverText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(dockerSocketsText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Docker Parameters", jPanel1);
+
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jLabel3.setText("Docker uploaded images (Name,Tag,ImageID)");
+        jLabel3.setText("Docker uploaded images (Name)");
 
-        jLabel8.setText("Docker active containers (ContainerID,Name,Image)");
+        jLabel8.setText("Docker Armadillo containers (Name)");
 
-        D_AC_StopSelectedCont.setText("Stop selected container(s)");
+        D_AC_StopSelectedCont.setText("Remove selected container(s)");
         D_AC_StopSelectedCont.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 D_AC_StopSelectedContActionPerformed(evt);
             }
         });
 
-        DAC_StopAllCont_button.setText("Stop all containers");
+        DAC_StopAllCont_button.setText("Remove all containers");
         DAC_StopAllCont_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DAC_StopAllCont_buttonActionPerformed(evt);
@@ -164,47 +442,38 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
 
         jScrollPane2.setViewportView(D_AC_list);
 
-        jButton2.setText("Install Docker (need SU)");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(D_AC_StopSelectedCont)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(DAC_StopAllCont_button))
                             .addComponent(jLabel3)
-                            .addComponent(D_UI_deleteSelectedImages)
-                            .addComponent(jButton2)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8)
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(D_AC_StopSelectedCont)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(DAC_StopAllCont_button)))
-                                    .addGap(8, 8, 8))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(D_UI_deleteSelectedImages))
+                        .addGap(0, 42, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(D_UI_deleteSelectedImages)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(D_AC_StopSelectedCont)
@@ -263,21 +532,30 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
             }
         });
 
+        dockerAvailability.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        dockerAvailability.setText("Docker");
+        dockerAvailability.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(dockerAvailability, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HelpjButton))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(HelpjButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(HelpjButton)
+                    .addComponent(dockerAvailability))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -303,30 +581,11 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.setVisible(false);
     }//GEN-LAST:event_formWindowClosing
-
-    private void D_AC_StopSelectedContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_D_AC_StopSelectedContActionPerformed
+    
+    private void Update_docker_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_docker_buttonActionPerformed
         // TODO add your handling code here:
-        int[] tabInt = this.D_AC_list.getSelectedIndices();
-        if (tabInt.length > 0) {
-            ArrayList<String> cont = new ArrayList<String>();
-            for (int i:tabInt){
-                String s = D_AC_list.getModel().getElementAt(i).toString();
-                s = s.replaceAll("^(\\w+), \\w+, .*","$1");
-                cont.add(s);
-            }
-            if (Docker.cleanContainers(properties,cont))
-                System.out.print("None or Few containers hadn't been stopped. Docker Editor will be updated.");
-            updateLists();
-        }
-    }//GEN-LAST:event_D_AC_StopSelectedContActionPerformed
-
-    private void DAC_StopAllCont_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DAC_StopAllCont_buttonActionPerformed
-        // TODO add your handling code here:
-        ArrayList<String> cont = Docker.getAllContainersID(properties);
-        if (!Docker.cleanContainers(properties,cont))
-            System.out.print("None or Few containers hadn't been stopped. Docker Editor will be updated.");
         updateLists();
-    }//GEN-LAST:event_DAC_StopAllCont_buttonActionPerformed
+    }//GEN-LAST:event_Update_docker_buttonActionPerformed
 
     private void D_UI_deleteSelectedImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_D_UI_deleteSelectedImagesActionPerformed
         // TODO add your handling code here:
@@ -338,60 +597,56 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
                 String[] tp = s.split(", ");
                 l.add(tp[0]);
             }
-            Docker.removeImages(properties,l);
+            Docker.removeImagesList(l);
             updateLists();
         }
     }//GEN-LAST:event_D_UI_deleteSelectedImagesActionPerformed
-    
-    private void Update_docker_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_docker_buttonActionPerformed
+
+    private void DAC_StopAllCont_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DAC_StopAllCont_buttonActionPerformed
         // TODO add your handling code here:
+        Docker.stopAllArmadilloContainer();
+        Docker.removeAllArmadilloContainer();
         updateLists();
-    }//GEN-LAST:event_Update_docker_buttonActionPerformed
+    }//GEN-LAST:event_DAC_StopAllCont_buttonActionPerformed
+
+    private void D_AC_StopSelectedContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_D_AC_StopSelectedContActionPerformed
+        // TODO add your handling code here:
+        int[] tabInt = this.D_AC_list.getSelectedIndices();
+        if (tabInt.length > 0) {
+            ArrayList<String> cont = new ArrayList<String>();
+            for (int i:tabInt){
+                String s = D_AC_list.getModel().getElementAt(i).toString();
+                cont.add(s);
+            }
+            Docker.removeContainersListFromName(cont);
+            updateLists();
+        }
+    }//GEN-LAST:event_D_AC_StopSelectedContActionPerformed
+
+    private void dockerClusterAdvertiseTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dockerClusterAdvertiseTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dockerClusterAdvertiseTextActionPerformed
+
+    private void dockerClusterStoreTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dockerClusterStoreTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dockerClusterStoreTextActionPerformed
+
+    private void dockerExecutionDriverTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dockerExecutionDriverTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dockerExecutionDriverTextActionPerformed
+
+    private void dockerSocketsTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dockerSocketsTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dockerSocketsTextActionPerformed
 
     /**
      * Set Lists for D_UI_list or D_AC_list and clean inactives containers
      */
     private void updateLists() {
-        D_UI_list.setListData(getDockerLists(D_UI_list));
-        D_AC_list.setListData(getDockerLists(D_AC_list));
+        D_UI_list.setListData(Docker.getAllImagesNameTab());
+        D_AC_list.setListData(Docker.getAllContainersNameListTab());
     }
     
-    /**
-     * Set Lists for D_UI_list or D_AC_list and clean inactives containers
-     */
-    private String[] getDockerLists(javax.swing.JList list) {
-        ArrayList<String> tplist = new ArrayList<String>(); 
-        if (Docker.isDockerHere(properties)) {
-            list.removeAll();
-            
-            ArrayList<String> str = new ArrayList<String>();
-            if (list.equals(D_UI_list))      str = Docker.getImages(properties);
-            else if (list.equals(D_AC_list)) {
-                Docker.cleanInactiveContainers(properties);
-                str = Docker.getActivesContainers(properties);
-            }
-            
-            if (str == null || str.isEmpty()) {
-                if (list.equals(D_UI_list))      tplist.add("No repositry (images) founded");
-                else if (list.equals(D_AC_list)) tplist.add("No Active Container founded");
-            } else {
-                for (int i=0;i<str.size();i++) {
-                    if (list.equals(D_UI_list)) {
-                        String[] temp = str.get(i).split("\\s+");
-                        tplist.add(temp[0]+", "+temp[1]+", "+temp[2]);
-                    } else {
-                        tplist.add(str.get(i));
-                    }
-                }
-            }
-        } else {
-            tplist.add("Docker not found, Please Install it.");
-        }
-        String[] rep = new String[tplist.size()];
-        rep = tplist.toArray(rep);
-        return rep;
-    }
-
     ///////////////////////////////////////////////////////////////////////////
     /// DISPLAY MAIN FUNCTION
 
@@ -399,7 +654,7 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
         this.properties=properties;
         initComponents();
         setIconImage(Config.image);
-        setTitle(properties.getName());
+        setTitle("Docker Informations");
         changed=false; //--For the serialization if needed
         
         // Set position 
@@ -407,10 +662,44 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
         Dimension d = getSize();
         setLocation((screenSize.width-d.width),
 					(screenSize.height-d.height));
+        
+        if (Docker.isDockerHere()){
+            addDockerInformation(true);
+        } else {
+            addDockerInformation(false);
+        }
+        
         this.setAlwaysOnTop(true);
         this.setVisible(true);
     }
     
+    
+    private void addDockerInformation(boolean b){
+        dockerAvailability.setEnabled(b);
+        jPanel1.setEnabled(b);
+        jPanel9.setVisible(b);
+        if (b){
+            dockerAvailability.setText("Docker is available");
+            dockerAvailability.setForeground(Color.getHSBColor(76, 76, 76));
+        } else {
+            dockerAvailability.setText("Docker is not available");
+            dockerAvailability.setForeground(Color.red);
+        }
+        dockerClusterAdvertiseText.setText(Docker.getClusterAdvertise());
+        dockerOperatingSystemText.setText(Docker.getOperatingSystem());
+        dockerHttpProxyText.setText(Docker.getHttpProxy());
+        dockerOsTypeText.setText(Docker.getOsType());
+        dockerServerVersionText.setText(Docker.getServerVersion());
+        dockerNCPUText.setText(Docker.getNCPU());
+        dockerNFdText.setText(Docker.getNFd());
+        dockerInitPathText.setText(Docker.getInitPath());
+        dockerRootDirText.setText(Docker.getRootDirIfDocker());
+        dockerArchitectureText.setText(Docker.getArchitecture());
+        dockerDriverText.setText(Docker.getDriver());
+        dockerClusterStoreText.setText(Docker.getClusterStore());
+        dockerExecutionDriverText.setText(Docker.getExecutionDriver());
+        dockerSocketsText.setText(Docker.getSockets());
+    }
     public void saveImage(String filename) {
         BufferedImage bi;
         try {
@@ -432,9 +721,40 @@ public class dockerEditor extends javax.swing.JDialog implements EditorInterface
     private javax.swing.JList D_UI_list;
     private javax.swing.JButton HelpjButton;
     private javax.swing.JButton Update_docker_button;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JTextField dockerArchitectureText;
+    private javax.swing.JLabel dockerAvailability;
+    private javax.swing.JTextField dockerClusterAdvertiseText;
+    private javax.swing.JTextField dockerClusterStoreText;
+    private javax.swing.JTextField dockerDriverText;
+    private javax.swing.JTextField dockerExecutionDriverText;
+    private javax.swing.JTextField dockerHttpProxyText;
+    private javax.swing.JTextField dockerInitPathText;
+    private javax.swing.JTextField dockerNCPUText;
+    private javax.swing.JTextField dockerNFdText;
+    private javax.swing.JTextField dockerOperatingSystemText;
+    private javax.swing.JTextField dockerOsTypeText;
+    private javax.swing.JTextField dockerRootDirText;
+    private javax.swing.JTextField dockerServerVersionText;
+    private javax.swing.JTextField dockerSocketsText;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;

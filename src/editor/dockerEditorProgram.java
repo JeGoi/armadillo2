@@ -282,7 +282,7 @@ public class dockerEditorProgram extends javax.swing.JDialog implements EditorIn
         }
         
         if (properties.isSet("DockerCommandLine")){
-            dockerImage.setText(properties.get("DockerCommandLine"));
+            DockerCommandLine.setText(properties.get("DockerCommandLine"));
         }
         
         // Set position 

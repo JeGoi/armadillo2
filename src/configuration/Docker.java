@@ -567,6 +567,7 @@ public class Docker {
             closeDockerClient(dockerClient);
             if (DockerContainerID.matches("\\w*")){
                 properties.put("DockerContainerID",DockerContainerID);
+                // ADD SHARED FOLDERS TO BE SEEN IN dockerEditorProgram
             } else {
                 properties.remove("DockerContainerID");
             }
@@ -778,6 +779,7 @@ public class Docker {
         }
         
         String DockerContainerID = properties.get("DockerContainerID");
+        properties.put("DockerCommandLine",dockerCli);
         copyFileToContainer(DockerContainerID,s,"/data/");
         Util.deleteFile(s);
         

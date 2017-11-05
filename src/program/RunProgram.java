@@ -340,6 +340,9 @@ public class RunProgram implements runningThreadInterface {
                     setStatus(status_running,"Initialization...");
                     if (init_run()&&!isInterrupted()) {
                         // JG 2015 Start
+                        // Print the command line
+                        Util.dm("CommandLine is >>"+Util.toString(commandline));
+
                         boolean jobNotDoneOnCluster=true;
                         if (Cluster.isClusterEnable(workbox)) {
                             if (do_runOnCluster()&&!isInterrupted()) {
@@ -367,7 +370,7 @@ public class RunProgram implements runningThreadInterface {
                     //setStatus(getStatus(), "Total running time: "+Util.msToString(getRunningTime()));
                     if ((properties.getBoolean("VerifyExitValue")&&getExitVal()!=properties.getInt("NormalExitValue"))) {
                         setStatus(status_error,"***Error with at "+getRunningTime()+" ms ExitValue: "+properties.get("ExitValue")+"\n");
-                        Docker.cleanContainer(properties);
+                        Docker.removeContainer(properties);
                         post_run_clean();
                     }  else {
                         if (getStatus()!=status_error&&getStatus()!=status_BadRequirements&&getStatus()!=status_runningclassnotfound&&getStatus()!=status_programnotfound) {
@@ -387,7 +390,7 @@ public class RunProgram implements runningThreadInterface {
                     if (properties.getBoolean("debug")) ex.printStackTrace();
                     if (!cancel) {
                         setStatus(status_error,"Error in running... \n"+ex.getMessage());
-                        Docker.cleanContainer(properties);
+                        Docker.removeContainer(properties);
                     }
                 }
                 programTimeEnd=Util.returnCurrentDateAndTime();
@@ -430,13 +433,7 @@ public class RunProgram implements runningThreadInterface {
                         //--actual run
                         setStatus(status_running, "\tRunning program...");
                         // Print the command line
-                        String s = Util.toString(commandline);
-                        
-                        Util.dm(s);
-                                
-                                
-                        //if (!s.contains("Not Set")) System.out.println(s);
-                        
+                        Util.dm("CommandLine is >>"+Util.toString(commandline));
                         setStatus(status_running,"<-Program Output->");
                         
                         if (do_run_withoutWait()&&!isInterrupted()) {
@@ -448,7 +445,7 @@ public class RunProgram implements runningThreadInterface {
                     //setStatus(getStatus(), "Total running time: "+Util.msToString(getRunningTime()));
                     if (properties.getBoolean("VerifyExitValue")&&getExitVal()!=properties.getInt("NormalExitValue")) {
                         setStatus(status_error,"***Error with at "+getRunningTime()+" ms ExitValue: "+properties.get("ExitValue")+"\n");
-                        Docker.cleanContainer(properties);
+                        Docker.removeContainer(properties);
                         post_run_clean();
                     } else {
                         if (getStatus()!=status_error&&getStatus()!=status_BadRequirements&&getStatus()!=status_runningclassnotfound&&getStatus()!=status_programnotfound) {
@@ -670,86 +667,10 @@ public class RunProgram implements runningThreadInterface {
         setStatus(status_running, "\tRunning program...");
         setStatus(status_running,"<-Program Output->");
         //--Run the thread and catch stdout and stderr
-        ProcessBuilder pb=new ProcessBuilder(commandline);
-        if (properties.isSet("RunningDirectory")) {
-            pb.directory(new File(properties.get("RunningDirectory")));
-        }
-
-        r = Runtime.getRuntime();
-        //--Test August 2011 - For Mac OS X
-        if ((config.getBoolean("MacOSX")||SystemUtils.IS_OS_MAC_OSX)) {
-            if (properties.isSet("RuntimeMacOSX")) {
-                String execution_type=properties.get("RuntimeMacOSX");
-                //--Default
-                if (execution_type.startsWith("default")) {
-                    //? Not suppose to exists...
-                    p = pb.start();
-                }
-                //--Runtime (r.exec)
-                if (execution_type.startsWith("runtime")) {
-                    //--IF MAC_OSX, group option if UseRuntimeMacOSX
-                    String cmdm = Util.toString(commandline);
-                    cmdm = Util.replaceMultiSpacesByOne(cmdm);
-                    cmdm = Util.removeTrailingSpace(cmdm);
-                    /*
-                    for (int i=0; i<commandline.length;i++) {
-                        if (!commandline[i].equals(""))
-                            cmdm+=commandline[i]+" ";
-                    }
-                    commandline=new String[1];
-                    commandline[0]=cmdm;
-                    */
-                    p = r.exec(cmdm);
-                }
-                //--Bash...
-                if (execution_type.startsWith("bash (.sh)")) {
-                    //--Create a new bash file
-                    Util u = new Util("RunProgram.sh");
-                    u.println("#!/bin/sh");
-                    u.println("echo \"Executing by bash command: "+properties.getName()+"\"");
-                    u.println(Util.toString(commandline));
-                    //--Return the application error code
-                    u.println("exit $?");
-                    u.close();
-                    p=r.exec("sh RunProgram.sh");
-                }
-            } //--End RuntimeMacOSX
-            //--Run time
-            else {
-                //--Create a new bash file
-                Util u = new Util("RunProgram.sh");
-                u.println("#!/bin/sh");
-                u.println("echo \"Executing by bash command: "+properties.getName()+"\"");
-                u.println(Util.toString(commandline));
-                //--Return the application error code
-                u.println("exit $?");
-                u.close();
-                p=r.exec("sh RunProgram.sh");
-            }
-        } else  if ((config.getBoolean("Linux")||SystemUtils.IS_OS_LINUX)) {
-//                 Util u = new Util("RunProgram"+Util.returnTimeCode()+".sh");
-//                 u.println("#!/bin/sh");
-//                 u.println("echo \"Executing by bash command: "+properties.getName()+"\"");
-//                 u.println(Util.toString(commandline));
-//                 //--Return the application error code
-//                 u.println("exit $?");
-//                 u.close();
-//                 p=r.exec("sh "+u.log_filename);
-//                 Util.deleteFile(u.log_filename);
-            String cli = Util.toString(commandline).replace("\\s+"," ");
-            p=r.exec(cli); // JG 2015
-        }
-        else {
-            p = pb.start();
-        }
-
-        //pb.redirectErrorStream(true)
-        InputStreamThread stderr = new InputStreamThread(p.getErrorStream());
-        InputStreamThread stdout = new InputStreamThread(p.getInputStream());
-
-        int exitvalue=p.waitFor();
         if (Docker.isProgramUseDocker(properties)){
-            String s = getPgrmOutput().toString();
+            Docker.executeBashFile(properties);
+            setStatus(status_running,properties.get("DockerSTD"));
+            String s = properties.get("DockerSTD");
             s = s.toLowerCase();
             Pattern p = Pattern.compile(".*exit is -(\\d+)-.*");
             Matcher m = p.matcher(s);
@@ -761,6 +682,85 @@ public class RunProgram implements runningThreadInterface {
             Util.dm("Docker exit value is >"+Integer.toString(i)+"<");
             properties.put("ExitValue", i);
         } else {
+            ProcessBuilder pb=new ProcessBuilder(commandline);
+            if (properties.isSet("RunningDirectory")) {
+                pb.directory(new File(properties.get("RunningDirectory")));
+            }
+
+            r = Runtime.getRuntime();
+            //--Test August 2011 - For Mac OS X
+            if ((config.getBoolean("MacOSX")||SystemUtils.IS_OS_MAC_OSX)) {
+                if (properties.isSet("RuntimeMacOSX")) {
+                    String execution_type=properties.get("RuntimeMacOSX");
+                    //--Default
+                    if (execution_type.startsWith("default")) {
+                        //? Not suppose to exists...
+                        p = pb.start();
+                    }
+                    //--Runtime (r.exec)
+                    if (execution_type.startsWith("runtime")) {
+                        //--IF MAC_OSX, group option if UseRuntimeMacOSX
+                        String cmdm = Util.toString(commandline);
+                        cmdm = Util.replaceMultiSpacesByOne(cmdm);
+                        cmdm = Util.removeTrailingSpace(cmdm);
+                        /*
+                        for (int i=0; i<commandline.length;i++) {
+                            if (!commandline[i].equals(""))
+                                cmdm+=commandline[i]+" ";
+                        }
+                        commandline=new String[1];
+                        commandline[0]=cmdm;
+                        */
+                        p = r.exec(cmdm);
+                    }
+                    //--Bash...
+                    if (execution_type.startsWith("bash (.sh)")) {
+                        //--Create a new bash file
+                        Util u = new Util("RunProgram.sh");
+                        u.println("#!/bin/sh");
+                        u.println("echo \"Executing by bash command: "+properties.getName()+"\"");
+                        u.println(Util.toString(commandline));
+                        //--Return the application error code
+                        u.println("exit $?");
+                        u.close();
+                        p=r.exec("sh RunProgram.sh");
+                    }
+                } //--End RuntimeMacOSX
+                //--Run time
+                else {
+                    //--Create a new bash file
+                    Util u = new Util("RunProgram.sh");
+                    u.println("#!/bin/sh");
+                    u.println("echo \"Executing by bash command: "+properties.getName()+"\"");
+                    u.println(Util.toString(commandline));
+                    //--Return the application error code
+                    u.println("exit $?");
+                    u.close();
+                    p=r.exec("sh RunProgram.sh");
+                }
+            } else  if ((config.getBoolean("Linux")||SystemUtils.IS_OS_LINUX)) {
+//                Util u = new Util("RunProgram"+Util.returnTimeCode()+".sh");
+//                u.println("#!/bin/sh");
+//                u.println("echo \"Executing by bash command: "+properties.getName()+"\"");
+//                u.println(Util.toString(commandline));
+//                //--Return the application error code
+//                u.println("exit $?");
+//                u.close();
+//                p=r.exec("sh "+u.log_filename);
+//                Util.deleteFile(u.log_filename);
+                String cli = Util.toString(commandline).replace("\\s+"," ");
+                p=r.exec(cli); // JG 2015
+            }
+            else {
+                p = pb.start();
+            }
+
+            //pb.redirectErrorStream(true)
+            InputStreamThread stderr = new InputStreamThread(p.getErrorStream());
+            InputStreamThread stdout = new InputStreamThread(p.getInputStream());
+
+            int exitvalue=p.waitFor();
+
             //--Wait for the exitValue
             properties.put("ExitValue", exitvalue);
         }
@@ -1788,44 +1788,5 @@ public class RunProgram implements runningThreadInterface {
             }
         }
         return true;
-    }
-    
-    ////////////////////////////////////////////////////////////////////////////
-    /// Docker ZONE
-    /*
-    * Docker initialisation
-    * @Obsolete Prefer using dockerInitContainer
-    */
-    public boolean dockerInit(String localpath, String dockerpath, String name, String img) {
-        if (Docker.isDockerHere(properties) && Docker.isDockerNameWellWritten(name)) {
-            boolean b = Docker.launchDockerImage(properties,localpath,dockerpath,name,img);
-            if (!b) {
-                setStatus(status_BadRequirements,"Not able to initiate the docker container");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /*
-    * Docker Container initialisation
-    * Use -v to share files
-    */
-    public boolean dockerInitContainer(workflow_properties properties, HashMap<String,String> sharedFolders, String doName, String doImage) {
-        if (Docker.isDockerNameWellWritten(doName)){
-            if (Docker.launchDockerContainer(properties,sharedFolders,doName,doImage)){
-                if (properties.isSet("CliDockerInit"))
-                    setStatus(status_running,"DockerInitCommandLine: $\n "+properties.get("CliDockerInit"));
-                properties.put("DOCKERName",doName);
-                return true;
-            } else {
-                Docker.cleanContainer(properties,doName);
-                setStatus(status_BadRequirements,"Not able to initiate the docker container");
-            }
-        } else {
-            setStatus(status_BadRequirements,"Bad Requirement, Already 100 containers have been send with this name. Please remove few of them to continue");
-            setStatus(status_BadRequirements,"Or the name is not written well");
-        }
-        return false;
     }
 }

@@ -135,7 +135,7 @@ public class bwa_mem extends RunProgram {
         }
         
         // Test docker Var presence
-        if (!Docker.areDockerVariablesInProperties(properties)){
+        if (Docker.areDockerVariablesNotInProperties(properties)){
             setStatus(status_BadRequirements,Util.BRDockerVariables());
             return false;
         }

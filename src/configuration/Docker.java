@@ -547,7 +547,7 @@ public class Docker {
     /**
      * Check if requiered fields are in default properties
      */
-    public static boolean areDockerVariablesInProperties (workflow_properties properties) {
+    public static boolean areDockerVariablesNotInProperties (workflow_properties properties) {
         List<String> lines = Arrays.asList("DockerImage","ExecutableDocker","DockerInputs","DockerOutputs");
         return Util.isListInProperties(properties,lines);
     }

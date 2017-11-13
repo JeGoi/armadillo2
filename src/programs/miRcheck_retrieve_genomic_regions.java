@@ -104,7 +104,7 @@ public class miRcheck_retrieve_genomic_regions extends RunProgram{
         }
 
         // Test docker Var presence
-        if (!Docker.areDockerVariablesInProperties(properties)){
+        if (Docker.areDockerVariablesNotInProperties(properties)){
             setStatus(status_BadRequirements,Util.BRDockerVariables());
             return false;
         }

@@ -548,17 +548,17 @@ public class Docker {
      * Check if requiered fields are in default properties
      */
     public static boolean areDockerVariablesInProperties (workflow_properties properties) {
-        List<String> lines = Arrays.asList("DockerImage","ExecutableDocker");
+        List<String> lines = Arrays.asList("DockerImage","ExecutableDocker","DockerInputs","DockerOutputs");
         return Util.isListInProperties(properties,lines);
     }
     
     /**
      * Prepare the container
      */
-    public static long prepareContainer(workflow_properties properties, String dockerImage, HashMap<String,String> sharedFolders) {
+    public static long prepareContainer(workflow_properties properties, HashMap<String,String> sharedFolders) {
         long startTime = System.nanoTime();
-        if (areDockerVariablesInProperties(properties)
-                && addImage(dockerImage)){
+        String dockerImage = properties.get("DockerImage");
+        if(addImage(dockerImage)){
             String alea = Integer.toString(new SecureRandom().nextInt());
             alea = alea.replaceAll("-","");
             String containerName = "armadillo_wf_"+alea;

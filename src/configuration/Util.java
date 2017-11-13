@@ -2042,5 +2042,33 @@ public class Util {
         return false;
     }
     
+    /*
+    Return string for requirements
+    BadRequirements = BR
+    */
+    public static String BROutputsDir(){
+        return "Not able to access or create OUTPUTS directory files";
+    }
+    public static String BRTypeFile(String type){
+        return "No "+type+" found.";
+    }
+    public static String BRDockerVariables(){
+        return "The program properties does not have enough information to be run with Docker";
+    }
+    public static String BRDockerInit(){
+        return "Unable to create a container";
+    }
+    public static String BRDockerNotFound(){
+        return "Docker is not found. Please install Docker";
+    }
+    public static String RUNDockerDuration(String where, long duration){
+        return "\t<TIME> Time to "+where+" Docker container is >"+duration+" s";
+    }
+    public static String RUNCommandLine(String type, String cli){
+        return "If it's used, the "+type+" CommandLine is: \n$ "+cli;
+    }
 
+    
+    
+    
 }

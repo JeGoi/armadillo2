@@ -384,6 +384,10 @@ public class Cluster {
                 String fRem = clusterDir+"/outputs/"+fName;
                 c = c.replace(fLocal[1], fRem);
             }
+            /*
+            USELESS
+            NOW, it's setted in command line creation
+            */
             if (key.contains("ExecutableCluster")){
                 String pLoc = properties.get("ExecutableDocker");
                 String pRem = properties.get(key);
@@ -452,8 +456,8 @@ public class Cluster {
         properties.put("ClusterLocalOutput_1",localOutput+"<<>>"+dockerOutput);
     }
     
-    public static void createLinkDockerClusterCli(workflow_properties properties, String dockerCli) {
-        properties.put("ClusterDockerRunningCLi",dockerCli);
+    public static void createLinkDockerClusterCli(workflow_properties properties, String clusterCli) {
+        properties.put("ClusterRunningCLi",clusterCli);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -501,27 +505,6 @@ public class Cluster {
             }
         }
         return list;
-    }
-    
-    public static boolean extractInfo(workflow_properties properties,List<String> lines){
-        for (String l :lines){
-            Enumeration<Object> e = properties.keys();
-            boolean b = true;
-            String s = "";
-            while(e.hasMoreElements()&&b==true) {
-                String key=(String)e.nextElement();
-                if (key.contains(l)){
-                    if (properties.get(key)!=""){
-                        b = false;
-                    }
-                }
-            }
-            if (b){
-                Util.dm("This is not in properties>>"+l);
-                return true;
-            }
-        }
-        return false;
     }
     
     public static Integer getExitValue(String s){
@@ -734,13 +717,13 @@ public class Cluster {
                 "ClusterLocalInput_", "ClusterProgramName", "Version",
                 "ObjectID", "ExecutableCluster", "ClusterAccessAddress",
                 "PathToRSAFile");
-        return extractInfo(properties,lines);
+        return Util.isListInProperties(properties,lines);
     }
     
     public static boolean isClusterDockerNeededInfoHere (workflow_properties properties){
         List<String> lines = Arrays.asList("ClusterDockerInput_",
                 "ClusterDockerRunningCLi", "ExecutableDocker");
-        return extractInfo(properties,lines);
+        return Util.isListInProperties(properties,lines);
     }
     
     /////////////

@@ -2019,4 +2019,28 @@ public class Util {
             System.out.println(s);
     }
     
+    /*
+    Test if a list of variables are in properties
+    */
+    public static boolean isListInProperties(workflow_properties properties,List<String> lines){
+        for (String l :lines){
+            Enumeration<Object> e = properties.keys();
+            boolean b = true;
+            while(e.hasMoreElements()&&b==true) {
+                String key=(String)e.nextElement();
+                if (key.contains(l)){
+                    if (properties.get(key)!=""){
+                        b = false;
+                    }
+                }
+            }
+            if (b){
+                Util.dm("This is not in properties>>"+l);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
 }

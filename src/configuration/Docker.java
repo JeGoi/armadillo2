@@ -545,11 +545,20 @@ public class Docker {
     }
     
     /**
+     * Check if requiered fields are in default properties
+     */
+    public static boolean areDockerVariablesInProperties (workflow_properties properties) {
+        List<String> lines = Arrays.asList("DockerImage","ExecutableDocker");
+        return Util.isListInProperties(properties,lines);
+    }
+    
+    /**
      * Prepare the container
      */
     public static long prepareContainer(workflow_properties properties, String dockerImage, HashMap<String,String> sharedFolders) {
         long startTime = System.nanoTime();
-        if (addImage(dockerImage)){
+        if (areDockerVariablesInProperties(properties)
+                && addImage(dockerImage)){
             String alea = Integer.toString(new SecureRandom().nextInt());
             alea = alea.replaceAll("-","");
             String containerName = "armadillo_wf_"+alea;

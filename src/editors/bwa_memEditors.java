@@ -5,10 +5,13 @@
 */
 package editors;
 
+import configuration.Cluster;
 import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.clusterEditorProgram;
+import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Robot;
@@ -95,6 +98,7 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
         AO_AO1_JLabel = new javax.swing.JLabel();
         AO_AO1_t_box = new javax.swing.JCheckBox();
         AO_AO1_t_JSpinnerValue = new javax.swing.JSpinner();
+        ClusterProgramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -218,16 +222,16 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
         AO_AO1_JLabel.setText("Advanced Options 1");
         AO_AO1_JLabel.setName("AO_AO1_JLabel"); // NOI18N
 
-        AO_AO1_t_box.setName("AO_AO1_t_box"); // NOI18N
         AO_AO1_t_box.setText("-t");
+        AO_AO1_t_box.setName("AO_AO1_t_box"); // NOI18N
         AO_AO1_t_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_t_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO1_t_JSpinnerValue.setName("AO_AO1_t_JSpinnerValue"); // NOI18N
         AO_AO1_t_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        AO_AO1_t_JSpinnerValue.setName("AO_AO1_t_JSpinnerValue"); // NOI18N
         AO_AO1_t_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
         javax.swing.GroupLayout AO_jPanelLayout = new javax.swing.GroupLayout(AO_jPanel);
@@ -269,18 +273,22 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
                 .addGap(18, 18, 18)
                 .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
             .addGroup(general_jPanel1Layout.createSequentialGroup()
-                .addComponent(name_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(general_jPanel1Layout.createSequentialGroup()
-                .addComponent(Default_Options)
-                .addGap(18, 18, 18)
-                .addComponent(Advanced_Options))
-            .addGroup(general_jPanel1Layout.createSequentialGroup()
-                .addComponent(main_jScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                .addComponent(main_jScroll)
                 .addContainerGap())
+            .addGroup(general_jPanel1Layout.createSequentialGroup()
+                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
+                        .addComponent(name_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
+                        .addComponent(Default_Options)
+                        .addGap(18, 18, 18)
+                        .addComponent(Advanced_Options)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         general_jPanel1Layout.setVerticalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,25 +321,37 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
 
         bwa_mem_tab.addTab("bwa_mem", general_jPanel1);
 
+        ClusterProgramButton.setText("Cluster Options");
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ClusterProgramButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(bwa_mem_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(bwa_mem_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ClusterProgramButton))
                     .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bwa_mem_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -394,7 +414,7 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
 
     private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt){//GEN-FIRST:event_docker_jButton_ActionPerformed
         // TODO add your handling code here:
-        dockerEditor dock = new dockerEditor(this.frame, false, properties);
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
         dock.setVisible(true);
     }//GEN-LAST:event_docker_jButton_ActionPerformed
     
@@ -425,6 +445,12 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
         // TODO add your handling code here:
         Util.boxEventSpinner(properties,AO_AO1_t_box,AO_AO1_t_JSpinnerValue);
     }//GEN-LAST:event_AO_AO1_t_box_ActionPerformed
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
     /*******************************************************************
      * Perpare List Dictionaries
      ******************************************************************/
@@ -469,6 +495,11 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
         
         // Set the program properties
         this.setProperties(properties);
+        
+        if (Cluster.isClusterEnable(parent_workflow))
+            ClusterProgramButton.setVisible(true);
+        else
+            ClusterProgramButton.setVisible(false);
         
         this.setAlwaysOnTop(true);
         this.setVisible(true);
@@ -566,6 +597,7 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
     private javax.swing.JCheckBox AO_AO1_t_box;
     private javax.swing.JPanel AO_jPanel;
     private javax.swing.JRadioButton Advanced_Options;
+    private javax.swing.JButton ClusterProgramButton;
     private javax.swing.JRadioButton Default_Options;
     private javax.swing.ButtonGroup Menu_Buttons;
     private javax.swing.JTabbedPane bwa_mem_tab;

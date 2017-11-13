@@ -42,28 +42,23 @@ import static program.RunProgram.status_running;
  */
 public class samtools_view extends RunProgram {
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/samtools";
-    private String doPgrmPath     = "samtools view";
-    private String doName         = "samtools_view_armadilloWF_0";
-    private String doInputs       = "/data/inputs/";
-    private String doOutputs      = "/data/outputs/";
+    private String allDoInputs = "";
     private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
-    private String input1       = "";
-    private String inputId1     = "";
-    private String inputPath1   = "";
-    private String input2       = "";
-    private String inputId2     = "";
-    private String inputPath2   = "";
-    private String input3       = "";
-    private String inputId3     = "";
-    private String inputPath3   = "";
-    private String allDockerInputs = "";
+    private String input1      = "";
+    private String inputId1    = "";
+    private String inputPath1  = "";
+    private String input2      = "";
+    private String inputId2    = "";
+    private String inputPath2  = "";
+    private String input3      = "";
+    private String inputId3    = "";
+    private String inputPath3  = "";
     //OUTPUTS
-    private String output1       = "";
-    private String outputInDo1   = "";
-    private String output2       = "";
-    private String outputInDo2   = "";
+    private String output1     = "";
+    private String outputInDo1 = "";
+    private String output2     = "";
+    private String outputInDo2 = "";
     //PATHS
     private static final String outputsPath = "."+File.separator+"results"+File.separator+"samtools"+File.separator+"view"+File.separator+"";
     private static final String[] Advanced_Options_1 = {
@@ -95,13 +90,12 @@ public class samtools_view extends RunProgram {
         }
         String specificPath = outputsPath+specificId;
         if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
-            setStatus(status_BadRequirements,"Not able to access or create OUTPUTS directory files");
+            setStatus(status_BadRequirements,Util.BROutputsDir());
             return false;
         }
         
         // TEST INPUT VARIABLES HERE
         // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
-
         Vector<Integer>SamFile1    = properties.getInputID("SamFile",PortInputDOWN);
         inputPath1 = SamFile.getVectorFilePath(SamFile1);
         inputId1   = SamFile.getVectorFileId(SamFile1);
@@ -121,11 +115,20 @@ public class samtools_view extends RunProgram {
         if ((SamFile1.isEmpty()||input1.equals("Unknown")||input1.equals("")) && 
             (BamFile2.isEmpty()||input2.equals("Unknown")||input2.equals("")) &&
             (CramFile3.isEmpty()||input3.equals("Unknown")||input3.equals(""))){
-            setStatus(status_BadRequirements,"No Input file found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("Input File"));
             return false;
         }
         
-        // DOCKER VARIABLES
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
+            return false;
+        }
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
         // Prepare ouputs
         String outputFinal="OutputOf_"+input1;
         if (input2!="")
@@ -147,33 +150,31 @@ public class samtools_view extends RunProgram {
         String[] allInputsPath = {inputPath1,inputPath2,inputPath3};
         String[] simpleId = {inputId1,inputId2,inputId3};
         sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
-        sharedFolders.put(specificPath,doOutputs);
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
 
         // Prepare inputs
         HashMap<String,String> allInputsPathArg = new HashMap<String,String>();
         allInputsPathArg.put(inputPath1,"");
         allInputsPathArg.put(inputPath2,"");
         allInputsPathArg.put(inputPath3,"");
-        allDockerInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
+        allDoInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
 
         // Prepare cluster relations
         Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
         Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
         
         // DOCKER INIT
-        long startTime = System.nanoTime();
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInitContainer(properties,sharedFolders, doName, doImage))
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        setStatus(status_running, "\t<TIME> Time to launch docker container is >"+duration+" s");
         return true;
     }
 
@@ -196,26 +197,22 @@ public class samtools_view extends RunProgram {
         if (properties.isSet("Advanced_Options"))
             options += Util.findOptionsNew(Advanced_Options_1,properties);
         
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" > "+outputInDo1;
+        
         // Docker command line
-        String dockerCli = doPgrmPath+" "+options + allDockerInputs +" > "+ outputInDo1;
-        long startTime = System.nanoTime();
-        Docker.prepareDockerBashFile(properties,doName,dockerCli);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
         setStatus(status_running, "\t<TIME> Time to prepare docker bash file is >"+duration+" s");
-        Cluster.createLinkDockerClusterCli(properties, dockerCli);
-        setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
-        String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
+        setStatus(status_running,"Docker CommandLine: \n$ "+dockerCli);
         
-        // Command line creation
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running,"Cluster CommandLine: \n$ "+clusterCli);
         
-        com[0]= "cmd.exe"; // Windows will de remove if another os is used
-        com[1]= "/C";      // Windows will de remove if another os is used
-        com[2]= properties.getExecutable();
-        com[3]= dockerBashCli;
+        // Command line
+        String[] com = {""};
         return com;
     }
 
@@ -225,12 +222,8 @@ public class samtools_view extends RunProgram {
 
     @Override
     public void post_parseOutput(){
-        long startTime = System.nanoTime();
-        Docker.cleanContainer(properties,doName);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        setStatus(status_running, "\t<TIME> Time to stop and remove docker container is >"+duration+" s");
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         if (output1.endsWith("sam"))
             SamFile.saveFile(properties,output1,"samtools_view","SamFile");
         if (output1.endsWith("bam"))

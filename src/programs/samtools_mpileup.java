@@ -16,6 +16,7 @@ import biologic.BamFile;
 import biologic.BedFile;
 import configuration.Docker;
 import biologic.Results;
+import biologic.Unknown;
 import configuration.Cluster;
 import configuration.Util;
 import java.io.File;
@@ -47,11 +48,7 @@ import static program.RunProgram.status_running;
  */
 public class samtools_mpileup extends RunProgram {
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/samtools";
-    private String doPgrmPath     = "samtools mpileup";
-    private String doName         = "samtools_mpileup_armadilloWF_0";
-    private String doInputs       = "/data/inputs/";
-    private String doOutputs      = "/data/outputs/";
+    private String allDoInputs  = "";
     private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
     private String input1       = "";
@@ -68,7 +65,6 @@ public class samtools_mpileup extends RunProgram {
     private String input4       = "";
     private String inputId4     = "";
     private String inputPath4   = "";
-    private String allDoInputs  = "";
     //OUTPUTS
     private String output1       = "";
     private String outputInDo1   = "";
@@ -100,7 +96,7 @@ public class samtools_mpileup extends RunProgram {
         }
         String specificPath = outputsPath+specificId;
         if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
-            setStatus(status_BadRequirements,"Not able to access or create OUTPUTS directory files");
+            setStatus(status_BadRequirements,Util.BROutputsDir());
             return false;
         }
         
@@ -108,46 +104,55 @@ public class samtools_mpileup extends RunProgram {
         // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
 
         Vector<Integer>BedFile1    = properties.getInputID("BedFile",PortInputDOWN2);
-        inputPath1 = BedFile.getVectorFilePath(BedFile1);
-        inputId1   = BedFile.getVectorFileId(BedFile1);
+        inputPath1 = Unknown.getVectorFilePath(BedFile1);
+        inputId1   = Unknown.getVectorFileId(BedFile1);
         input1     = Util.getFileNameAndExt(inputPath1);
 
         Vector<Integer>FastaFile2    = properties.getInputID("FastaFile",PortInputUP);
-        inputPath2 = FastaFile.getVectorFilePath(FastaFile2);
-        inputId2   = FastaFile.getVectorFileId(FastaFile2);
+        inputPath2 = Unknown.getVectorFilePath(FastaFile2);
+        inputId2   = Unknown.getVectorFileId(FastaFile2);
         input2     = Util.getFileNameAndExt(inputPath2);
 
         Vector<Integer>BamFile3    = properties.getInputID("BamFile",PortInputDOWN);
-        inputPath3 = BamFile.getVectorFilePath(BamFile3);
-        inputId3   = BamFile.getVectorFileId(BamFile3);
+        inputPath3 = Unknown.getVectorFilePath(BamFile3);
+        inputId3   = Unknown.getVectorFileId(BamFile3);
         input3     = Util.getFileNameAndExt(inputPath3);
         // Get the multiple inputs
-        inputsPath3 = BamFile.getAllVectorFilePath(BamFile3);
-        inputsIDs3  = BamFile.getVectorFileIds(BamFile3);
+        inputsPath3 = Unknown.getAllVectorFilePath(BamFile3);
+        inputsIDs3  = Unknown.getVectorFileIds(BamFile3);
         
         Vector<Integer>BamBaiFile4    = properties.getInputID("BamBaiFile",PortInputDOWN);
-        inputPath4 = BamBaiFile.getVectorFilePath(BamBaiFile4);
-        inputId4   = BamBaiFile.getVectorFileId(BamBaiFile4);
+        inputPath4 = Unknown.getVectorFilePath(BamBaiFile4);
+        inputId4   = Unknown.getVectorFileId(BamBaiFile4);
         input4     = Util.getFileNameAndExt(inputPath4);
         
         //INSERT YOUR INPUT TEST HERE
         if (BedFile1.isEmpty()||input1.equals("Unknown")||input1.equals("")){
-            setStatus(status_warning,"No BedFile found.");
+            setStatus(status_warning,Util.BRTypeFile("BedFile"));
             //return false;
         }
         // Please, check if it's "else if" or it's a real "if"
         if (FastaFile2.isEmpty()||input2.equals("Unknown")||input2.equals("")){
-            setStatus(status_warning,"No FastaFile found.");
+            setStatus(status_warning,Util.BRTypeFile("FastaFile"));
             //return false;
         }
         // Please, check if it's "else if" or it's a real "if"
         if ((BamFile3.isEmpty()||input3.equals("Unknown")||input3.equals("")) &&
             (BamBaiFile4.isEmpty()||input4.equals("Unknown")||input4.equals(""))){
-            setStatus(status_BadRequirements,"No Input Files found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("BamBaiFile or BamFile"));
             return false;
         }
 
-        // DOCKER VARIABLES
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
+            return false;
+        }
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
         // Prepare ouputs
         output1 = specificPath+File.separator+"OutputOf_"+input3+".bam";
         outputInDo1 = doOutputs+"OutputOf_"+input3+".bam";
@@ -167,7 +172,7 @@ public class samtools_mpileup extends RunProgram {
         String[] simpleId = {inputId1,inputId2,inputId3,inputId4};
         String[] allInputsId = Util.merge2TablesWithoutDup(simpleId, inputsIDs3);
         sharedFolders = Docker.createSharedFolders(allInputsPath,allInputsId,doInputs);
-        sharedFolders.put(specificPath,doOutputs);
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
         
         // Prepare inputs
         HashMap<String,String> allInputsPathArg  =  new HashMap<String,String>();
@@ -186,19 +191,17 @@ public class samtools_mpileup extends RunProgram {
         Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
         
         // DOCKER INIT
-        long startTime = System.nanoTime();
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInitContainer(properties,sharedFolders, doName, doImage))
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        setStatus(status_running, "\t<TIME> Time to launch docker container is >"+duration+" s");
         return true;
     }
     
@@ -221,26 +224,22 @@ public class samtools_mpileup extends RunProgram {
         if (properties.isSet("Advanced_Options"))
             options += Util.findOptionsNew(Advanced_Options,properties);
         
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" > "+outputInDo1;
+        
         // Docker command line
-        String dockerCli = doPgrmPath+" "+options + allDoInputs + " --output " + outputInDo1;
-        long startTime = System.nanoTime();
-        Docker.prepareDockerBashFile(properties,doName,dockerCli);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
         setStatus(status_running, "\t<TIME> Time to prepare docker bash file is >"+duration+" s");
-        Cluster.createLinkDockerClusterCli(properties, dockerCli);
-        setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
-        String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
+        setStatus(status_running,"Docker CommandLine: \n$ "+dockerCli);
         
-        // Command line creation
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running,"Cluster CommandLine: \n$ "+clusterCli);
         
-        com[0]= "cmd.exe"; // Windows will de remove if another os is used
-        com[1]= "/C";      // Windows will de remove if another os is used
-        com[2]= properties.getExecutable();
-        com[3]= dockerBashCli;
+        // Command line
+        String[] com = {""};
         return com;
     }
 
@@ -250,12 +249,8 @@ public class samtools_mpileup extends RunProgram {
 
     @Override
     public void post_parseOutput(){
-        long startTime = System.nanoTime();
-        Docker.cleanContainer(properties,doName);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        setStatus(status_running, "\t<TIME> Time to stop and remove docker container is >"+duration+" s");
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         if (output1.endsWith("vcf"))
             VCFFile.saveFile(properties,output1,"samtools_mpileup","VCFFile");
         if (output1.endsWith("bcf"))

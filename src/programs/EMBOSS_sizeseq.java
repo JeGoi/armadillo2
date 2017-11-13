@@ -10,6 +10,7 @@ package programs;
 
 import biologic.Results;
 import biologic.FastaFile;
+import configuration.Cluster;
 import configuration.Docker;
 import configuration.Util;
 import java.io.File;
@@ -24,8 +25,11 @@ import static program.RunProgram.status_error;
 import workflows.workflow_properties;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static program.RunProgram.status_BadRequirements;
+import static program.RunProgram.status_running;
 
 
 /**
@@ -36,23 +40,17 @@ import java.util.logging.Logger;
  */
 public class EMBOSS_sizeseq extends RunProgram {
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/emboss";
-    private String doPgrmPath     = "sizeseq --auto";
-    private String doSharedFolder = "/data";
-    private String doName         = "emboss_EMBOSS_sizeseq_armadilloWF_0";
+    private String allDoInputs = "";
+    private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
-    private String input1       ="";
-    private String inputPath1   ="";
-    private String inputInDo1   ="";
-    private String inputPathDo1 ="";
+    private String input1      = "";
+    private String inputId1    = "";
+    private String inputPath1  = "";
     //OUTPUTS
-    private String output1       ="";
-    private String outputInDo1   ="";
-    private String outputPathDo1 ="";
+    private String output1     = "";
+    private String outputInDo1 = "";
     //PATHS
-    private static final String outputPath = "."+File.separator+"results"+File.separator+"sizeseq"+File.separator+"";
-    private static final String inputPath  = outputPath+File.separator+"INPUTS";
-
+    private static final String outputsPath = "."+File.separator+"results"+File.separator+"sizeseq"+File.separator+"";
     private static final String[] Sq_panel = {
         "Sq_descending_Box"//,
         //"Sq_descending_Box_IntValue"
@@ -66,76 +64,80 @@ public class EMBOSS_sizeseq extends RunProgram {
 
     @Override
     public boolean init_checkRequirements() {
-        // TEST INPUT VARIABLES HERE les ports sont PortInputUp, PortInputDOWN, PortInputDOWN2
-
+                
+        // In case program is started without edition
+        pgrmStartWithoutEdition(properties);
+        
+        // TEST OUTPUT PATH
+        String specificId = Util.returnRandomAndDate();
+        if (properties.isSet("ObjectID")) {
+            String oId = properties.get("ObjectID");
+            oId = Util.replaceSpaceByUnderscore(oId);
+            specificId = specificId+"_"+oId;
+        }
+        String specificPath = outputsPath+specificId;
+        if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
+            setStatus(status_BadRequirements,Util.BROutputsDir());
+            return false;
+        }
+        
+        // TEST INPUT VARIABLES HERE
+        // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
         Vector<Integer>FastaFile_1    = properties.getInputID("FastaFile",PortInputDOWN);
         inputPath1 = FastaFile.getVectorFilePath(FastaFile_1);
+        inputId1   = FastaFile.getVectorFileId(FastaFile_1);
         input1     = Util.getFileNameAndExt(inputPath1);
 
         //INSERT YOUR TEST HERE
         if (FastaFile_1.isEmpty()||input1.equals("Unknown")||input1.equals("")) {
-            setStatus(status_BadRequirements,"No FastaFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("FastaFile"));
             return false;
         }
 
-        //INSERT DOCKER SHARED FILES COPY HERE
-        if (!Util.CreateDir(inputPath) && !Util.DirExists(inputPath)){
-            setStatus(status_BadRequirements,"Not able to create INPUTS directory files");
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
             return false;
         }
-        if (!Util.CreateDir(outputPath) && !Util.DirExists(outputPath)){
-            setStatus(status_BadRequirements,"Not able to create OUTPUTS directory files");
-            return false;
-        }
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
+        // Prepare ouputs
+        output1 = specificPath+File.separator+"OutputOf_"+input1+".fasta";
+        outputInDo1 = doOutputs+"OutputOf_"+input1+".fasta";
+        output1 = Util.onlyOneOutputOf(output1);
+        outputInDo1 = Util.onlyOneOutputOf(outputInDo1);
+        
+        // Prepare shared folders
+        String[] allInputsPath = {inputPath1};
+        String[] simpleId = {inputId1};
+        sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
 
-        inputPathDo1 = outputPath+File.separator+"INPUTS"+File.separator+input1;
-        if (!(Util.copy(inputPath1,inputPathDo1))) {
-            setStatus(status_BadRequirements,"Not able to copy files");
-            return false;
-        }
-        inputInDo1 = doSharedFolder+File.separator+"INPUTS"+File.separator+input1;
-        input1 = Util.getFileName(inputPath1);
+        // Prepare inputs
+        HashMap<String,String> pathAndArg = new HashMap<String,String>();
+        pathAndArg.put(inputPath1,"-sequences");
+        allDoInputs = Docker.createAllDockerInputs(pathAndArg,allInputsPath,simpleId,doInputs);
 
-        // Launch Docker
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInit(outputPath,doSharedFolder,doName,doImage))
+        // Prepare cluster relations
+        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
+        Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
+        
+        // DOCKER INIT
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String[] init_createCommandLine() {
-
-        // In case program is started without edition
-        pgrmStartWithoutEdition(properties);
-
-        //Create ouputs
-        output1 = outputPath+File.separator+"OutpuOf_"+input1+".fasta";
-        outputInDo1 = doSharedFolder+File.separator+"OutpuOf_"+input1+".fasta";
-        
-        // Program and Options
-        String options = "";
-        if (!properties.isSet("default_RButton")) {
-            options += Util.findOptionsNew(Sq_panel,properties);
-        }
-        
-        // Command line creation
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
-        
-        com[0]="cmd.exe"; // Windows will de remove if another os is used
-        com[1]="/C";      // Windows will de remove if another os is used
-        com[2]=properties.getExecutable();
-        com[3]= "exec "+doName+" "+doPgrmPath ;
-        com[4]=options;
-        com[5]= "-sequences "+inputInDo1;
-        com[6]= "-outseq "+outputInDo1;
-        return com;
     }
 
         // Sub functions for init_createCommandLine
@@ -148,13 +150,42 @@ public class EMBOSS_sizeseq extends RunProgram {
             }
         }
 
+    @Override
+    public String[] init_createCommandLine() {
+
+        // Program and Options
+        String options = "";
+        if (!properties.isSet("default_RButton")) {
+            options += Util.findOptionsNew(Sq_panel,properties);
+        }
+        
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" -outseq "+outputInDo1;
+        
+        // Docker command line
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
+        setStatus(status_running, Util.RUNDockerDuration("prepare",duration));
+        setStatus(status_running, Util.RUNCommandLine("Docker",dockerCli));
+        
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running, Util.RUNCommandLine("Cluster",clusterCli));
+
+        // Command line
+        String[] com = {""};
+        return com;
+    }
+
     /*
     * Output Parsing
     */
 
     @Override
     public void post_parseOutput() {
-        Docker.cleanContainer(properties,doName);
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         FastaFile.saveFile(properties,output1,"EMBOSS_sizeseq","FastaFile");
         Results.saveResultsPgrmOutput(properties,this.getPgrmOutput(),"EMBOSS_sizeseq");
     }

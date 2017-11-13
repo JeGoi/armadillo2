@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Robot;
@@ -910,6 +911,7 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
                 .addComponent(Advanced_Options_RButton))
             .addComponent(AO_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(general_jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(reset_jButton)
                 .addGap(18, 18, 18)
                 .addComponent(stop_jButton)
@@ -956,11 +958,13 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(230, Short.MAX_VALUE)
                 .addComponent(docker_jButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                 .addComponent(how_jButton))
-            .addComponent(RNAfoldEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(RNAfoldEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -969,7 +973,7 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
                     .addComponent(docker_jButton)
                     .addComponent(how_jButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RNAfoldEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(RNAfoldEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         docker_jButton.getAccessibleContext().setAccessibleDescription("Access to the docker editor");
@@ -985,7 +989,7 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
     
     private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton_ActionPerformed
         // TODO add your handling code here:
-        dockerEditor dock = new dockerEditor(this.frame, false, properties);
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
         dock.setVisible(true);
     }//GEN-LAST:event_docker_jButton_ActionPerformed
     

@@ -12,6 +12,7 @@ import biologic.FastaFile;
 import biologic.FaidxFile;
 import configuration.Docker;
 import biologic.Results;
+import configuration.Cluster;
 import configuration.Util;
 import java.io.File;
 import java.util.Vector;
@@ -25,6 +26,7 @@ import static program.RunProgram.status_error;
 import workflows.workflow_properties;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,23 +39,21 @@ import java.util.logging.Logger;
  */
 public class samtools_faidx extends RunProgram {
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/samtools";
-    private String doPgrmPath     = "samtools faidx";
-    private String doSharedFolder = "/data";
-    private String doName         = "jego/samtools";
+    private String allDoInputs  = "";
+    private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
     private String input1       = "";
+    private String inputId1     = "";
     private String inputPath1   = "";
-    private String inputInDo1   = "";
-    private String inputPathDo1 = "";
+    private String input2       = "";
+    private String inputId2     = "";
+    private String inputPath2   = "";
     //OUTPUTS
     private String output1       = "";
     private String outputInDo1   = "";
     private String outputPathDo1 = "";
     //PATHS
-    private static final String outputPath = "."+File.separator+"results"+File.separator+"SAMTOOLS"+File.separator+"faidx"+File.separator+"";
-    private static final String inputPath  = outputPath+File.separator+"INPUTS";
-
+    private static final String outputsPath = "."+File.separator+"results"+File.separator+"SAMTOOLS"+File.separator+"faidx"+File.separator+"";
 
     public samtools_faidx(workflow_properties properties){
         this.properties=properties;
@@ -63,75 +63,80 @@ public class samtools_faidx extends RunProgram {
     @Override
     public boolean init_checkRequirements(){
 
-        // TEST INPUT VARIABLES HERE
-        // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
+        // In case program is started without edition
+        pgrmStartWithoutEdition(properties);
 
+        // TEST OUTPUT PATH
+        String specificId = Util.returnRandomAndDate();
+        if (properties.isSet("ObjectID")) {
+            String oId = properties.get("ObjectID");
+            oId = Util.replaceSpaceByUnderscore(oId);
+            specificId = specificId+"_"+oId;
+        }
+        String specificPath = outputsPath+specificId;
+        if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
+            setStatus(status_BadRequirements,Util.BROutputsDir());
+            return false;
+        }
+        
         Vector<Integer>FastaFile1    = properties.getInputID("FastaFile",PortInputDOWN);
         inputPath1 = FastaFile.getVectorFilePath(FastaFile1);
+        inputId1   = FastaFile.getVectorFileId(FastaFile1);
         input1     = Util.getFileNameAndExt(inputPath1);
         //INSERT YOUR INPUT TEST HERE
         if (FastaFile1.isEmpty()||input1.equals("Unknown")||input1.equals("")){
-            setStatus(status_BadRequirements,"No FastaFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("FastaFile"));
             return false;
         }
 
-        //INSERT DOCKER SHARED FILES COPY HERE
-        if (!Util.CreateDir(inputPath) && !Util.DirExists(inputPath)){
-            setStatus(status_BadRequirements,"Not able to create INPUTS directory files");
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
             return false;
         }
-        if (!Util.CreateDir(outputPath) && !Util.DirExists(outputPath)){
-            setStatus(status_BadRequirements,"Not able to create OUTPUTS directory files");
-            return false;
-        }
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
+        // Prepare ouputs
+        String outputFinal="OutputOf_"+input1+".fa.fai";
+        output1 = specificPath+File.separator+outputFinal;
+        outputInDo1 = doOutputs+outputFinal;
+        output1 = Util.onlyOneOutputOf(output1);
+        outputInDo1 = Util.onlyOneOutputOf(outputInDo1);
 
-        inputPathDo1 = outputPath+File.separator+"INPUTS"+File.separator+input1;
-        if (!(Util.copy(inputPath1,inputPathDo1))){
-            setStatus(status_BadRequirements,"Not able to copy files used by docker container");
-            return false;
-        }
-        inputInDo1 = doSharedFolder+File.separator+"INPUTS"+File.separator+input1;
-        input1 = Util.getFileName(inputPath1);
+        // Prepare shared folders
+        String[] allInputsPath = {inputPath1,inputPath2};
+        String[] simpleId = {inputId1,inputId2};
+        sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
 
-        // Launch Docker
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInit(outputPath,doSharedFolder,doName,doImage))
+        // Prepare inputs
+        HashMap<String,String> allInputsPathArg = new HashMap<String,String>();
+        allInputsPathArg.put(inputPath1,"");
+        allInputsPathArg.put(inputPath2,"");
+        allDoInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
+        
+        // Prepare cluster relations
+        properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
+        Cluster.createLinkDockerClusterInputs(properties, allInputsPath,simpleId, doInputs);
+
+        // DOCKER INIT
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
         return true;
     }
-    @Override
-    public String[] init_createCommandLine() {
-
-        // In case program is started without edition
-        pgrmStartWithoutEdition(properties);
-
-        //Create ouputs
-        output1 = outputPath+File.separator+"OutpuOf_"+input1+".fa.fai";
-        outputInDo1 = doSharedFolder+File.separator+"OutpuOf_"+input1+".fa.fai";
         
-        // Program and Options
-        String options = "";
-        
-        
-        // Command line creation
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
-        
-        com[0]= "cmd.exe"; // Windows will de remove if another os is used
-        com[1]= "/C";      // Windows will de remove if another os is used
-        com[2]= properties.getExecutable();
-        com[3]= "exec "+doName+" "+doPgrmPath;
-        com[4]= options;
-        com[5]= inputInDo1;
-        com[6]= outputInDo1;
-        return com;
-    }
-
         // def functions for init_createCommandLine
         // In case program is started without edition and params need to be setted
         private void pgrmStartWithoutEdition (workflow_properties properties){
@@ -142,13 +147,38 @@ public class samtools_faidx extends RunProgram {
         }
         
 
+    @Override
+    public String[] init_createCommandLine() {
+        // Program and Options
+        String options = "";
+        
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" > "+outputInDo1;
+        
+        // Docker command line
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
+        setStatus(status_running, "\t<TIME> Time to prepare docker bash file is >"+duration+" s");
+        setStatus(status_running,"Docker CommandLine: \n$ "+dockerCli);
+        
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running,"Cluster CommandLine: \n$ "+clusterCli);
+        
+        // Command line
+        String[] com = {""};
+        return com;
+    }
+
     /*
     * Output Parsing
     */
 
     @Override
     public void post_parseOutput(){
-        Docker.cleanContainer(properties,doName);
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         FaidxFile.saveFile(properties,output1,"samtools_faidx","FaidxFile");
         Results.saveResultsPgrmOutput(properties,this.getPgrmOutput(),"samtools_faidx");
     }

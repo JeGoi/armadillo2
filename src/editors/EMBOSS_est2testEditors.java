@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Robot;
@@ -778,7 +779,7 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
 
     private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt){//GEN-FIRST:event_docker_jButton_ActionPerformed
         // TODO add your handling code here:
-        dockerEditor dock = new dockerEditor(this.frame, false, properties);
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
         dock.setVisible(true);
     }//GEN-LAST:event_docker_jButton_ActionPerformed
     

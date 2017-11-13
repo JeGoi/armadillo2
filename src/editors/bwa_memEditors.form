@@ -29,12 +29,17 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Component id="close_jButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="ClusterProgramButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="docker_jButton" min="-2" max="-2" attributes="0"/>
+              <Component id="docker_jButton" min="-2" pref="128" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="how_jButton" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="bwa_mem_tab" min="-2" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Component id="bwa_mem_tab" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -42,6 +47,7 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="close_jButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="ClusterProgramButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="how_jButton" min="-2" max="-2" attributes="0"/>
                   <Component id="docker_jButton" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -159,20 +165,26 @@
                       <Component id="stop_jButton" alignment="0" min="-2" pref="95" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="run_jButton" alignment="0" min="-2" pref="95" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="name_jLabel" alignment="0" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="name_jTextField" alignment="0" min="-2" pref="204" max="-2" attributes="0"/>
+                      <EmptySpace pref="126" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="Default_Options" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="Advanced_Options" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="main_jScroll" pref="447" max="32767" attributes="0"/>
+                      <Component id="main_jScroll" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="name_jLabel" alignment="0" min="-2" pref="95" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="name_jTextField" alignment="0" min="-2" pref="204" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="Default_Options" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="Advanced_Options" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -421,5 +433,13 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="ClusterProgramButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cluster Options"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClusterProgramButtonActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

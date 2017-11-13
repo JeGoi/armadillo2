@@ -42,23 +42,18 @@ import java.util.HashMap;
  */
 public class samtools_index extends RunProgram {
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/samtools";
-    private String doPgrmPath     = "samtools index";
-    private String doName         = "samtools_index_armadilloWF_0";
-    private String doInputs       = "/data/inputs/";
-    private String doOutputs      = "/data/outputs/";
+    private String allDoInputs  = "";
     private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
-    private String input1       = "";
-    private String inputId1     = "";
-    private String inputPath1   = "";
-    private String input2       = "";
-    private String inputId2     = "";
-    private String inputPath2   = "";
-    private String allDockerInputs = "";
+    private String input1      = "";
+    private String inputId1    = "";
+    private String inputPath1  = "";
+    private String input2      = "";
+    private String inputId2    = "";
+    private String inputPath2  = "";
     //OUTPUTS
-    private String output1       = "";
-    private String outputInDo1   = "";
+    private String output1     = "";
+    private String outputInDo1 = "";
     //PATHS
     private static final String outputsPath = "."+File.separator+"results"+File.separator+"samtools"+File.separator+"index"+File.separator+"";
     private static final String[] Advanced_Options = {
@@ -89,7 +84,7 @@ public class samtools_index extends RunProgram {
         }
         String specificPath = outputsPath+specificId;
         if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
-            setStatus(status_BadRequirements,"Not able to access or create OUTPUTS directory files");
+            setStatus(status_BadRequirements,Util.BROutputsDir());
             return false;
         }
         
@@ -108,12 +103,21 @@ public class samtools_index extends RunProgram {
         //INSERT YOUR INPUT TEST HERE
         if ((BamFile1.isEmpty()||input1.equals("Unknown")||input1.equals("")) &&
             (CramFile2.isEmpty()||input2.equals("Unknown")||input2.equals(""))){
-            setStatus(status_BadRequirements,"No CramFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("CramFile or BamFile"));
             return false;
         }
 
-        //PREPARE DOCKER SHARED FILES
-        //Create ouputs
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
+            return false;
+        }
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
+        // Prepare ouputs
         String outputFinal="OutputOf_"+input1+".bam";
         if (properties.isSet("AO_AO1_c_box")||properties.isSet("AO_AO1_m_box"))
             outputFinal+=".csi";
@@ -130,25 +134,28 @@ public class samtools_index extends RunProgram {
         String[] allInputsPath = {inputPath1,inputPath2};
         String[] simpleId = {inputId1,inputId2};
         sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
-        sharedFolders.put(specificPath,doOutputs);
-
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
+        
         // Prepare inputs
         HashMap<String,String> allInputsPathArg = new HashMap<String,String>();
         allInputsPathArg.put(inputPath1,"");
         allInputsPathArg.put(inputPath2,"");
-        allDockerInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
+        allDoInputs = Docker.createAllDockerInputs(allInputsPathArg,allInputsPath,simpleId,doInputs);
         
         // Prepare cluster relations
         properties.put("ClusterLocalOutput_1",output1+"<<>>"+outputInDo1);
         Cluster.createLinkDockerClusterInputs(properties, allInputsPath,simpleId, doInputs);
 
         // DOCKER INIT
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInitContainer(properties,sharedFolders, doName, doImage))
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
         return true;
@@ -173,22 +180,22 @@ public class samtools_index extends RunProgram {
         if (properties.isSet("Advanced_Options")&&input2=="")
             options += Util.findOptionsNew(Advanced_Options,properties);
         
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" > "+outputInDo1;
+        
         // Docker command line
-        String dockerCli = doPgrmPath+" "+options + allDockerInputs +  outputInDo1;
-        Docker.prepareDockerBashFile(properties,doName,dockerCli);
-
-        setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli+"\n");
-        String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
-        properties.put("DockerRunningCommandLineForCluster",dockerCli);
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
+        setStatus(status_running, "\t<TIME> Time to prepare docker bash file is >"+duration+" s");
+        setStatus(status_running,"Docker CommandLine: \n$ "+dockerCli);
         
-        // Command line creation
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running,"Cluster CommandLine: \n$ "+clusterCli);
         
-        com[0]= "cmd.exe"; // Windows will de remove if another os is used
-        com[1]= "/C";      // Windows will de remove if another os is used
-        com[2]= properties.getExecutable();
-        com[3]= dockerBashCli;
+        // Command line
+        String[] com = {""};
         return com;
     }
 
@@ -198,7 +205,8 @@ public class samtools_index extends RunProgram {
 
     @Override
     public void post_parseOutput(){
-        Docker.cleanContainer(properties,doName);
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         if (output1.endsWith("bai"))
             BamBaiFile.saveFile(properties,output1,"samtools_index","BamBaiFile");
         if (output1.endsWith("crai"))

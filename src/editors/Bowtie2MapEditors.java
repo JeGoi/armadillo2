@@ -29,7 +29,6 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import program.*;
-import static program.RunProgram.workbox;
 import workflows.armadillo_workflow;
 import workflows.workflow_properties;
 import workflows.workflow_properties_dictionnary;
@@ -2907,8 +2906,8 @@ public class Bowtie2MapEditors extends javax.swing.JDialog implements EditorInte
 
     private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
         // TODO add your handling code here:
-        clusterEditorProgram dock = new clusterEditorProgram(this.frame, false, properties);
-        dock.setVisible(true);
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
     }//GEN-LAST:event_ClusterProgramButtonActionPerformed
     
     /**
@@ -3510,7 +3509,7 @@ public class Bowtie2MapEditors extends javax.swing.JDialog implements EditorInte
         // Set the program properties
         this.setProperties(properties);
         
-        if (Cluster.isClusterEnable(workbox))
+        if (Cluster.isClusterEnable(parent_workflow))
             ClusterProgramButton.setVisible(true);
         else
             ClusterProgramButton.setVisible(false);

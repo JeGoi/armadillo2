@@ -13,6 +13,7 @@ import biologic.GenomeFile;
 import biologic.EmblFile;
 import biologic.Results;
 import biologic.Est2genomeFile;
+import configuration.Cluster;
 import configuration.Docker;
 import configuration.Util;
 import java.io.File;
@@ -27,8 +28,11 @@ import static program.RunProgram.status_error;
 import workflows.workflow_properties;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static program.RunProgram.status_BadRequirements;
+import static program.RunProgram.status_running;
 
 
 /**
@@ -39,31 +43,23 @@ import java.util.logging.Logger;
  */
 public class EMBOSS_est2genome extends RunProgram {
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/emboss";
-    private String doPgrmPath     = "est2genome --auto";
-    private String doSharedFolder = "/data";
-    private String doName         = "emboss_EMBOSS_est2genome_armadilloWF_0";
+    private String allDoInputs = "";
+    private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
-    private String input1       ="";
-    private String inputPath1   ="";
-    private String inputInDo1   ="";
-    private String inputPathDo1 ="";
-    private String input2       ="";
-    private String inputPath2   ="";
-    private String inputInDo2   ="";
-    private String inputPathDo2 ="";
-    private String input3       ="";
-    private String inputPath3   ="";
-    private String inputInDo3   ="";
-    private String inputPathDo3 ="";
+    private String input1      = "";
+    private String inputId1    = "";
+    private String inputPath1  = "";
+    private String input2      = "";
+    private String inputId2    = "";
+    private String inputPath2  = "";
+    private String input3      = "";
+    private String inputId3    = "";
+    private String inputPath3  = "";
     //OUTPUTS
-    private String output1       ="";
-    private String outputInDo1   ="";
-    private String outputPathDo1 ="";
+    private String output1     = "";
+    private String outputInDo1 = "";
     //PATHS
-    private static final String outputPath = "."+File.separator+"results"+File.separator+"EMBOSS"+File.separator+"est2genome"+File.separator+"";
-    private static final String inputPath  = outputPath+File.separator+"INPUTS";
-
+    private static final String outputsPath = "."+File.separator+"results"+File.separator+"EMBOSS"+File.separator+"est2genome"+File.separator+"";
     private static final String[] Sq_panel = {
         "Sq_match_Box",
         //"Sq_match_Box_IntValue",
@@ -105,121 +101,139 @@ public class EMBOSS_est2genome extends RunProgram {
 
     @Override
     public boolean init_checkRequirements() {
-        // TEST INPUT VARIABLES HERE les ports sont PortInputUp, PortInputDOWN, PortInputDOWN2
 
+        // In case program is started without edition
+        pgrmStartWithoutEdition(properties);
+        
+        // TEST OUTPUT PATH
+        String specificId = Util.returnRandomAndDate();
+        if (properties.isSet("ObjectID")) {
+            String oId = properties.get("ObjectID");
+            oId = Util.replaceSpaceByUnderscore(oId);
+            specificId = specificId+"_"+oId;
+        }
+        String specificPath = outputsPath+specificId;
+        if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
+            setStatus(status_BadRequirements,Util.BROutputsDir());
+            return false;
+        }
+        
+        // TEST INPUT VARIABLES HERE
+        // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
         Vector<Integer>FastaFile_1    = properties.getInputID("FastaFile",PortInputDOWN);
         inputPath1 = FastaFile.getVectorFilePath(FastaFile_1);
+        inputId1   = FastaFile.getVectorFileId(FastaFile_1);
         input1     = Util.getFileNameAndExt(inputPath1);
 
         Vector<Integer>EmblFile_2    = properties.getInputID("EmblFile",PortInputDOWN);
         inputPath2 = EmblFile.getVectorFilePath(EmblFile_2);
+        inputId2   = EmblFile.getVectorFileId(EmblFile_2);
         input2     = Util.getFileNameAndExt(inputPath2);
 
         Vector<Integer>GenomeFile_3    = properties.getInputID("GenomeFile",PortInputUP);
         inputPath3 = GenomeFile.getVectorFilePath(GenomeFile_3);
+        inputId3   = GenomeFile.getVectorFileId(GenomeFile_3);
         input3     = Util.getFileNameAndExt(inputPath3);
 
         //INSERT YOUR TEST HERE
         if (FastaFile_1.isEmpty()||input1.equals("Unknown")||input1.equals("")) {
-            setStatus(status_BadRequirements,"No FastaFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("FastaFile"));
             return false;
         }
         else if (EmblFile_2.isEmpty()||input2.equals("Unknown")||input2.equals("")) {
-            setStatus(status_BadRequirements,"No EmblFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("EmblFile"));
             return false;
         }
         else if (GenomeFile_3.isEmpty()||input3.equals("Unknown")||input3.equals("")) {
-            setStatus(status_BadRequirements,"No GenomeFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("GenomeFile"));
             return false;
         }
 
-        //INSERT DOCKER SHARED FILES COPY HERE
-        if (!Util.CreateDir(inputPath) && !Util.DirExists(inputPath)){
-            setStatus(status_BadRequirements,"Not able to create INPUTS directory files");
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
             return false;
         }
-        if (!Util.CreateDir(outputPath) && !Util.DirExists(outputPath)){
-            setStatus(status_BadRequirements,"Not able to create OUTPUTS directory files");
-            return false;
-        }
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
+        // Prepare ouputs
+        output1 = specificPath+File.separator+"OutputOf_"+input1+".est2genome";
+        outputInDo1 = doOutputs+"OutputOf_"+input1+".est2genome";
+        output1 = Util.onlyOneOutputOf(output1);
+        outputInDo1 = Util.onlyOneOutputOf(outputInDo1);
+        
+        // Prepare shared folders
+        String[] allInputsPath = {inputPath1,inputPath2,inputPath3};
+        String[] simpleId = {inputId1,inputId2,inputId3};
+        sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
 
-        inputPathDo1 = outputPath+File.separator+"INPUTS"+File.separator+input1;
-        if (!(Util.copy(inputPath1,inputPathDo1))) {
-            setStatus(status_BadRequirements,"Not able to copy files");
-            return false;
-        }
-        inputInDo1 = doSharedFolder+File.separator+"INPUTS"+File.separator+input1;
-        input1 = Util.getFileName(inputPath1);
+        // Prepare inputs
+        HashMap<String,String> pathAndArg = new HashMap<String,String>();
+        pathAndArg.put(inputPath1,"-estsequence");
+        pathAndArg.put(inputPath2,"-estsequence");
+        pathAndArg.put(inputPath3,"-genomesequence");
+        allDoInputs = Docker.createAllDockerInputs(pathAndArg,allInputsPath,simpleId,doInputs);
 
-        inputPathDo2 = outputPath+File.separator+"INPUTS"+File.separator+input2;
-        if (!(Util.copy(inputPath2,inputPathDo2))) {
-            setStatus(status_BadRequirements,"Not able to copy files");
-            return false;
-        }
-        inputInDo2 = doSharedFolder+File.separator+"INPUTS"+File.separator+input2;
-        input2 = Util.getFileName(inputPath2);
-
-        inputPathDo3 = outputPath+File.separator+"INPUTS"+File.separator+input3;
-        if (!(Util.copy(inputPath3,inputPathDo3))) {
-            setStatus(status_BadRequirements,"Not able to copy files");
-            return false;
-        }
-        inputInDo3 = doSharedFolder+File.separator+"INPUTS"+File.separator+input3;
-        input3 = Util.getFileName(inputPath3);
-
-        // Launch Docker
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInit(outputPath,doSharedFolder,doName,doImage))
+        // Prepare cluster relations
+        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
+        Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
+        
+        // DOCKER INIT
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
         return true;
     }
+    
+        // def functions for init_createCommandLine
+        // In case program is started without edition and params need to be setted
+        private void pgrmStartWithoutEdition (workflow_properties properties){
+            if (!(properties.isSet("Default_Options"))
+                && !(properties.isSet("Advanced_Options"))
+            ){
+                Util.getDefaultPgrmValues(properties,false);
+            }
+        }
 
     @Override
     public String[] init_createCommandLine() {
 
-        // In case program is started without edition
-        pgrmStartWithoutEdition(properties);
-
-        //Create ouputs
-        output1 = outputPath+File.separator+"OutpuOf_"+input1+".est2genome";
-        outputInDo1 = doSharedFolder+File.separator+"OutpuOf_"+input1+".est2genome";
-        
         // Program and Options
         String options = "";
         if (!properties.isSet("default_RButton")) {
             options += Util.findOptionsNew(Sq_panel,properties);
         }
         
-        // Command line creation
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" -outfile "+outputInDo1;
         
-        com[0]="cmd.exe"; // Windows will de remove if another os is used
-        com[1]="/C";      // Windows will de remove if another os is used
-        com[2]=properties.getExecutable();
-        com[3]= "exec "+doName+" "+doPgrmPath ;
-        com[4]=options;
-        com[5]= "-estsequence "+inputInDo1;
-        com[6]= "-estsequence "+inputInDo2;
-        com[7]= "-genomesequence "+inputInDo3;
-        com[8]= "-outfile "+outputInDo1;
+        // Docker command line
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
+        setStatus(status_running, Util.RUNDockerDuration("prepare",duration));
+        setStatus(status_running, Util.RUNCommandLine("Docker",dockerCli));
+        
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running, Util.RUNCommandLine("Cluster",clusterCli));
+        
+        // Command line
+        String[] com = {""};
         return com;
     }
-
-        // Sub functions for init_createCommandLine
-        // In case program is started without edition and params need to be setted
-        private void pgrmStartWithoutEdition (workflow_properties properties) {
-            if (!(properties.isSet("default_RButton"))
-                && !(properties.isSet("Advanced_Options_RButton"))
-            ) {
-                Util.getDefaultPgrmValues(properties,false);
-            }
-        }
 
     /*
     * Output Parsing
@@ -227,8 +241,8 @@ public class EMBOSS_est2genome extends RunProgram {
 
     @Override
     public void post_parseOutput() {
-        Util.deleteDir(inputPath);
-        Docker.cleanContainer(properties,doName);
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         Est2genomeFile.saveFile(properties,output1,"EMBOSS_est2genome","Est2genomeFile");
         Results.saveResultsPgrmOutput(properties,this.getPgrmOutput(),"EMBOSS_est2genome");
     }

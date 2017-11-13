@@ -12,29 +12,27 @@ import biologic.FastaFile;
 import biologic.FastqFile;
 import biologic.SamFile;
 import biologic.GenomeFile;
-import configuration.Docker;
 import biologic.Results;
+import configuration.Docker;
 import configuration.Cluster;
 import configuration.Util;
-import java.io.File;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Iterator;
 import program.RunProgram;
-import static program.RunProgram.PortInputUP;
 import static program.RunProgram.df;
+import static program.RunProgram.PortInputUP;
 import static program.RunProgram.status_error;
+import static program.RunProgram.status_running;
 import workflows.workflow_properties;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Vector;
 import org.apache.commons.lang.StringUtils;
-import static program.RunProgram.status_running;
 
 
 /**
@@ -45,11 +43,6 @@ import static program.RunProgram.status_running;
  */
 public class bwa_mem extends RunProgram {
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/bwa";
-    private String doPgrmPath     = "bwa mem";
-    private String doName         = "bwa_mem_armadilloWF_0";
-    private String doInputs       = "/data/inputs/";
-    private String doOutputs      = "/data/outputs/";
     private String allDoInputs    = "";
     private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
@@ -96,7 +89,7 @@ public class bwa_mem extends RunProgram {
         }
         String specificPath = outputsPath+specificId;
         if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
-            setStatus(status_BadRequirements,"Not able to access or create OUTPUTS directory files");
+            setStatus(status_BadRequirements,Util.BROutputsDir());
             return false;
         }
         
@@ -125,7 +118,7 @@ public class bwa_mem extends RunProgram {
         //INSERT YOUR INPUT TEST HERE
         if ((GenomeFile1.isEmpty()||input1.equals("Unknown")||input1.equals(""))&&
             (FastaFile2.isEmpty()||input2.equals("Unknown")||input2.equals(""))){
-            setStatus(status_BadRequirements,"No FastaFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("FastaFile"));
             return false;
         }
         /*
@@ -137,11 +130,20 @@ public class bwa_mem extends RunProgram {
         */
         // Please, check if it's "else if" or it's a real "if"
         if (FastqFile4.isEmpty()||input4.equals("Unknown")||input4.equals("")){
-            setStatus(status_BadRequirements,"No FastqFile found.");
+            setStatus(status_BadRequirements,Util.BRTypeFile("FastqFile"));
             return false;
         }
         
-        // DOCKER VARIABLES
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
+            return false;
+        }
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
         // Prepare ouputs
         output1 = specificPath+File.separator+"OutputOf_"+input4+".sam";
         outputInDo1 = doOutputs+"OutputOf_"+input4+".sam";
@@ -152,7 +154,7 @@ public class bwa_mem extends RunProgram {
         String[] allInputsPath = {inputPath1,inputPath2,inputPath3,inputPath4};
         String[] simpleId = {inputId1,inputId2,inputId3,inputId4};
         sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
-        sharedFolders.put(specificPath,doOutputs);
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
 
         // Prepare inputs
         HashMap<String,String> pathAndArg = new HashMap<String,String>();
@@ -167,19 +169,17 @@ public class bwa_mem extends RunProgram {
         Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
         
         // DOCKER INIT
-        long startTime = System.nanoTime();
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInitContainer(properties,sharedFolders, doName, doImage))
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        setStatus(status_running, "\t<TIME> Time to launch docker container is >"+duration+" s");
         return true;
     }
     
@@ -192,8 +192,7 @@ public class bwa_mem extends RunProgram {
                 Util.getDefaultPgrmValues(properties,false);
             }
         }
-
-
+        
     @Override
     public String[] init_createCommandLine() {
 
@@ -202,26 +201,22 @@ public class bwa_mem extends RunProgram {
         if (properties.isSet("Advanced_Options"))
             options += Util.findOptionsNew(Advanced_Options_1,properties);
         
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" > "+outputInDo1;
+        
         // Docker command line
-        String dockerCli = doPgrmPath+" "+options + allDoInputs +  " > " +  outputInDo1;
-        long startTime = System.nanoTime();
-        Docker.prepareDockerBashFile(properties,doName,dockerCli);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        setStatus(status_running, "\t<TIME> Time to prepare docker bash file is >"+duration+" s");
-        Cluster.createLinkDockerClusterCli(properties, dockerCli);
-        setStatus(status_running,"DockerRunningCommandLine: \n$ "+dockerCli);
-        String dockerBashCli = "exec -i "+doName+" sh -c './dockerBash.sh'";
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
+        setStatus(status_running, Util.RUNDockerDuration("prepare",duration));
+        setStatus(status_running, Util.RUNCommandLine("Docker",dockerCli));
         
-        // Command line creation
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
-        
-        com[0]= "cmd.exe"; // Windows will de remove if another os is used
-        com[1]= "/C";      // Windows will de remove if another os is used
-        com[2]= properties.getExecutable();
-        com[3]= dockerBashCli;
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running, Util.RUNCommandLine("Cluster",clusterCli));
+
+        // Command line
+        String[] com = {""};
         return com;
     }
 
@@ -231,12 +226,8 @@ public class bwa_mem extends RunProgram {
 
     @Override
     public void post_parseOutput(){
-        long startTime = System.nanoTime();
-        Docker.cleanContainer(properties,doName);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-        setStatus(status_running, "\t<TIME> Time to stop and remove docker container is >"+duration+" s");
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         SamFile.saveFile(properties,output1,"bwa_mem","SamFile");
         Results.saveResultsPgrmOutput(properties,this.getPgrmOutput(),"bwa_mem");
     }

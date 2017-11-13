@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Robot;
@@ -28,7 +29,7 @@ import workflows.workflow_properties_dictionnary;
  * @Date   : Feb 2016
  */
 
-public class TapirEditors extends javax.swing.JDialog implements EditorInterface  {
+public class TapirFastEditors extends javax.swing.JDialog implements EditorInterface  {
 
     /**
      * Creates new form TapirEditors
@@ -44,7 +45,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
     public final String defaultNameString="Name";
     static final boolean default_map=true;
 
-    public TapirEditors(java.awt.Frame parent, armadillo_workflow parent_workflow) {
+    public TapirFastEditors(java.awt.Frame parent, armadillo_workflow parent_workflow) {
         super(parent, false);
         this.parent_workflow=parent_workflow;
         //--Set variables and init
@@ -73,7 +74,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
         close_jButton = new javax.swing.JButton();
         stop_jButton = new javax.swing.JButton();
         run_jButton = new javax.swing.JButton();
-        Fast_search_RButton = new javax.swing.JRadioButton();
+        Default_Button = new javax.swing.JRadioButton();
         FS_Advanced_Options_RButton = new javax.swing.JRadioButton();
         FAO_panel = new javax.swing.JPanel();
         FAO__score_Box = new javax.swing.JCheckBox();
@@ -114,7 +115,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
         name_jLabel.setText("Name");
         name_jLabel.setName("name_jLabel"); // NOI18N
 
-        name_jTextField.setText("Tapir");
+        name_jTextField.setText("Tapir Fast");
         name_jTextField.setName("name_jTextField"); // NOI18N
         name_jTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,12 +163,12 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
             }
         });
 
-        Menu_Buttons.add(Fast_search_RButton);
-        Fast_search_RButton.setText("Fast search");
-        Fast_search_RButton.setName("Fast_search_RButton"); // NOI18N
-        Fast_search_RButton.addActionListener(new java.awt.event.ActionListener() {
+        Menu_Buttons.add(Default_Button);
+        Default_Button.setText("Default");
+        Default_Button.setName("Default_Button"); // NOI18N
+        Default_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Fast_search_RButton_ActionPerformed(evt);
+                Default_Button_ActionPerformed(evt);
             }
         });
 
@@ -231,19 +232,19 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
             .addGroup(FAO_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(FAO_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(FAO__score_Box)
+                    .addComponent(FAO__mfe_Box))
+                .addGap(18, 18, 18)
+                .addGroup(FAO_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(FAO_panelLayout.createSequentialGroup()
-                        .addComponent(FAO__score_Box)
-                        .addGap(18, 18, 18)
                         .addComponent(FAO__score_Box_IntValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(FAO__score_Box_Label))
                     .addGroup(FAO_panelLayout.createSequentialGroup()
-                        .addComponent(FAO__mfe_Box)
-                        .addGap(18, 18, 18)
                         .addComponent(FAO__mfe_Box_DouValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(FAO__mfe_Box_Label)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         FAO_panelLayout.setVerticalGroup(
             FAO_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,10 +278,10 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
                 .addGap(18, 18, 18)
                 .addComponent(rename_jButton))
             .addGroup(general_jPanel1Layout.createSequentialGroup()
-                .addComponent(Fast_search_RButton)
+                .addComponent(Default_Button)
                 .addGap(18, 18, 18)
                 .addComponent(FS_Advanced_Options_RButton))
-            .addComponent(FAO_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(FAO_panel, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(general_jPanel1Layout.createSequentialGroup()
                 .addComponent(reset_jButton)
                 .addGap(18, 18, 18)
@@ -300,7 +301,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
                     .addComponent(rename_jButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Fast_search_RButton)
+                    .addComponent(Default_Button)
                     .addComponent(FS_Advanced_Options_RButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FAO_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -318,10 +319,10 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
         close_jButton.getAccessibleContext().setAccessibleDescription("");
         stop_jButton.getAccessibleContext().setAccessibleDescription("");
         run_jButton.getAccessibleContext().setAccessibleDescription("");
-        Fast_search_RButton.getAccessibleContext().setAccessibleDescription("");
+        Default_Button.getAccessibleContext().setAccessibleDescription("");
         FS_Advanced_Options_RButton.getAccessibleContext().setAccessibleDescription("");
 
-        TapirEditors2.addTab("TapirEditors", general_jPanel1);
+        TapirEditors2.addTab("Tapir Fast Editors", general_jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -341,7 +342,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
                     .addComponent(docker_jButton)
                     .addComponent(how_jButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TapirEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(TapirEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 272, Short.MAX_VALUE))
         );
 
         docker_jButton.getAccessibleContext().setAccessibleDescription("Access to the docker editor");
@@ -357,7 +358,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
     
     private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton_ActionPerformed
         // TODO add your handling code here:
-        dockerEditor dock = new dockerEditor(this.frame, false, properties);
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
         dock.setVisible(true);
     }//GEN-LAST:event_docker_jButton_ActionPerformed
     
@@ -404,27 +405,27 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
     }//GEN-LAST:event_name_jTextField_ActionPerformed
     
 
-    private void Fast_search_RButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Fast_search_RButton_ActionPerformed
+    private void Default_Button_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Default_Button_ActionPerformed
         // TODO add your handling code here:
-        if (properties.isSet(Fast_search_RButton.getName()) &&
+        if (properties.isSet(Default_Button.getName()) &&
             properties.isSet(FS_Advanced_Options_RButton.getName())
         ){
-            properties.remove(Fast_search_RButton.getName());
-            Fast_search_RButton.setSelected(false);
+            properties.remove(Default_Button.getName());
+            Default_Button.setSelected(false);
 
             properties.remove(FS_Advanced_Options_RButton.getName());
         }
-        Util.buttonEventSpinner(properties,Fast_search_RButton,null);
+        Util.buttonEventSpinner(properties,Default_Button,null);
         menuFields(properties);
-    }//GEN-LAST:event_Fast_search_RButton_ActionPerformed
+    }//GEN-LAST:event_Default_Button_ActionPerformed
 
     private void FS_Advanced_Options_RButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FS_Advanced_Options_RButton_ActionPerformed
         // TODO add your handling code here:
-        if (properties.isSet(Fast_search_RButton.getName()) &&
+        if (properties.isSet(Default_Button.getName()) &&
             properties.isSet(FS_Advanced_Options_RButton.getName())
         ){
-            properties.remove(Fast_search_RButton.getName());
-            Fast_search_RButton.setSelected(false);
+            properties.remove(Default_Button.getName());
+            Default_Button.setSelected(false);
 
             properties.remove(FS_Advanced_Options_RButton.getName());
         }
@@ -562,7 +563,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
      ******************************************************************/
     private void defaultPgrmValues(workflow_properties properties) {
         boolean b = true;
-        if (!(properties.isSet(Fast_search_RButton.getName()))
+        if (!(properties.isSet(Default_Button.getName()))
         && !(properties.isSet(FS_Advanced_Options_RButton.getName()))
         ) {
             b = false;
@@ -576,8 +577,8 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
      ******************************************************************/
 
     private void menuFields(workflow_properties properties) {
-        if (properties.isSet(Fast_search_RButton.getName())) {
-            Fast_search_RButton.setSelected(true);
+        if (properties.isSet(Default_Button.getName())) {
+            Default_Button.setSelected(true);
             enabledFunctionForFS_Advanced_Options(false);
         }
         else if (properties.isSet(FS_Advanced_Options_RButton.getName())) {
@@ -602,6 +603,7 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton Default_Button;
     private javax.swing.JCheckBox FAO__mfe_Box;
     private javax.swing.JSpinner FAO__mfe_Box_DouValue;
     private javax.swing.JLabel FAO__mfe_Box_Label;
@@ -610,7 +612,6 @@ public class TapirEditors extends javax.swing.JDialog implements EditorInterface
     private javax.swing.JLabel FAO__score_Box_Label;
     private javax.swing.JPanel FAO_panel;
     private javax.swing.JRadioButton FS_Advanced_Options_RButton;
-    private javax.swing.JRadioButton Fast_search_RButton;
     private javax.swing.ButtonGroup Menu_Buttons;
     private javax.swing.JTabbedPane TapirEditors2;
     private javax.swing.JButton close_jButton;

@@ -12,6 +12,7 @@ import biologic.RNAFoldFile;
 import biologic.TextFile;
 import biologic.Results;
 import biologic.Text;
+import configuration.Cluster;
 import configuration.Docker;
 import configuration.Util;
 import java.util.Vector;
@@ -23,9 +24,11 @@ import workflows.workflow_properties;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import static program.RunProgram.PortInputDOWN;
 import static program.RunProgram.PortInputUP;
 import static program.RunProgram.status_BadRequirements;
+import static program.RunProgram.status_running;
 /**
  *
  * @author Jérémy Goimard
@@ -35,31 +38,22 @@ import static program.RunProgram.status_BadRequirements;
 public class miRcheck_retrieve_genomic_regions extends RunProgram{
     
     // CREATE VARIABLES HERE
-    private String doImage        = "jego/mircheck";
-    private String doPgrmPath     = "../miRcheck/retrieve_genomic_regions.pl";
-    private String doSharedFolder = "/data";
-    private String doName         = "mircheck_MIRCHECK_retrieve_genomic_regions_armadilloWF_0";
-    private String optionsChoosed = "";
-    
+    private String allDoInputs = "";
+    private HashMap<String,String> sharedFolders = new HashMap<String,String>();
     //INPUTS
-    private String input1       ="";
-    private String inputPath1   ="";
-    private String inputInDo1   ="";
-    private String inputPathDo1 ="";
-    private String input2       ="";
-    private String inputPath2   ="";
-    private String inputInDo2   ="";
-    private String inputPathDo2 ="";
+    //INPUTS
+    private String input1      = "";
+    private String inputId1    = "";
+    private String inputPath1  = "";
+    private String input2      = "";
+    private String inputId2    = "";
+    private String inputPath2  = "";
     //OUTPUTS
-    private String output1       ="";
-    private String outputInDo1   ="";
-    private String outputPathDo1 ="";
-
-    private static final String outputPath = "."+File.separator+"results"+File.separator+"miRcheck"+File.separator+"retrieve_genomic_regions"+File.separator+"";
-    private static final String inputsdir  = File.separator+"INPUTS";
-    private static final String inputPath  = outputPath+inputsdir;
-
-    private static final String[] advanced_options = {
+    private String output1     = "";
+    private String outputInDo1 = "";
+    //PATHS
+    private static final String outputsPath = "."+File.separator+"results"+File.separator+"miRcheck"+File.separator+"retrieve_genomic_regions"+File.separator+"";
+    private static final String[] Advanced_Options = {
         "C_win_box"
     };
     
@@ -70,90 +64,92 @@ public class miRcheck_retrieve_genomic_regions extends RunProgram{
     
     @Override
     public boolean init_checkRequirements() {
-        // Inputs
-        Vector<Integer>InputFile_2    = properties.getInputID("FastaFile",PortInputDOWN);
-        inputPath2 = FastaFile.getVectorFilePath(InputFile_2);
-        input2     = Util.getFileNameAndExt(inputPath2);
 
-        Vector<Integer>InputFile_1    = properties.getInputID("MiRNA_MatchesFile",PortInputUP);
-        inputPath1 = MiRNA_MatchesFile.getVectorFilePath(InputFile_1);
+        // In case program is started without edition
+        pgrmStartWithoutEdition(properties);
+        
+        // TEST OUTPUT PATH
+        String specificId = Util.returnRandomAndDate();
+        if (properties.isSet("ObjectID")) {
+            String oId = properties.get("ObjectID");
+            oId = Util.replaceSpaceByUnderscore(oId);
+            specificId = specificId+"_"+oId;
+        }
+        String specificPath = outputsPath+specificId;
+        if (!Util.CreateDir(specificPath) && !Util.DirExists(specificPath)){
+            setStatus(status_BadRequirements,Util.BROutputsDir());
+            return false;
+        }
+        
+        // TEST INPUT VARIABLES HERE
+        // ports are 3-PortInputUp, 2-PortInputDOWN, 4-PortInputDOWN2
+        Vector<Integer>MiRNA_MatchesFile1    = properties.getInputID("MiRNA_MatchesFile",PortInputUP);
+        inputPath1 = MiRNA_MatchesFile.getVectorFilePath(MiRNA_MatchesFile1);
+        inputId1   = MiRNA_MatchesFile.getVectorFileId(MiRNA_MatchesFile1);
         input1     = Util.getFileNameAndExt(inputPath1);
 
+        Vector<Integer>FastaFile2    = properties.getInputID("FastaFile",PortInputDOWN);
+        inputPath2 = FastaFile.getVectorFilePath(FastaFile2);
+        inputId2   = FastaFile.getVectorFileId(FastaFile2);
+        input2     = Util.getFileNameAndExt(inputPath2);
+
         //INSERT YOUR TEST HERE
-        if (InputFile_1.isEmpty()||input1.equals("Unknown")||input1.equals("")) {
-            setStatus(status_BadRequirements,"No FastaFile (genome) found.");
+        if (MiRNA_MatchesFile1.isEmpty()||input1.equals("Unknown")||input1.equals("")) {
+            setStatus(status_BadRequirements,Util.BRTypeFile("MiRNA  MatchesFile"));
             return false;
         }
-        if (InputFile_2.isEmpty()||input2.equals("Unknown")||input2.equals("")) {
-            setStatus(status_BadRequirements,"No MiRNA_MatchesFile found.");
-            return false;
-        }
-
-        //INSERT DOCKER SHARED FILES COPY HERE
-        if (!Util.CreateDir(outputPath) && !Util.DirExists(outputPath)){
-            setStatus(status_BadRequirements,"Not able to create OUTPUTS directory files");
-            return false;
-        }
-        if (!Util.CreateDir(inputPath) && !Util.DirExists(inputPath)){
-            setStatus(status_BadRequirements,"Not able to create INPUTS directory files");
+        if (FastaFile2.isEmpty()||input2.equals("Unknown")||input2.equals("")) {
+            setStatus(status_BadRequirements,Util.BRTypeFile("FastaFile (genome)"));
             return false;
         }
 
-        inputPathDo1 = inputPath+File.separator+input1;
-        if (!(Util.copy(inputPath1,inputPathDo1))) {
-            setStatus(status_BadRequirements,"Not able to copy files used by docker container");
+        // Test docker Var presence
+        if (!Docker.areDockerVariablesInProperties(properties)){
+            setStatus(status_BadRequirements,Util.BRDockerVariables());
             return false;
         }
-        inputInDo1 = doSharedFolder+inputsdir+File.separator+input1;
-        input1 = Util.getFileName(inputPath1);
+        
+        // Extract Docker Variables
+        String doOutputs = properties.get("DockerOutputs");
+        String doInputs = properties.get("DockerInputs");
+        
+        // Prepare ouputs
+        output1 = specificPath+File.separator+"OutputOf_"+input1+".fold";
+        outputInDo1 = doOutputs+"OutputOf_"+input1+".fold";
+        output1 = Util.onlyOneOutputOf(output1);
+        outputInDo1 = Util.onlyOneOutputOf(outputInDo1);
+        
+        // Prepare shared folders
+        String[] allInputsPath = {inputPath1,inputPath2};
+        String[] simpleId = {inputId1,inputId2};
+        sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
+        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
 
-        inputPathDo2 = inputPath+File.separator+input2;
-        if (!(Util.copy(inputPath2,inputPathDo2))) {
-            setStatus(status_BadRequirements,"Not able to copy files used by docker container");
-            return false;
-        }
-        inputInDo2 = doSharedFolder+inputsdir+File.separator+input2;
-        input2 = Util.getFileName(inputPath2);
+        // Prepare inputs
+        HashMap<String,String> pathAndArg = new HashMap<String,String>();
+        pathAndArg.put(inputPath1,"");
+        pathAndArg.put(inputPath2,"");
+        allDoInputs = Docker.createAllDockerInputs(pathAndArg,allInputsPath,simpleId,doInputs);
 
-        // Launch Docker
-        if (Docker.isDockerHere(properties)){
-            doName = Docker.getContainerName(properties,doName);
-            if (!dockerInit(outputPath,doSharedFolder,doName,doImage))
+        // Prepare cluster relations
+        Cluster.createLinkDockerClusterInputs(properties,allInputsPath,simpleId,doInputs);
+        Cluster.createLinkDockerClusterOutput(properties,output1,outputInDo1);
+        
+        // DOCKER INIT
+        if (Docker.isDockerHere()){
+            long duration = Docker.prepareContainer(properties,sharedFolders);
+            if (!Docker.isDockerContainerIDPresentIn(properties)){
+                setStatus(status_BadRequirements,Util.BRDockerInit());
                 return false;
+            }
+            setStatus(status_running,Util.RUNDockerDuration("launch",duration));
         } else {
-            setStatus(status_BadRequirements,"Docker is not found. Please install docker");
+            setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }
         return true;
     }
     
-    @Override
-    public String[] init_createCommandLine() {
-        // In case program is started without edition
-        pgrmStartWithoutEdition(properties);
-        
-        //Create ouputs
-        output1 = outputPath+File.separator+"OutpuOf_"+input1+".fold";
-        outputInDo1 = doSharedFolder+File.separator+"OutpuOf_"+input1+".fold";
-        
-        // Program and Options
-        if (properties.get("advanced_options_jbutton").equals("true")){
-            optionsChoosed = Util.findOptionsNew(advanced_options,properties);
-        }
-        
-        String[] com = new String[30];
-        for (int i=0; i<com.length;i++) com[i]="";
-        
-        com[0]="cmd.exe"; // Windows will de remove if another os is used
-        com[1]="/C";      // Windows will de remove if another os is used
-        com[2]=properties.getExecutable();
-        com[3]= "exec "+doName+" "+doPgrmPath ;
-        com[4]= " "+inputInDo1;
-        com[5]= " "+inputInDo2;
-        com[6]= " "+outputInDo1;
-        com[7]= " "+optionsChoosed;
-        return com;
-    }
         // Sub functions for init_createCommandLine
         // In case program is started without edition and params need to be setted
         private void pgrmStartWithoutEdition (workflow_properties properties) {
@@ -165,12 +161,37 @@ public class miRcheck_retrieve_genomic_regions extends RunProgram{
         }
     
     @Override
+    public String[] init_createCommandLine() {
+        
+        // Program and Options
+        String options = "";
+        if (properties.get("advanced_options_jbutton").equals("true"))
+            options += Util.findOptionsNew(Advanced_Options,properties);
+        
+        // Pre command line
+        String preCli = options+" "+allDoInputs+" > "+outputInDo1;
+        
+        // Docker command line
+        String dockerCli = properties.get("ExecutableDocker")+" "+preCli;
+        long duration = Docker.prepareDockerBashFile(properties,dockerCli);
+        setStatus(status_running, Util.RUNDockerDuration("prepare",duration));
+        setStatus(status_running, Util.RUNCommandLine("Docker",dockerCli));
+        
+        // Cluster
+        String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
+        Cluster.createLinkDockerClusterCli(properties, clusterCli);
+        setStatus(status_running, Util.RUNCommandLine("Cluster",clusterCli));
+
+        // Command line
+        String[] com = {""};
+        return com;
+    }
+    
+    @Override
     public void post_parseOutput() {
-        Util.deleteDir(inputPath);
-        Docker.cleanContainer(properties,doName);
+        long duration = Docker.removeContainer(properties);
+        setStatus(status_running, Util.RUNDockerDuration("stop and remove",duration));
         TextFile.saveFile(properties,output1,"MIRCHECK_retrieve_genomic_regions","TextFile");
         Results.saveResultsPgrmOutput(properties,this.getPgrmOutput(),"MIRCHECK_retrieve_genomic_regions");
     }
-    
-    
 }

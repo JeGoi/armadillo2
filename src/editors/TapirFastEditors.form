@@ -44,7 +44,7 @@
                   <Component id="how_jButton" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="TapirEditors2" min="-2" max="32767" attributes="0"/>
+              <Component id="TapirEditors2" min="-2" pref="272" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -96,8 +96,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="TapirEditors">
-                <Property name="tabTitle" type="java.lang.String" value="TapirEditors"/>
+              <JTabbedPaneConstraints tabName="Tapir Fast Editors">
+                <Property name="tabTitle" type="java.lang.String" value="Tapir Fast Editors"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -113,11 +113,11 @@
                       <Component id="rename_jButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="Fast_search_RButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="Default_Button" alignment="0" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="FS_Advanced_Options_RButton" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="FAO_panel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="FAO_panel" alignment="0" min="-2" pref="454" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="reset_jButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -140,7 +140,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="Fast_search_RButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Default_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="FS_Advanced_Options_RButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -168,7 +168,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="name_jTextField">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tapir"/>
+                <Property name="text" type="java.lang.String" value="Tapir Fast"/>
                 <Property name="name" type="java.lang.String" value="name_jTextField" noResource="true"/>
               </Properties>
               <AccessibilityProperties>
@@ -238,19 +238,19 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="run_jButton_ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="Fast_search_RButton">
+            <Component class="javax.swing.JRadioButton" name="Default_Button">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="Menu_Buttons"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Fast search"/>
-                <Property name="name" type="java.lang.String" value="Fast_search_RButton" noResource="true"/>
+                <Property name="text" type="java.lang.String" value="Default"/>
+                <Property name="name" type="java.lang.String" value="Default_Button" noResource="true"/>
               </Properties>
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
               </AccessibilityProperties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Fast_search_RButton_ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Default_Button_ActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="FS_Advanced_Options_RButton">
@@ -283,22 +283,23 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="FAO__score_Box" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="FAO__score_Box" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="FAO__mfe_Box" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Component id="FAO__score_Box_IntValue" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="FAO__score_Box_Label" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="FAO__mfe_Box" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
                                   <Component id="FAO__mfe_Box_DouValue" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="FAO__mfe_Box_Label" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

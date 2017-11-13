@@ -15,6 +15,7 @@ import biologic.Input;
 import biologic.TextFile;
 import configuration.Util;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Map;
@@ -34,15 +35,32 @@ import workflows.workflow_properties;
  */
 public class miRdup extends RunProgram {
     // CREATE VARIABLES HERE
-    private String input1     ="";
-    private String inputPath1 ="";
-    private String input2     ="";
-    private String inputPath2 ="";
-    private String input3     ="";
-    private String inputPath3 ="";
-    private String output1     ="";
-    private String output2     ="";
-    private static final String outputPath = ".."+File.separator+"source"+File.separator+"mir";
+    private String doImage        = "jego/mirdup";
+    private String doPgrmPath     = "java -Xms500m -Xmx3500m -jar /mirdup/miRdup.jar -r /usr/bin/";
+    private String doInputs       = "/data/inputs/";
+    private String doOutputs      = "/data/outputs/";
+    private String allDoInputs    = "";
+    private HashMap<String,String> sharedFolders = new HashMap<String,String>();
+    
+    //INPUTS
+    private String input1       = "";
+    private String inputId1     = "";
+    private String inputPath1   = "";
+    private String input2       = "";
+    private String inputId2     = "";
+    private String inputPath2   = "";
+    private String input3       = "";
+    private String inputId3     = "";
+    private String inputPath3   = "";
+    //OUTPUTS
+    private String output1       = "";
+    private String outputInDo1   = "";
+    private String output2       = "";
+    private String outputInDo2   = "";
+    private String output3       = "";
+    private String outputInDo3   = "";
+
+    private static final String outputsPath = "."+File.separator+"results"+File.separator+"miRdup"+File.separator+"";
 
     private static final String[] O_VO_panel = {
         "O_VO_c_Box",
@@ -126,8 +144,8 @@ public class miRdup extends RunProgram {
         pgrmStartWithoutEdition(properties);
 
         //Create ouputs
-        output1 = outputPath+File.separator+input1+".";
-        output2 = outputPath+File.separator+input2+".";
+        output1 = outputsPath+File.separator+input1+".";
+        output2 = outputsPath+File.separator+input2+".";
         //output3 = outputPath+File.separator+input3+".";
         
         // Program and Options

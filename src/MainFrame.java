@@ -1053,10 +1053,11 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
             config.setExplorerPath(path);
             config.Save();
             databaseFunction df=new databaseFunction();
-            
+
             //--CASE 1. Test file type
             if (isTextFile(tmpfile)) {
                 if (workbox.loadWorkflowAsTxt(tmpfile)) {
+                    Cluster.updateCluster(workbox);
                     //workbox.getCurrentArmadilloWorkflow().setName(workflowname);
                     workbox.getCurrentArmadilloWorkflow().setName(tmpfile);
                     //this.setTitle(config.get("applicationName")+" "+config.get("version")+" - "+tmpfile);
@@ -1065,19 +1066,17 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
                 } else  {
                     JOptionPane.showMessageDialog(this,"Unable to load Workflow from "+tmpfile,"Warning!",JOptionPane.ERROR_MESSAGE);
                 }
-                //--CASE 2. Normal db
+            //--CASE 2. Normal db
             } else {
                 if (df.Open(tmpfile)) {
                     toolbox.reloadDatabaseTree();
                     int workflow_id=df.getNextWorkflowsID()-1;
                     if (workflow_id>0) {
                         workbox.loadWorkflowFromDatabase(workflow_id);
+                        Cluster.updateCluster(workbox);
                         //workbox.getCurrentArmadilloWorkflow().setName(workflowname);
                         workbox.getCurrentArmadilloWorkflow().setName(tmpfile);
-                        
                         setTitle(config.get("applicationName")+" "+config.get("version")+" - "+tmpfile);
-                        
-                        
                         //--Enable saving to the Save-Menu
                         this.Save_jMenuItem.setEnabled(true);
                         config.setLastWorkflow(tmpfile);
@@ -1172,6 +1171,7 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
                             int workflow_id=df.getNextWorkflowsID()-1;
                             if (workflow_id>0) {
                                 workbox.loadWorkflowFromDatabase(workflow_id);
+                                Cluster.updateCluster(workbox);
                                 workbox.getCurrentArmadilloWorkflow().setName(destination);
                                 //--Enable saving to the Save-Menu
                                 this.Save_jMenuItem.setEnabled(true);
@@ -1206,6 +1206,8 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
                             toolbox.reloadDatabaseTree();
                             int workflow_id=df.getNextWorkflowsID()-1;
                             if (workflow_id>0) {
+                                workbox.getWorkFlowJInternalFrame().setSelectedWay("local");
+                                Cluster.removeAllClusterObject(workbox.getCurrentArmadilloWorkflow());
                                 workbox.loadWorkflowFromDatabase(workflow_id);
                                 workbox.getCurrentArmadilloWorkflow().setName(destination);
                                 //--Enable saving to the Save-Menu
@@ -1311,6 +1313,7 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
                 if (workbox.loadWorkflowAsTxt(tmpfile)) {
                     //workbox.getCurrentArmadilloWorkflow().setName(workflowname);
                     workbox.getCurrentArmadilloWorkflow().setName(tmpfile);
+                    Cluster.updateCluster(workbox);
                     this.setTitle(config.get("applicationName")+" "+config.get("version")+" - "+tmpfile);
                     //--Enable saving to the Save-Menu
                     this.Save_jMenuItem.setEnabled(true);
@@ -1324,6 +1327,7 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
                     int workflow_id=df.getNextWorkflowsID()-1;
                     if (workflow_id>0) {
                         workbox.loadWorkflowFromDatabase(workflow_id);
+                        Cluster.updateCluster(workbox);
                         //workbox.getCurrentArmadilloWorkflow().setName(workflowname);
                         workbox.getCurrentArmadilloWorkflow().setName(tmpfile);
                         //--Enable saving to the Save-Menu

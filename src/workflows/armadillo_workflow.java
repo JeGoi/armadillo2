@@ -3694,7 +3694,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
         /// DELETION
         
         /**
-         * Handle the different deletion cae
+         * Handle the different deletion case
          * @param selection
          */
         private void delete(Object o) {

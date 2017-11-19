@@ -107,10 +107,10 @@ public class Cluster {
     public static void updateCluster(Workbox workbox){
         if (isClusterEnable(workbox)){
             workbox.getWorkFlowJInternalFrame().setSelectedWay("cluster");
-            Util.dm("cluster 1");
+            //Util.dm("cluster 1");
         } else {
             workbox.getWorkFlowJInternalFrame().setSelectedWay("local");
-            Util.dm("cluster no1");
+            //Util.dm("cluster no1");
         }
     }
     
@@ -123,15 +123,23 @@ public class Cluster {
         workflow_object obj = getClusterObject(armadillo);
         if (obj!=null)
             return obj.properties;
-        Util.dm("isnull");
+        //Util.dm("Cluster properties isnull");
         return null;
     }
     
     public static workflow_object getClusterObject(armadillo_workflow armadillo){
+        workflow_object wo = null;
+        int i = 0;
         for (workflow_object obj:armadillo.workflow.work)
-            if (isCluster(obj))
-                return obj;
-        return null;
+            if (isCluster(obj)){
+                wo = obj;
+                i+=1;
+            }
+        if (i>1){
+            //Util.dm("Several Cluster object detected, cleaning in progress");
+            wo = removeExtraClusterObject(armadillo);
+        }
+        return wo;
     }
 
     public static boolean isCluster(workflow_object tmp){
@@ -147,6 +155,57 @@ public class Cluster {
         return false;
     }
 
+    public static workflow_object removeExtraClusterObject(armadillo_workflow aw){
+        ArrayList<workflow_object> tabO = new ArrayList<workflow_object>();
+        int d = -1;
+        int u = -1;
+        Vector<workflow_object> vWO = aw.workflow.work;
+        int y = 0;
+        for (int i = 0 ; i < vWO.size() ; i += 1){
+            workflow_object obj = vWO.get(i);
+            if (isCluster(obj)){
+                tabO.add(obj);
+                workflow_properties p= obj.getProperties();
+                if (p.size()<=33) {
+                    d = y;
+                } else {
+                    u = y;
+                }
+                y += 1;
+            }
+        }
+        int j = 0;
+        workflow_object wo = null;
+        for (workflow_object obj : tabO){
+            if (j != d && j != u)
+                aw.workflow.safelyDelete(obj);
+            else if (u==-1 && j != d)
+                aw.workflow.safelyDelete(obj);
+            else if (u>-1 && j!= u)
+                aw.workflow.safelyDelete(obj);
+            else
+                wo = obj;
+            j+=1;
+        }
+        return wo;
+    }
+    
+    public static void removeAllClusterObject(armadillo_workflow aw){
+        ArrayList<Integer> tab = new ArrayList<Integer>();
+        ArrayList<workflow_object> tabO = new ArrayList<workflow_object>();
+        Vector<workflow_object> vWO = aw.workflow.work;
+        for (int i = 0 ; i < vWO.size() ; i += 1){
+            workflow_object obj = vWO.get(i);
+            if (isCluster(obj)){
+                tab.add(i);
+                tabO.add(obj);
+            }
+        }
+        for (int j = tab.size() ; j>0; j-=1){
+            aw.workflow.safelyDelete(tabO.get(j-1));
+        }
+    }
+    
     public static boolean isClusterEnable(Workbox workbox){
         workflow_properties clusterP = getClusterProperties(workbox);
         return isClusterEnable(clusterP);
@@ -187,7 +246,7 @@ public class Cluster {
         
     public static void insertClusterObject(armadillo_workflow armadillo){
         workflow_properties tmp=new workflow_properties();
-        tmp.load("./src/configuration/Cluster.properties");
+        tmp.load("."+File.separator+"src"+File.separator+"configuration"+File.separator+"Cluster.properties");
         armadillo.createObject(tmp,new Point(225,10));
         if (tmp==null) {
             System.out.println("Unable to create object from cluster properties");
@@ -239,13 +298,7 @@ public class Cluster {
     
     public static boolean isP2RsaHere(Workbox workbox){
         workflow_properties clusterP = getClusterProperties(workbox);
-        if (clusterP.isSet("PathToRSAFile")){
-            String s = clusterP.get("PathToRSAFile");
-            if (!s.contains("path to private key")){
-                return true;
-            }
-        }
-        return false;
+        return isP2RsaHere(clusterP);
     }
 
     public static ArrayList<String> getModules(workflow_properties properties){
@@ -281,8 +334,8 @@ public class Cluster {
     ///////////////////////////////////////////////////////////////////////////
     // Get some program properties
     public static boolean isDocker(workflow_properties p) {
-        if (p.isSet("ExecutableDocker")){
-            String s = p.get("ExecutableDocker");
+        if (p.isSet("DockerCommandLine")){
+            String s = p.get("DockerCommandLine");
             //Util.dm("ExecutableDocker>"+s);
             if (s==""||s.contains("Not Set")||s.isEmpty()){
                 return false;
@@ -323,21 +376,21 @@ public class Cluster {
         if (p.isSet("PathToRSAFile")){
             String s = p.get("PathToRSAFile");
             if (!s.contains("path to private key")){
-                return true;
+                return Util.FileExists(s);
             }
         }
         return false;
     }
     
     public static String getCommandLineRunning(workflow_properties properties) {
-        if (properties.isSet("Commandline_Running"))
-            return properties.get("Commandline_Running");
+        if (properties.isSet("ClusterRunningCLi"))
+            return properties.get("ClusterRunningCLi");
         return "";
     }
     
     public static String getDockerCommandLineRunning(workflow_properties properties) {
-        if (properties.isSet("ClusterDockerRunningCLi"))
-            return properties.get("ClusterDockerRunningCLi");
+        if (properties.isSet("DockerCommandLine"))
+            return properties.get("DockerCommandLine");
         return "";
     }
     
@@ -493,6 +546,14 @@ public class Cluster {
         if (s.contains("psi.concordia.ca"))
             return "psi";
     return "";
+    }
+    
+    public static boolean clusterAccessAddressIsWellWritten(String s){
+        if (s.contains("Add a name") || 
+            s.contains("Add a group"))
+            return false;
+        return true;
+        
     }
     
     public static ArrayList<String> getListOfFilesinDirectory(String dir){
@@ -712,6 +773,15 @@ public class Cluster {
     // STEPS
     ////////////////////////////////////////////////////////////////////////////
     // Step 0
+    public static boolean isClusterAccessInfoHere(workflow_properties properties) {
+        List<String> lines = Arrays.asList("PathToRSAFile");
+        if (!Util.isListInProperties(properties,lines)){
+            //path is here
+            return isP2RsaHere(properties);
+        }
+        return false;
+    }
+    
     public static boolean isClusterNeededInfoHere(workflow_properties properties) {
         List<String> lines = Arrays.asList("ClusterLocalOutput_",
                 "ClusterLocalInput_", "ClusterProgramName", "Version",
@@ -722,7 +792,7 @@ public class Cluster {
     
     public static boolean isClusterDockerNeededInfoHere (workflow_properties properties){
         List<String> lines = Arrays.asList("ClusterDockerInput_",
-                "ClusterDockerRunningCLi", "ExecutableDocker");
+                "ClusterRunningCLi", "ExecutableDocker");
         return Util.isListInProperties(properties,lines);
     }
     
@@ -821,6 +891,8 @@ public class Cluster {
             c = getCommandLineRunning(properties);
             c = updateCommandFromProgramToCluster(properties,c);
         }
+        
+        Util.dm("Cluster CLI >"+c);
         
         String stdOut = getClusterFilePath(properties,"stdOutFile");
         String stdErr = getClusterFilePath(properties,"stdErrFile");

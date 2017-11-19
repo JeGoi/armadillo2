@@ -100,25 +100,25 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel9 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        ClusterInfosUpdate_Button = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        ClusterNames2_list = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         ClusterName = new javax.swing.JTextField();
-        ClusterUserName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        ClusterUserName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         ClusterGroupName = new javax.swing.JTextField();
-        ClusterAccessAddress = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        ClusterNames2_list = new javax.swing.JComboBox();
-        ClusterEnabled = new javax.swing.JCheckBox();
-        jTextField1 = new javax.swing.JTextField();
+        ClusterAccessAddress = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        p2rsa_text = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        p2rsa_text = new javax.swing.JTextField();
+        TestSave_Button = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         ClusterPWD = new javax.swing.JTextField();
@@ -126,9 +126,8 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         ClusterModules = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        ClusterInfosUpdate = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         ClosejButton = new javax.swing.JButton();
+        ClusterEnabled = new javax.swing.JCheckBox();
 
         setTitle("Properties");
 
@@ -140,9 +139,26 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        ClusterInfosUpdate_Button.setForeground(new java.awt.Color(255, 116, 0));
+        ClusterInfosUpdate_Button.setText("Update Selected Cluster");
+        ClusterInfosUpdate_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterInfosUpdate_ButtonActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Clusters name");
+
+        ClusterNames2_list.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca", "=== NOT TESTED ====", "Briaree_nom@briaree.calculquebec.ca", "Colosse_nom@colosse.calculquebec.ca", "Cottos_nom@cottos.calculquebec.ca", "Guillimin_nom@guillimin.hpc.mcgill.ca", "Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca" }));
+        ClusterNames2_list.setMaximumSize(new java.awt.Dimension(373, 3856));
+        ClusterNames2_list.setMinimumSize(new java.awt.Dimension(373, 27));
+        ClusterNames2_list.setName("ClusterNames2_list"); // NOI18N
+        ClusterNames2_list.setPreferredSize(new java.awt.Dimension(373, 27));
+        ClusterNames2_list.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterNames2_listActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Selected cluster");
 
@@ -158,6 +174,8 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
+        jLabel7.setText("User Name");
+
         ClusterUserName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         ClusterUserName.setText("user name");
         ClusterUserName.setMaximumSize(new java.awt.Dimension(251, 27));
@@ -169,8 +187,6 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                 ClusterUserNameFocusLost(evt);
             }
         });
-
-        jLabel7.setText("User Name");
 
         jLabel8.setText("Group Name");
 
@@ -186,6 +202,8 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
+        jLabel9.setText("Used");
+
         ClusterAccessAddress.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         ClusterAccessAddress.setText("username@(groupName)clustername");
         ClusterAccessAddress.setMaximumSize(new java.awt.Dimension(324, 27));
@@ -198,30 +216,12 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
-        jLabel9.setText("Used");
-
-        ClusterNames2_list.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca", "=== NOT TESTED ====", "Briaree_nom@briaree.calculquebec.ca", "Colosse_nom@colosse.calculquebec.ca", "Cottos_nom@cottos.calculquebec.ca", "Guillimin_nom@guillimin.hpc.mcgill.ca", "Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca" }));
-        ClusterNames2_list.setMaximumSize(new java.awt.Dimension(373, 3856));
-        ClusterNames2_list.setMinimumSize(new java.awt.Dimension(373, 27));
-        ClusterNames2_list.setName("ClusterNames2_list"); // NOI18N
-        ClusterNames2_list.setPreferredSize(new java.awt.Dimension(373, 27));
-        ClusterNames2_list.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClusterNames2_listActionPerformed(evt);
-            }
-        });
-
-        ClusterEnabled.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        ClusterEnabled.setText("Cluster is enabled");
-        ClusterEnabled.setEnabled(false);
-        ClusterEnabled.setName("ClusterEnabled"); // NOI18N
+        jLabel1.setText("Email");
 
         jTextField1.setText("insert@your.email.com");
         jTextField1.setMaximumSize(new java.awt.Dimension(324, 27));
         jTextField1.setMinimumSize(new java.awt.Dimension(324, 27));
         jTextField1.setPreferredSize(new java.awt.Dimension(324, 27));
-
-        jLabel1.setText("Email");
 
         jLabel2.setText("Rap ID");
 
@@ -231,6 +231,13 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         jTextField2.setPreferredSize(new java.awt.Dimension(324, 27));
 
         jLabel3.setText("Path to Privatekey");
+
+        jButton1.setText("...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         p2rsa_text.setMaximumSize(new java.awt.Dimension(179, 27));
         p2rsa_text.setMinimumSize(new java.awt.Dimension(179, 27));
@@ -242,97 +249,14 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
-        jButton1.setText("...");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        TestSave_Button.setForeground(new java.awt.Color(255, 116, 0));
+        TestSave_Button.setText("Test Connexion and Save Informations");
+        TestSave_Button.setEnabled(false);
+        TestSave_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                TestSave_ButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(7, 7, 7)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(p2rsa_text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ClusterEnabled)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jLabel8))
-                                    .addGap(8, 8, 8)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(ClusterName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(ClusterGroupName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(ClusterUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(ClusterNames2_list, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ClusterEnabled)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ClusterNames2_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClusterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClusterUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClusterGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(p2rsa_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(54, 54, 54))
-        );
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -340,30 +264,104 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 24, Short.MAX_VALUE))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(7, 7, 7)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(p2rsa_text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ClusterGroupName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel5)
+                        .addComponent(ClusterNames2_list, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ClusterInfosUpdate_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TestSave_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
-                .addGap(48, 48, 48))
+                .addComponent(ClusterInfosUpdate_Button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TestSave_Button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterNames2_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(p2rsa_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cluster Access Options", jPanel9);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel4.setText("cluster pwd");
 
+        ClusterPWD.setEditable(false);
         ClusterPWD.setToolTipText("");
+        ClusterPWD.setFocusable(false);
         ClusterPWD.setMaximumSize(new java.awt.Dimension(220, 27));
         ClusterPWD.setMinimumSize(new java.awt.Dimension(220, 27));
         ClusterPWD.setName("ClusterPWD"); // NOI18N
         ClusterPWD.setPreferredSize(new java.awt.Dimension(220, 27));
 
+        ClusterModules.setEditable(false);
         ClusterModules.setColumns(20);
         ClusterModules.setLineWrap(true);
         ClusterModules.setRows(5);
+        ClusterModules.setFocusable(false);
         jScrollPane1.setViewportView(ClusterModules);
 
         jLabel10.setText("modules");
@@ -395,7 +393,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -409,22 +407,6 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
-        ClusterInfosUpdate.setForeground(new java.awt.Color(255, 116, 0));
-        ClusterInfosUpdate.setText("Update Selected Cluster");
-        ClusterInfosUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClusterInfosUpdateActionPerformed(evt);
-            }
-        });
-
-        jButton2.setForeground(new java.awt.Color(255, 116, 0));
-        jButton2.setText("Test and Save");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         ClosejButton.setForeground(new java.awt.Color(0, 0, 255));
         ClosejButton.setText("<html><b>Close</b></html>");
         ClosejButton.addActionListener(new java.awt.event.ActionListener() {
@@ -433,39 +415,35 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
             }
         });
 
+        ClusterEnabled.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        ClusterEnabled.setText("Cluster is enabled");
+        ClusterEnabled.setEnabled(false);
+        ClusterEnabled.setName("ClusterEnabled"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ClosejButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ClusterInfosUpdate)
+                        .addComponent(ClosejButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(ClusterEnabled)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addContainerGap())))
+                        .addComponent(jButton3))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(ClosejButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ClosejButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ClusterEnabled))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClusterInfosUpdate)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
 
         pack();
@@ -505,10 +483,10 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         
     }//GEN-LAST:event_ClusterAccessAddressActionPerformed
     
-    private void ClusterInfosUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterInfosUpdateActionPerformed
+    private void ClusterInfosUpdate_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterInfosUpdate_ButtonActionPerformed
         updateValues();
-        jTabbedPane1.setSelectedIndex(0);
-    }//GEN-LAST:event_ClusterInfosUpdateActionPerformed
+        checkIfWellWritten();
+    }//GEN-LAST:event_ClusterInfosUpdate_ButtonActionPerformed
 
     private void ClusterNames2_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterNames2_listActionPerformed
         // TODO add your handling code here:
@@ -541,28 +519,48 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         updateValues();
     }//GEN-LAST:event_p2rsa_textFocusLost
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void TestSave_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestSave_ButtonActionPerformed
         // TODO add your handling code here:
         updateValues();
-        boolean b2 = Cluster.getAccessToCluster(properties);
-        if (b2) {
-            ClusterPWD.setText(properties.get("ClusterPWD"));
-            ArrayList<String> tab = Cluster.getModules(properties);
-            if (!tab.isEmpty()){
-                for (String s : tab) {
-                    ClusterModules.append(s);
-                    ClusterModules.append("\n");
+        if (Cluster.isClusterAccessInfoHere(properties)) {
+            boolean b2 = Cluster.getAccessToCluster(properties);
+            if (b2) {
+                ClusterPWD.setText(properties.get("ClusterPWD"));
+                ArrayList<String> tab = Cluster.getModules(properties);
+                if (!tab.isEmpty()){
+                    for (String s : tab) {
+                        ClusterModules.append(s);
+                        ClusterModules.append("\n");
+                    }
                 }
+                String s = Arrays.toString(tab.toArray());
+                properties.put("ClusterModules",s);
+            } else {
+                properties.remove("ClusterModules");
+                properties.remove("ClusterPWD");
             }
-            String s = Arrays.toString(tab.toArray());
-            properties.put("ClusterModules",s);
+            jTabbedPane1.setSelectedIndex(1);
+            updateValues();
         } else {
-            properties.remove("ClusterModules");
-            properties.remove("ClusterPWD");
+            System.out.println("Not able to access to the cluster Cluster");
         }
-        jTabbedPane1.setSelectedIndex(1);
-        updateValues();
-    }//GEN-LAST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_TestSave_ButtonActionPerformed
+    
+    private void checkIfWellWritten(){
+        String s = "";
+        if (properties.isSet("ClusterAccessAddress"))
+            s = properties.get("ClusterAccessAddress");
+        if ("".equals(s) || !Cluster.clusterAccessAddressIsWellWritten(s)
+                || (!Cluster.isClusterAccessInfoHere(properties)))
+            TestSaveButtonEnable(false);
+        else
+            TestSaveButtonEnable(true);
+    }
+
+    private void TestSaveButtonEnable(boolean b){
+        TestSave_Button.setEnabled(b);
+    }
     
     /*
      * Other clusters for the futur
@@ -601,6 +599,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         updateGroup();
         updateAccess();
         updateEnabled();
+        TestSaveButtonEnable(false);
     }
     /**
      * Name Update
@@ -710,6 +709,8 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         }
         if (properties.isSet("PathToRSAFile")) {
             p2rsa_text.setText(properties.get("PathToRSAFile"));
+        } else {
+            p2rsa_text.setText(properties.get("path to Private Key"));
         }
 
         if (properties.isSet("ClusterPWD"))
@@ -772,14 +773,14 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     private javax.swing.JTextField ClusterAccessAddress;
     private javax.swing.JCheckBox ClusterEnabled;
     private javax.swing.JTextField ClusterGroupName;
-    private javax.swing.JButton ClusterInfosUpdate;
+    private javax.swing.JButton ClusterInfosUpdate_Button;
     private javax.swing.JTextArea ClusterModules;
     private javax.swing.JTextField ClusterName;
     private javax.swing.JComboBox ClusterNames2_list;
     private javax.swing.JTextField ClusterPWD;
     private javax.swing.JTextField ClusterUserName;
+    private javax.swing.JButton TestSave_Button;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -792,7 +793,6 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;

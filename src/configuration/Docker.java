@@ -935,7 +935,8 @@ public class Docker {
         HashMap<String,String> sharedFolders = new HashMap<String,String>();
         for(int i = 0; i < tabPath.length; i++) {
             if (tabPath[i]!="") {
-                sharedFolders = addInSharedFolder(sharedFolders,tabPath[i],doInputs+tabID[i]+"/");
+                String dir = Util.getParentOfFile(tabPath[i]);
+                sharedFolders = addInSharedFolder(sharedFolders,dir,doInputs+tabID[i]+"/");
             }
         }
         return sharedFolders;
@@ -943,7 +944,6 @@ public class Docker {
     
     public static HashMap<String,String> addInSharedFolder(HashMap<String,String> sf, String outputPath, String doOutputs) {
         String dir = Util.getCanonicalPath(outputPath);
-        dir = Util.getParentOfFile(dir);
         dir = Util.getCanonicalPath(dir);
         dir = cleanWindowsPath4DockerVolume(dir);
         sf.put(dir, doOutputs);

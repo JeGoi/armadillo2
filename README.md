@@ -7,7 +7,7 @@ This is the java version of Armadillo workflow (adn.bioinfo.uqam.ca/armadillo)
 armadillo2.0 proposed NGS programs that are running in Docker containers. \
 Docker needs to be installed and Docker Daemon need to run. Windows only, Docker information can to be setted and tested in Armadillo Preferences or with the Docker button (top right of workflow framework) \
 It has been tested on:
-- ubuntu 14.04, 16.04 with Docker running in user session. (More instruciton on https://askubuntu.com/a/477554)
+- ubuntu 14.04, 16.04 with Docker running in user session. (More instruction on https://askubuntu.com/a/477554)
 - windows7 and lower with Docker Toolbox (More instruction on https://docs.docker.com/toolbox/toolbox_install_windows/)
 - mac osX sierra version 10.12.6 and Docker Community Edition 17.09.0-ce-mac35 (More instruction on https://docs.docker.com/docker-for-mac/)
 
@@ -25,5 +25,4 @@ Then replace ./src/ ./data/ ./lib/ directories by the directories from this depo
 Remove also ./config.dat and ./armadillo.log \
 Remove ./Armadillo.jar. Rename ./Armadillo.jar_mac for Mac (and ./Armadillo.jar_win for Windows) in Armadillo.jar \
 Then run Armadillo as before.
-
-On linux, just follow instruction from here: https://github.com/JeGoi/Armadillo_SNPs_WF_test/blob/master/README.md
+On linux, just follow instruction from here: https://github.com/JeGoi/Armadillo_SNPs_WF_test/blob/master/README.md or clone (download this depot) and use Armadillo.jar_lin as Armadillo.jar

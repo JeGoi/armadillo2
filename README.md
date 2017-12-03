@@ -5,7 +5,7 @@ This is the java version of Armadillo workflow (adn.bioinfo.uqam.ca/armadillo)
 
 # armadillo2.0 and Docker 
 armadillo2.0 proposed NGS programs that are running in Docker containers. \
-Docker needs to be installed and Docker Daemon need to run. Windows only, Docker information can to be setted and tested in Armadillo Preferences or with the Docker button (top right) \
+Docker needs to be installed and Docker Daemon need to run. Windows only, Docker information can to be setted and tested in Armadillo Preferences or with the Docker button (top right of workflow framework) \
 It has been tested on:
 - ubuntu 14.04, 16.04 with Docker running in user session. (More instruciton on https://askubuntu.com/a/477554)
 - windows7 and lower with Docker Toolbox (More instruction on https://docs.docker.com/toolbox/toolbox_install_windows/)
@@ -13,7 +13,7 @@ It has been tested on:
 
 # armadillo2.0 and Cluster
 armadillo2.0 proposed also a cluster workflow. \
-It's using SSH key connexion to Calcul Québec Cluster. Cluster information can to be setted and tested in Armadillo Preferences or with the Cluster button (top right)
+It's using SSH key connexion to Calcul Québec Cluster. Cluster information can to be setted and tested in Armadillo Preferences or with the Cluster button (top right of workflow framework)
 
 # test a workflow
 A simple workflow is available at https://github.com/JeGoi/Armadillo_SNPs_WF_test \

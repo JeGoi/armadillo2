@@ -109,7 +109,7 @@ public class EMBOSS_aaindexextract extends RunProgram {
         String[] allInputsPath = {inputPath1};
         String[] simpleId = {inputId1};
         sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
-        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
+        sharedFolders = Docker.addInSharedFolder(sharedFolders,specificPath,doOutputs);
 
         // Prepare inputs
         HashMap<String,String> pathAndArg = new HashMap<String,String>();

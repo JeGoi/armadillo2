@@ -97,9 +97,9 @@ public class pamlviewer extends RunProgram {
 
     public void createDir(String dirname) {
 
-        config.createDir(config.resultsDir()+File.separator+dirname);
-        config.createDir(config.resultsDir()+File.separator+dirname+File.separator+"images");
-        config.createDir(config.resultsDir()+File.separator+dirname+File.separator+"css");
+        Util.CreateDir(config.resultsDir()+File.separator+dirname);
+        Util.CreateDir(config.resultsDir()+File.separator+dirname+File.separator+"images");
+        Util.CreateDir(config.resultsDir()+File.separator+dirname+File.separator+"css");
         try {
             Util.copy(new File(config.dataPath() + File.separator+"site"+File.separator+"images"+File.separator+"logo.png"), new File(
                     config.resultsDir() + File.separator + dirname + File.separator+"images"+File.separator+"logo.png"));

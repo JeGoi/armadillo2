@@ -154,7 +154,7 @@ public class bwa_mem extends RunProgram {
         String[] allInputsPath = {inputPath1,inputPath2,inputPath3,inputPath4};
         String[] simpleId = {inputId1,inputId2,inputId3,inputId4};
         sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
-        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
+        sharedFolders = Docker.addInSharedFolder(sharedFolders,Util.getCanonicalPath(specificPath),doOutputs);
 
         // Prepare inputs
         HashMap<String,String> pathAndArg = new HashMap<String,String>();
@@ -176,7 +176,7 @@ public class bwa_mem extends RunProgram {
                 return false;
             }
             setStatus(status_running,Util.RUNDockerDuration("launch",duration));
-        } else {
+        } else if (!Cluster.isClusterEnable()) {
             setStatus(status_BadRequirements,Util.BRDockerNotFound());
             return false;
         }

@@ -172,7 +172,7 @@ public class samtools_mpileup extends RunProgram {
         String[] simpleId = {inputId1,inputId2,inputId3,inputId4};
         String[] allInputsId = Util.merge2TablesWithoutDup(simpleId, inputsIDs3);
         sharedFolders = Docker.createSharedFolders(allInputsPath,allInputsId,doInputs);
-        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
+        sharedFolders = Docker.addInSharedFolder(sharedFolders,specificPath,doOutputs);
         
         // Prepare inputs
         HashMap<String,String> allInputsPathArg  =  new HashMap<String,String>();

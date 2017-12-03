@@ -110,7 +110,7 @@ public class samtools_faidx extends RunProgram {
         String[] allInputsPath = {inputPath1,inputPath2};
         String[] simpleId = {inputId1,inputId2};
         sharedFolders = Docker.createSharedFolders(allInputsPath,simpleId,doInputs);
-        sharedFolders.put(Util.getCanonicalPath(specificPath),doOutputs);
+        sharedFolders = Docker.addInSharedFolder(sharedFolders,specificPath,doOutputs);
 
         // Prepare inputs
         HashMap<String,String> allInputsPathArg = new HashMap<String,String>();

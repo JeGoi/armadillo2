@@ -522,7 +522,7 @@ public class Docker {
         for(int i=0; i < containers.size(); i++){
             String[] names = containers.get(i).getNames();
             for (String name : names){
-                if (name.toLowerCase().contains(kword)){
+                if (name.contains(kword)){
                     list.add(name);
                 }
             }
@@ -566,7 +566,7 @@ public class Docker {
             String   id = containers.get(i).getId();
             String[] names = containers.get(i).getNames();
             for (String name : names){
-                if (name.toLowerCase().contains(kword)){
+                if (name.contains(kword)){
                     list.add(id);
                 }
             }
@@ -585,7 +585,7 @@ public class Docker {
             String   id = containers.get(i).getId();
             String[] names = containers.get(i).getNames();
             for (String name : names){
-                if (name.toLowerCase().contains(kword)){
+                if (name.contains(kword)){
                     list.add(id);
                 }
             }

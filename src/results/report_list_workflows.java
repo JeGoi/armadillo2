@@ -95,13 +95,13 @@ public class report_list_workflows {
      * Create Results folder with css and images
      */
     public void CreateResultsFolders(){
-        config.createDir(config.resultsDir()+File.separator+projectName);
+        Util.CreateDir(config.resultsDir()+File.separator+projectName);
         //this.work.getCurrentArmadilloWorkflow().saveImage(config.resultsDir()+File.separator+projectName+File.separator+"images"+File.separator+"Workflow.png");
         //--Results (for ZIP)
-        config.createDir(config.resultsDir()+File.separator+projectName+File.separator+"results");
+        Util.CreateDir(config.resultsDir()+File.separator+projectName+File.separator+"results");
         //--HTML info
-        config.createDir(config.resultsDir()+File.separator+projectName+File.separator+"images");
-        config.createDir(config.resultsDir()+File.separator+projectName+File.separator+"css");
+        Util.CreateDir(config.resultsDir()+File.separator+projectName+File.separator+"images");
+        Util.CreateDir(config.resultsDir()+File.separator+projectName+File.separator+"css");
         try {
             Util.copy(new File(config.dataPath() + File.separator+"site"+File.separator+"images"+File.separator+"logo.png"), new File(
                     config.resultsDir() + File.separator + projectName + File.separator+"images"+File.separator+"logo.png"));
@@ -372,9 +372,9 @@ public class report_list_workflows {
                     String filename= count+"_"+properties.getName()+"_"+properties.getID();
                     filename = filename.replaceAll(" ", "_");
                     String results_dir=config.resultsDir()+File.separator+projectName+File.separator+"results"+File.separator+filename;
-                    config.createDir(results_dir);
-                    config.createDir(results_dir+File.separator+"input");
-                    config.createDir(results_dir+File.separator+"output");
+                    Util.CreateDir(results_dir);
+                    Util.CreateDir(results_dir+File.separator+"input");
+                    Util.CreateDir(results_dir+File.separator+"output");
                     //--Note: this might failed if we output All!
                     for (String output_type:properties.Outputed()) {
                         Vector<Integer> ids=properties.getOutputID(output_type, null);

@@ -344,7 +344,7 @@ public class RunProgram implements runningThreadInterface {
                         Util.dm("CommandLine is >>"+Util.toString(commandline));
 
                         boolean jobNotDoneOnCluster=true;
-                        if (Cluster.isClusterEnable(workbox)) {
+                        if (Cluster.isClusterEnable()) {
                             if (do_runOnCluster()&&!isInterrupted()) {
                                 // JG 2015 Start
                                 setStatus(status_running,"<-End Program Output ->");
@@ -370,7 +370,8 @@ public class RunProgram implements runningThreadInterface {
                     //setStatus(getStatus(), "Total running time: "+Util.msToString(getRunningTime()));
                     if ((properties.getBoolean("VerifyExitValue")&&getExitVal()!=properties.getInt("NormalExitValue"))) {
                         setStatus(status_error,"***Error with at "+getRunningTime()+" ms ExitValue: "+properties.get("ExitValue")+"\n");
-                        Docker.removeContainer(properties);
+                        if (Docker.isDockerHere())
+                            Docker.removeContainer(properties);
                         post_run_clean();
                     }  else {
                         if (getStatus()!=status_error&&getStatus()!=status_BadRequirements&&getStatus()!=status_runningclassnotfound&&getStatus()!=status_programnotfound) {
@@ -390,7 +391,8 @@ public class RunProgram implements runningThreadInterface {
                     if (properties.getBoolean("debug")) ex.printStackTrace();
                     if (!cancel) {
                         setStatus(status_error,"Error in running... \n"+ex.getMessage());
-                        Docker.removeContainer(properties);
+                        if (Docker.isDockerHere())
+                            Docker.removeContainer(properties);
                     }
                 }
                 programTimeEnd=Util.returnCurrentDateAndTime();
@@ -445,7 +447,8 @@ public class RunProgram implements runningThreadInterface {
                     //setStatus(getStatus(), "Total running time: "+Util.msToString(getRunningTime()));
                     if (properties.getBoolean("VerifyExitValue")&&getExitVal()!=properties.getInt("NormalExitValue")) {
                         setStatus(status_error,"***Error with at "+getRunningTime()+" ms ExitValue: "+properties.get("ExitValue")+"\n");
-                        Docker.removeContainer(properties);
+                        if (Docker.isDockerHere())
+                            Docker.removeContainer(properties);
                         post_run_clean();
                     } else {
                         if (getStatus()!=status_error&&getStatus()!=status_BadRequirements&&getStatus()!=status_runningclassnotfound&&getStatus()!=status_programnotfound) {
@@ -667,7 +670,7 @@ public class RunProgram implements runningThreadInterface {
         setStatus(status_running, "\tRunning program...");
         setStatus(status_running,"<-Program Output->");
         //--Run the thread and catch stdout and stderr
-        if (Docker.isProgramUseDocker(properties)){
+        if (Docker.isProgramUseDocker(properties)&&Docker.isDockerHere()){
             Docker.executeBashFile(properties);
             setStatus(status_running,properties.get("DockerSTD"));
             String s = properties.get("DockerSTD");
@@ -972,7 +975,7 @@ public class RunProgram implements runningThreadInterface {
         
         // 1. Create the list of current file --Clean path
         config.temporaryDir(""+Util.returnCount());
-        for (String filename:Config.listDir(config.temporaryDir())) cleanfilelist.add(filename);
+        for (String filename:Util.listDir(config.temporaryDir())) cleanfilelist.add(filename);
         
         // 2. Create the output file
         
@@ -1523,7 +1526,7 @@ public class RunProgram implements runningThreadInterface {
      * Cluster ZONE
      */
     public boolean do_runOnCluster() throws IOException, InterruptedException {
-        properties = Cluster.transferClusterEditorProperties(workbox, properties);
+        properties = Cluster.transferClusterEditorProperties(properties);
         
         boolean runLocal = false;
         boolean isRunning = false;
@@ -1533,8 +1536,8 @@ public class RunProgram implements runningThreadInterface {
         if (b){
             runLocal = true;
             setStatus(status_running, "\tNot enough information to run on Cluster");
-            if (!Cluster.isP2RsaHere(workbox)){
-                setStatus(status_running, "\tThe path to private key is not setted >"+Cluster.getP2Rsa(workbox));
+            if (!Cluster.isP2RsaHere()){
+                setStatus(status_running, "\tThe path to private key is not setted >"+Cluster.getP2Rsa());
             }
         }
         
@@ -1555,9 +1558,9 @@ public class RunProgram implements runningThreadInterface {
                 if (!Cluster.getAccessToCluster(properties)){
                     runLocal = true;
                     setStatus(status_running, "\tUnable to access to the cluster");
-                    setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress(workbox));
-                    if (!Cluster.isP2RsaHere(workbox))
-                        setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
+                    setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress());
+                    if (!Cluster.isP2RsaHere())
+                        setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa());
                 } else {
                     setStatus(status_running, "\tCan access to the cluster");
                     long endTime = System.nanoTime();
@@ -1721,12 +1724,12 @@ public class RunProgram implements runningThreadInterface {
     
     
     public boolean isItClusturable(){
-        Cluster.transferClusterEditorPropertiesVoid(workbox, properties);
+        Cluster.transferClusterEditorPropertiesVoid(properties);
         boolean b = Cluster.isClusterNeededInfoHere(properties);
         if (b){
             setStatus(status_running, "\tNot enough information to run on Cluster");
-            if (!Cluster.isP2RsaHere(workbox)){
-                setStatus(status_running, "\tThe path to private key is not setted >"+Cluster.getP2Rsa(workbox));
+            if (!Cluster.isP2RsaHere()){
+                setStatus(status_running, "\tThe path to private key is not setted >"+Cluster.getP2Rsa());
                 return false;
             }
             return false;
@@ -1751,9 +1754,9 @@ public class RunProgram implements runningThreadInterface {
             setStatus(status_running, "\tStart test online. PSSST, you can do a pre-test before in the cluster editor box.");
             if (!Cluster.getAccessToCluster(properties)){
                 setStatus(status_running, "\tUnable to access to the cluster");
-                setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress(workbox));
-                if (!Cluster.isP2RsaHere(workbox))
-                    setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa(workbox));
+                setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress());
+                if (!Cluster.isP2RsaHere())
+                    setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa());
                 return false;
             } else {
                 setStatus(status_running, "\tCan access to the cluster");

@@ -23,8 +23,11 @@ package workflows;
 
 import biologic.seqclasses.InformationJDialog;
 import biologic.Workflows;
+import configuration.Cluster;
 import configuration.Config;
+import configuration.Docker;
 import configuration.Util;
+import database.Project;
 import database.databaseFunction;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -38,6 +41,8 @@ import tools.Toolbox;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
@@ -89,6 +94,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollBar1 = new javax.swing.JScrollBar();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -139,6 +145,110 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
         jPanel10 = new javax.swing.JPanel();
         jRScriptPath = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel15 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        DockerAvailable = new javax.swing.JCheckBox();
+        windowsOrAdvancedTable = new javax.swing.JPanel();
+        jLabel33 = new javax.swing.JLabel();
+        DockerTlsVerify = new javax.swing.JTextField();
+        DockerCertPath_search = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
+        DockerCertPath = new javax.swing.JTextField();
+        jLabel35 = new javax.swing.JLabel();
+        DockerConfig = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
+        DockerApiVersion = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        DockerRegistryUrl = new javax.swing.JTextField();
+        jLabel38 = new javax.swing.JLabel();
+        DockerRegistryUserName_Text = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        DockerRegistryPassword_Text = new javax.swing.JTextField();
+        jLabel40 = new javax.swing.JLabel();
+        DockerRegistryEmail_Text = new javax.swing.JTextField();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        DockerHost = new javax.swing.JTextField();
+        jLabel55 = new javax.swing.JLabel();
+        DockerConfig_search = new javax.swing.JButton();
+        jPanel12 = new javax.swing.JPanel();
+        DockerOperatingSystem_Text = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        DockerClusterAdvertise_Text = new javax.swing.JTextField();
+        DockerHttpProxy_Text = new javax.swing.JTextField();
+        DockerOsType_Text = new javax.swing.JTextField();
+        DockerServerVersion_Text = new javax.swing.JTextField();
+        DockerNCPU_Text = new javax.swing.JTextField();
+        DockerNFd_Text = new javax.swing.JTextField();
+        DockerInitPath_Text = new javax.swing.JTextField();
+        DockerRootDir_Text = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        DockerDriver_Text = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        DockerArchitecture_Text = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        DockerClusterStore_Text = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        DockerExecutionDriver_Text = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        DockerSockets_Text = new javax.swing.JTextField();
+        jPanel13 = new javax.swing.JPanel();
+        ClosejButton1 = new javax.swing.JButton();
+        Update_docker_button = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        DockerUploadedImages_list = new javax.swing.JList();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        DockerArmadilloContainer_list = new javax.swing.JList();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        D_AC_StopSelectedCont = new javax.swing.JButton();
+        DAC_StopAllCont_button = new javax.swing.JButton();
+        D_UI_deleteSelectedImages = new javax.swing.JButton();
+        jPanel16 = new javax.swing.JPanel();
+        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jPanel17 = new javax.swing.JPanel();
+        ClusterInfosUpdate_Button = new javax.swing.JButton();
+        jLabel42 = new javax.swing.JLabel();
+        ClusterNames_list = new javax.swing.JComboBox();
+        jLabel43 = new javax.swing.JLabel();
+        ClusterName = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        ClusterUserName = new javax.swing.JTextField();
+        jLabel45 = new javax.swing.JLabel();
+        ClusterGroupName = new javax.swing.JTextField();
+        jLabel46 = new javax.swing.JLabel();
+        ClusterAccessAddress = new javax.swing.JTextField();
+        jLabel47 = new javax.swing.JLabel();
+        ClusterEmail = new javax.swing.JTextField();
+        jLabel48 = new javax.swing.JLabel();
+        ClusterRapID = new javax.swing.JTextField();
+        jLabel49 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        ClusterPathToRSAFile = new javax.swing.JTextField();
+        TestSave_Button = new javax.swing.JButton();
+        ClusterEnabled = new javax.swing.JCheckBox();
+        ClusterEnoughInfo = new javax.swing.JCheckBox();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel50 = new javax.swing.JLabel();
+        ClusterPWD = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        ClusterModules = new javax.swing.JTextArea();
+        jLabel51 = new javax.swing.JLabel();
         ClosejButton = new javax.swing.JButton();
         CanceljButton = new javax.swing.JButton();
 
@@ -211,11 +321,11 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jStatusMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                        .addComponent(jStatusMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                         .addGap(79, 79, 79))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,10 +339,10 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ProjectAuthorjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-                            .addComponent(ProjectNamejTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-                            .addComponent(ProjectEmailjTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-                            .addComponent(ProjectInstitutionjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)))
+                            .addComponent(ProjectAuthorjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+                            .addComponent(ProjectNamejTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+                            .addComponent(ProjectEmailjTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+                            .addComponent(ProjectInstitutionjTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)))
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
         );
@@ -278,7 +388,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Project", jPanel5);
@@ -306,7 +416,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
 
         jLabel4.setText("Note");
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Creation", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(51, 51, 51)));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Creation", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(51, 51, 51))); // NOI18N
 
         CreatedjLabel.setText("Created");
 
@@ -316,7 +426,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CreatedjLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addComponent(CreatedjLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -333,9 +443,9 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
                     .addComponent(IdentificationjLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(workflow_name_JTextfield, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+                    .addComponent(workflow_name_JTextfield, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -368,7 +478,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Current Workflow", jPanel6);
@@ -492,7 +602,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
                             .addComponent(SimpleGraphjCheckBox)
                             .addComponent(ShowGridjCheckBox)
                             .addComponent(LowResolutionCheckBox))))
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,7 +654,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Memory_jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE))
+                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -591,18 +701,16 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jRScriptPath, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                        .addComponent(jRScriptPath, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(jCheckBox4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox6))
+                            .addComponent(jCheckBox4)
                             .addComponent(jCheckBox8)
-                            .addComponent(jCheckBox7))
+                            .addComponent(jCheckBox7)
+                            .addComponent(jCheckBox6))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -613,14 +721,14 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(jLabel12)
                 .addGap(12, 12, 12)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox6))
+                .addComponent(jCheckBox4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox7)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox6)
+                .addGap(4, 4, 4)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -651,10 +759,968 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Advanced", jPanel3);
+
+        jTabbedPane2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPane2ComponentShown(evt);
+            }
+        });
+
+        jButton3.setText("Test docker configuration");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        DockerAvailable.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        DockerAvailable.setText("Docker is available");
+        DockerAvailable.setEnabled(false);
+        DockerAvailable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DockerAvailable.setName("ClusterEnabled"); // NOI18N
+
+        jLabel33.setText("DOCKER TLS VERIFY **");
+
+        DockerTlsVerify.setName("DockerTlsVerify"); // NOI18N
+        DockerTlsVerify.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                DockerTlsVerifyFocusLost(evt);
+            }
+        });
+        DockerTlsVerify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerTlsVerifyActionPerformed(evt);
+            }
+        });
+
+        DockerCertPath_search.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
+        DockerCertPath_search.setText("...");
+        DockerCertPath_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerCertPath_searchActionPerformed(evt);
+            }
+        });
+
+        jLabel34.setText("DOCKER CERT PATH **");
+
+        DockerCertPath.setName("DockerCertPath"); // NOI18N
+        DockerCertPath.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                DockerCertPathFocusLost(evt);
+            }
+        });
+        DockerCertPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerCertPathActionPerformed(evt);
+            }
+        });
+
+        jLabel35.setText("DOCKER CONFIG **");
+
+        DockerConfig.setName("DockerConfig"); // NOI18N
+        DockerConfig.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                DockerConfigFocusLost(evt);
+            }
+        });
+        DockerConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerConfigActionPerformed(evt);
+            }
+        });
+
+        jLabel36.setText("api.version");
+
+        DockerApiVersion.setEditable(false);
+        DockerApiVersion.setEnabled(false);
+        DockerApiVersion.setFocusable(false);
+        DockerApiVersion.setName("DockerApiVersion"); // NOI18N
+
+        jLabel37.setText("registry.url");
+
+        DockerRegistryUrl.setEditable(false);
+        DockerRegistryUrl.setEnabled(false);
+        DockerRegistryUrl.setFocusable(false);
+        DockerRegistryUrl.setName("DockerRegistryUrl"); // NOI18N
+
+        jLabel38.setText("registry.username");
+
+        DockerRegistryUserName_Text.setEditable(false);
+        DockerRegistryUserName_Text.setEnabled(false);
+        DockerRegistryUserName_Text.setFocusable(false);
+        DockerRegistryUserName_Text.setName("DockerRegistryUserName_Text"); // NOI18N
+
+        jLabel39.setText("registry.password");
+
+        DockerRegistryPassword_Text.setEditable(false);
+        DockerRegistryPassword_Text.setEnabled(false);
+        DockerRegistryPassword_Text.setFocusable(false);
+        DockerRegistryPassword_Text.setName("DockerRegistryPassword_Text"); // NOI18N
+
+        jLabel40.setText("registry.email");
+
+        DockerRegistryEmail_Text.setEditable(false);
+        DockerRegistryEmail_Text.setEnabled(false);
+        DockerRegistryEmail_Text.setFocusable(false);
+        DockerRegistryEmail_Text.setName("DockerRegistryEmail_Text"); // NOI18N
+
+        jLabel41.setText("** Used for OS Windows and toolbox");
+
+        jLabel52.setText("(true or false, only)");
+
+        jLabel53.setText("(ip address like: 192.168.99.101:2376)");
+
+        jLabel32.setText("DOCKER HOST **");
+
+        jLabel54.setText("<html>Path to certificates looks like<br> C:\\Users\\UserName\\.docker\\machine\\machines\\default</html>"); // NOI18N
+
+        DockerHost.setName("DockerHost"); // NOI18N
+        DockerHost.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                DockerHostFocusLost(evt);
+            }
+        });
+        DockerHost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerHostActionPerformed(evt);
+            }
+        });
+
+        jLabel55.setText("<html>Path to Config looks like<br>C:\\Users\\UserName\\.docker\\machine\\machines\\default\\config.json</html>"); // NOI18N
+
+        DockerConfig_search.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
+        DockerConfig_search.setText("...");
+        DockerConfig_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerConfig_searchActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout windowsOrAdvancedTableLayout = new javax.swing.GroupLayout(windowsOrAdvancedTable);
+        windowsOrAdvancedTable.setLayout(windowsOrAdvancedTableLayout);
+        windowsOrAdvancedTableLayout.setHorizontalGroup(
+            windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                        .addComponent(jLabel34)
+                        .addGap(18, 18, 18)
+                        .addComponent(DockerCertPath, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(DockerCertPath_search, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel41)
+                    .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                        .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel32))
+                        .addGap(21, 21, 21)
+                        .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DockerHost, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DockerTlsVerify, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel52)
+                            .addComponent(jLabel53)))
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                        .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                                .addGap(174, 174, 174)
+                                .addComponent(DockerConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel35))
+                        .addGap(18, 18, 18)
+                        .addComponent(DockerConfig_search, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                        .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel37)
+                                    .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                                        .addGap(174, 174, 174)
+                                        .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(DockerApiVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(DockerRegistryUrl, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(DockerRegistryUserName_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel39))
+                            .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                                .addComponent(jLabel38)
+                                .addGap(285, 285, 285)
+                                .addComponent(jLabel40)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(DockerRegistryPassword_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                            .addComponent(DockerRegistryEmail_Text))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        windowsOrAdvancedTableLayout.setVerticalGroup(
+            windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(windowsOrAdvancedTableLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32)
+                    .addComponent(DockerHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel53))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DockerTlsVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33)
+                    .addComponent(jLabel52))
+                .addGap(11, 11, 11)
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(DockerCertPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DockerCertPath_search))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel35)
+                    .addComponent(DockerConfig, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DockerConfig_search))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel36)
+                    .addComponent(DockerApiVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel37)
+                    .addComponent(DockerRegistryUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel39)
+                    .addComponent(DockerRegistryPassword_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(windowsOrAdvancedTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(DockerRegistryUserName_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel40)
+                    .addComponent(DockerRegistryEmail_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(windowsOrAdvancedTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(DockerAvailable, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(DockerAvailable))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(windowsOrAdvancedTable, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Variables", jPanel15);
+
+        DockerOperatingSystem_Text.setEditable(false);
+        DockerOperatingSystem_Text.setText("jTextField1");
+        DockerOperatingSystem_Text.setEnabled(false);
+        DockerOperatingSystem_Text.setFocusable(false);
+        DockerOperatingSystem_Text.setName("DockerOperatingSystem_Text"); // NOI18N
+
+        jLabel14.setText("Parameters");
+
+        jLabel15.setText("ClusterAdvertise");
+
+        jLabel16.setText(" HttpProxy");
+
+        jLabel17.setText("OperatingSystem");
+
+        jLabel18.setText("OsType");
+
+        jLabel19.setText("ServerVersion");
+
+        jLabel20.setText("NCPU");
+
+        jLabel21.setText("NFd");
+
+        jLabel22.setText("InitPath");
+
+        jLabel23.setText("DockerRootDir");
+
+        DockerClusterAdvertise_Text.setEditable(false);
+        DockerClusterAdvertise_Text.setText("jTextField1");
+        DockerClusterAdvertise_Text.setEnabled(false);
+        DockerClusterAdvertise_Text.setFocusable(false);
+        DockerClusterAdvertise_Text.setName("DockerClusterAdvertise_Text"); // NOI18N
+        DockerClusterAdvertise_Text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerClusterAdvertise_TextActionPerformed(evt);
+            }
+        });
+
+        DockerHttpProxy_Text.setEditable(false);
+        DockerHttpProxy_Text.setText("jTextField1");
+        DockerHttpProxy_Text.setEnabled(false);
+        DockerHttpProxy_Text.setFocusable(false);
+        DockerHttpProxy_Text.setName("DockerHttpProxy_Text"); // NOI18N
+
+        DockerOsType_Text.setEditable(false);
+        DockerOsType_Text.setText("jTextField1");
+        DockerOsType_Text.setEnabled(false);
+        DockerOsType_Text.setFocusable(false);
+        DockerOsType_Text.setName("DockerOsType_Text"); // NOI18N
+
+        DockerServerVersion_Text.setEditable(false);
+        DockerServerVersion_Text.setText("jTextField1");
+        DockerServerVersion_Text.setEnabled(false);
+        DockerServerVersion_Text.setFocusable(false);
+        DockerServerVersion_Text.setName("DockerServerVersion_Text"); // NOI18N
+
+        DockerNCPU_Text.setEditable(false);
+        DockerNCPU_Text.setText("jTextField1");
+        DockerNCPU_Text.setEnabled(false);
+        DockerNCPU_Text.setFocusable(false);
+        DockerNCPU_Text.setName("DockerNCPU_Text"); // NOI18N
+
+        DockerNFd_Text.setEditable(false);
+        DockerNFd_Text.setText("jTextField1");
+        DockerNFd_Text.setEnabled(false);
+        DockerNFd_Text.setFocusable(false);
+        DockerNFd_Text.setName("DockerNFd_Text"); // NOI18N
+
+        DockerInitPath_Text.setEditable(false);
+        DockerInitPath_Text.setText("jTextField1");
+        DockerInitPath_Text.setEnabled(false);
+        DockerInitPath_Text.setFocusable(false);
+        DockerInitPath_Text.setName("DockerInitPath_Text"); // NOI18N
+
+        DockerRootDir_Text.setEditable(false);
+        DockerRootDir_Text.setText("jTextField1");
+        DockerRootDir_Text.setEnabled(false);
+        DockerRootDir_Text.setFocusable(false);
+        DockerRootDir_Text.setName("DockerRootDir_Text"); // NOI18N
+
+        jLabel24.setText("Values");
+
+        jLabel25.setText("Driver");
+
+        DockerDriver_Text.setEditable(false);
+        DockerDriver_Text.setText("jTextField1");
+        DockerDriver_Text.setEnabled(false);
+        DockerDriver_Text.setFocusable(false);
+        DockerDriver_Text.setName("DockerDriver_Text"); // NOI18N
+
+        jLabel26.setText("Architecture");
+
+        DockerArchitecture_Text.setEditable(false);
+        DockerArchitecture_Text.setText("jTextField1");
+        DockerArchitecture_Text.setEnabled(false);
+        DockerArchitecture_Text.setFocusable(false);
+        DockerArchitecture_Text.setName("DockerArchitecture_Text"); // NOI18N
+
+        jLabel27.setText("ClusterStore");
+
+        DockerClusterStore_Text.setEditable(false);
+        DockerClusterStore_Text.setText("jTextField1");
+        DockerClusterStore_Text.setEnabled(false);
+        DockerClusterStore_Text.setFocusable(false);
+        DockerClusterStore_Text.setName("DockerClusterStore_Text"); // NOI18N
+        DockerClusterStore_Text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerClusterStore_TextActionPerformed(evt);
+            }
+        });
+
+        jLabel28.setText("Execution Driver");
+
+        DockerExecutionDriver_Text.setEditable(false);
+        DockerExecutionDriver_Text.setText("jTextField1");
+        DockerExecutionDriver_Text.setEnabled(false);
+        DockerExecutionDriver_Text.setFocusable(false);
+        DockerExecutionDriver_Text.setName("DockerExecutionDriver_Text"); // NOI18N
+        DockerExecutionDriver_Text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerExecutionDriver_TextActionPerformed(evt);
+            }
+        });
+
+        jLabel29.setText("Sockets");
+
+        DockerSockets_Text.setEditable(false);
+        DockerSockets_Text.setText("jTextField1");
+        DockerSockets_Text.setEnabled(false);
+        DockerSockets_Text.setFocusable(false);
+        DockerSockets_Text.setName("DockerSockets_Text"); // NOI18N
+        DockerSockets_Text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DockerSockets_TextActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(72, 72, 72)
+                        .addComponent(jLabel24))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel18)
+                                    .addComponent(jLabel19))
+                                .addGap(13, 13, 13)
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(DockerOsType_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                    .addComponent(DockerOperatingSystem_Text)
+                                    .addComponent(DockerServerVersion_Text, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel23))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(DockerRootDir_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                    .addComponent(DockerInitPath_Text)
+                                    .addComponent(DockerHttpProxy_Text)
+                                    .addComponent(DockerClusterAdvertise_Text))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel25)
+                            .addComponent(jLabel26)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel27)
+                            .addComponent(jLabel29))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DockerNFd_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DockerNCPU_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DockerDriver_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DockerArchitecture_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DockerClusterStore_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DockerExecutionDriver_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DockerSockets_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(138, 138, 138))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel20)
+                            .addComponent(DockerNCPU_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(DockerNFd_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel25)
+                            .addComponent(DockerDriver_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel26)
+                            .addComponent(DockerArchitecture_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel27)
+                            .addComponent(DockerClusterStore_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel28)
+                            .addComponent(DockerExecutionDriver_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel29)
+                            .addComponent(DockerSockets_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel24))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel23)
+                            .addComponent(DockerRootDir_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(DockerInitPath_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(DockerHttpProxy_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(DockerClusterAdvertise_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(DockerOperatingSystem_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(DockerOsType_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(DockerServerVersion_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(145, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Parameters", jPanel12);
+
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+
+        ClosejButton1.setText("Close");
+        ClosejButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClosejButton1ActionPerformed(evt);
+            }
+        });
+
+        Update_docker_button.setText("Update docker");
+        Update_docker_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Update_docker_buttonActionPerformed(evt);
+            }
+        });
+
+        DockerUploadedImages_list.setName("DockerUploadedImages_list"); // NOI18N
+        jScrollPane3.setViewportView(DockerUploadedImages_list);
+
+        DockerArmadilloContainer_list.setName("DockerArmadilloContainer_list"); // NOI18N
+        jScrollPane4.setViewportView(DockerArmadilloContainer_list);
+
+        jLabel30.setText("Docker uploaded images (Name)");
+
+        jLabel31.setText("Docker Armadillo containers (Name)");
+
+        D_AC_StopSelectedCont.setText("Remove selected container(s)");
+        D_AC_StopSelectedCont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                D_AC_StopSelectedContActionPerformed(evt);
+            }
+        });
+
+        DAC_StopAllCont_button.setText("Remove all containers");
+        DAC_StopAllCont_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DAC_StopAllCont_buttonActionPerformed(evt);
+            }
+        });
+
+        D_UI_deleteSelectedImages.setText("Delete Selected image(s)");
+        D_UI_deleteSelectedImages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                D_UI_deleteSelectedImagesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel30)
+                    .addComponent(D_UI_deleteSelectedImages)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel31)
+                        .addGroup(jPanel13Layout.createSequentialGroup()
+                            .addComponent(D_AC_StopSelectedCont)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(DAC_StopAllCont_button)))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(Update_docker_button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ClosejButton1)))
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(D_AC_StopSelectedCont)
+                    .addComponent(DAC_StopAllCont_button)
+                    .addComponent(D_UI_deleteSelectedImages))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClosejButton1)
+                    .addComponent(Update_docker_button))
+                .addContainerGap(160, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Images and containers", jPanel13);
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Docker Settings", jPanel11);
+
+        jTabbedPane3.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPane3ComponentShown(evt);
+            }
+        });
+
+        jPanel17.setBackground(new java.awt.Color(255, 255, 255));
+
+        ClusterInfosUpdate_Button.setForeground(new java.awt.Color(255, 116, 0));
+        ClusterInfosUpdate_Button.setText("Update Selected Cluster");
+        ClusterInfosUpdate_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterInfosUpdate_ButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel42.setText("Clusters name");
+
+        ClusterNames_list.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca", "=== NOT TESTED ====", "Briaree_nom@briaree.calculquebec.ca", "Colosse_nom@colosse.calculquebec.ca", "Cottos_nom@cottos.calculquebec.ca", "Guillimin_nom@guillimin.hpc.mcgill.ca", "Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca" }));
+        ClusterNames_list.setMaximumSize(new java.awt.Dimension(373, 3856));
+        ClusterNames_list.setMinimumSize(new java.awt.Dimension(373, 27));
+        ClusterNames_list.setName("ClusterNames_list"); // NOI18N
+        ClusterNames_list.setPreferredSize(new java.awt.Dimension(373, 27));
+        ClusterNames_list.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterNames_listActionPerformed(evt);
+            }
+        });
+
+        jLabel43.setText("Selected cluster");
+
+        ClusterName.setEditable(false);
+        ClusterName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ClusterName.setText("clustername");
+        ClusterName.setEnabled(false);
+        ClusterName.setFocusable(false);
+        ClusterName.setMaximumSize(new java.awt.Dimension(251, 27));
+        ClusterName.setMinimumSize(new java.awt.Dimension(251, 27));
+        ClusterName.setName("ClusterName"); // NOI18N
+        ClusterName.setPreferredSize(new java.awt.Dimension(251, 27));
+        ClusterName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterNameActionPerformed(evt);
+            }
+        });
+
+        jLabel44.setText("User Name");
+
+        ClusterUserName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ClusterUserName.setText("user name");
+        ClusterUserName.setMaximumSize(new java.awt.Dimension(251, 27));
+        ClusterUserName.setMinimumSize(new java.awt.Dimension(251, 27));
+        ClusterUserName.setName("ClusterUserName"); // NOI18N
+        ClusterUserName.setPreferredSize(new java.awt.Dimension(251, 27));
+        ClusterUserName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ClusterUserNameFocusLost(evt);
+            }
+        });
+
+        jLabel45.setText("Group Name");
+
+        ClusterGroupName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ClusterGroupName.setText("group name");
+        ClusterGroupName.setMaximumSize(new java.awt.Dimension(251, 27));
+        ClusterGroupName.setMinimumSize(new java.awt.Dimension(251, 27));
+        ClusterGroupName.setName("ClusterGroupName"); // NOI18N
+        ClusterGroupName.setPreferredSize(new java.awt.Dimension(251, 27));
+        ClusterGroupName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ClusterGroupNameFocusLost(evt);
+            }
+        });
+
+        jLabel46.setText("Used");
+
+        ClusterAccessAddress.setEditable(false);
+        ClusterAccessAddress.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ClusterAccessAddress.setText("username@(groupName)clustername");
+        ClusterAccessAddress.setEnabled(false);
+        ClusterAccessAddress.setFocusable(false);
+        ClusterAccessAddress.setMaximumSize(new java.awt.Dimension(324, 27));
+        ClusterAccessAddress.setMinimumSize(new java.awt.Dimension(324, 27));
+        ClusterAccessAddress.setName("ClusterAccessAddress"); // NOI18N
+        ClusterAccessAddress.setPreferredSize(new java.awt.Dimension(324, 27));
+        ClusterAccessAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterAccessAddressActionPerformed(evt);
+            }
+        });
+
+        jLabel47.setText("Email");
+
+        ClusterEmail.setText("insert@your.email.com");
+        ClusterEmail.setMaximumSize(new java.awt.Dimension(324, 27));
+        ClusterEmail.setMinimumSize(new java.awt.Dimension(324, 27));
+        ClusterEmail.setName("ClusterEmail"); // NOI18N
+        ClusterEmail.setPreferredSize(new java.awt.Dimension(324, 27));
+
+        jLabel48.setText("Rap ID");
+
+        ClusterRapID.setText("insert your RapID");
+        ClusterRapID.setMaximumSize(new java.awt.Dimension(324, 27));
+        ClusterRapID.setMinimumSize(new java.awt.Dimension(324, 27));
+        ClusterRapID.setName("ClusterRapID"); // NOI18N
+        ClusterRapID.setPreferredSize(new java.awt.Dimension(324, 27));
+
+        jLabel49.setText("Path to Private Key");
+
+        jButton4.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
+        jButton4.setText("...");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        ClusterPathToRSAFile.setMaximumSize(new java.awt.Dimension(179, 27));
+        ClusterPathToRSAFile.setMinimumSize(new java.awt.Dimension(179, 27));
+        ClusterPathToRSAFile.setName("ClusterPathToRSAFile"); // NOI18N
+        ClusterPathToRSAFile.setPreferredSize(new java.awt.Dimension(179, 27));
+        ClusterPathToRSAFile.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ClusterPathToRSAFileFocusLost(evt);
+            }
+        });
+
+        TestSave_Button.setForeground(new java.awt.Color(255, 116, 0));
+        TestSave_Button.setText("Test Connexion and Save Information");
+        TestSave_Button.setEnabled(false);
+        TestSave_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TestSave_ButtonActionPerformed(evt);
+            }
+        });
+
+        ClusterEnabled.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        ClusterEnabled.setText("Cluster is enabled");
+        ClusterEnabled.setEnabled(false);
+        ClusterEnabled.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ClusterEnabled.setName("ClusterEnabled"); // NOI18N
+
+        ClusterEnoughInfo.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        ClusterEnoughInfo.setText("Cluster has enough info");
+        ClusterEnoughInfo.setEnabled(false);
+        ClusterEnoughInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ClusterEnoughInfo.setName("ClusterEnoughInfo"); // NOI18N
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel17Layout.createSequentialGroup()
+                        .addComponent(jLabel49)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ClusterPathToRSAFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel17Layout.createSequentialGroup()
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel46)
+                            .addComponent(jLabel47)
+                            .addComponent(jLabel48))
+                        .addGap(80, 80, 80)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ClusterRapID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel17Layout.createSequentialGroup()
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel43)
+                            .addComponent(jLabel44)
+                            .addComponent(jLabel45)
+                            .addComponent(jLabel42))
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ClusterNames_list, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterGroupName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel17Layout.createSequentialGroup()
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(ClusterEnabled, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ClusterInfosUpdate_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TestSave_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ClusterEnoughInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(31, 31, 31))
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterEnabled)
+                    .addComponent(ClusterEnoughInfo))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterInfosUpdate_Button)
+                    .addComponent(TestSave_Button))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterNames_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel42))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel43))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel44))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel45))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterAccessAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel46))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClusterEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel47))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel48)
+                    .addComponent(ClusterRapID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel49)
+                    .addComponent(ClusterPathToRSAFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+
+        jTabbedPane3.addTab("Cluster Access Options", jPanel17);
+
+        jPanel18.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel50.setText("cluster pwd");
+
+        ClusterPWD.setEditable(false);
+        ClusterPWD.setToolTipText("");
+        ClusterPWD.setFocusable(false);
+        ClusterPWD.setMaximumSize(new java.awt.Dimension(220, 27));
+        ClusterPWD.setMinimumSize(new java.awt.Dimension(220, 27));
+        ClusterPWD.setName("ClusterPWD"); // NOI18N
+        ClusterPWD.setPreferredSize(new java.awt.Dimension(220, 27));
+
+        ClusterModules.setEditable(false);
+        ClusterModules.setColumns(20);
+        ClusterModules.setLineWrap(true);
+        ClusterModules.setRows(5);
+        ClusterModules.setFocusable(false);
+        ClusterModules.setName("ClusterModules"); // NOI18N
+        jScrollPane5.setViewportView(ClusterModules);
+
+        jLabel51.setText("modules");
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel50)
+                    .addComponent(jLabel51))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+                    .addComponent(ClusterPWD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel50)
+                    .addComponent(ClusterPWD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addComponent(jLabel51)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jTabbedPane3.addTab("Information Saved", jPanel18);
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane3)
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+
+        jTabbedPane1.addTab("Cluster Settings", jPanel16);
 
         ClosejButton.setText("Update");
         ClosejButton.addActionListener(new java.awt.event.ActionListener() {
@@ -675,20 +1741,20 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ClosejButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CanceljButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ClosejButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CanceljButton)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CanceljButton)
@@ -891,33 +1957,332 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jCheckBox4ActionPerformed
 
+    private void D_AC_StopSelectedContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_D_AC_StopSelectedContActionPerformed
+        // TODO add your handling code here:
+        int[] tabInt = this.DockerArmadilloContainer_list.getSelectedIndices();
+        if (tabInt.length > 0) {
+            ArrayList<String> cont = new ArrayList<String>();
+            for (int i:tabInt){
+                String s = DockerArmadilloContainer_list.getModel().getElementAt(i).toString();
+                cont.add(s);
+            }
+            Docker.removeContainersListFromName(cont);
+            updateDockerLists();
+        }
+    }//GEN-LAST:event_D_AC_StopSelectedContActionPerformed
+
+    private void DAC_StopAllCont_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DAC_StopAllCont_buttonActionPerformed
+        // TODO add your handling code here:
+        Docker.stopAllArmadilloContainer();
+        Docker.removeAllArmadilloContainer();
+        updateDockerLists();
+    }//GEN-LAST:event_DAC_StopAllCont_buttonActionPerformed
+
+    private void D_UI_deleteSelectedImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_D_UI_deleteSelectedImagesActionPerformed
+        // TODO add your handling code here:
+        int[] tabInt = this.DockerUploadedImages_list.getSelectedIndices();
+        if (tabInt.length > 0) {
+            ArrayList<String> l = new ArrayList<String>();
+            for (int i:tabInt){
+                String s = this.DockerUploadedImages_list.getModel().getElementAt(i).toString();
+                String[] tp = s.split(", ");
+                l.add(tp[0]);
+            }
+            Docker.removeImagesList(l);
+            updateDockerLists();
+        }
+    }//GEN-LAST:event_D_UI_deleteSelectedImagesActionPerformed
+
+    private void ClosejButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClosejButton1ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_ClosejButton1ActionPerformed
+
+    private void Update_docker_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_docker_buttonActionPerformed
+        // TODO add your handling code here:
+        updateDockerLists();
+    }//GEN-LAST:event_Update_docker_buttonActionPerformed
+
+    private void jTabbedPane2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane2ComponentShown
+
+    }//GEN-LAST:event_jTabbedPane2ComponentShown
+
+    private void DockerSockets_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerSockets_TextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DockerSockets_TextActionPerformed
+
+    private void DockerExecutionDriver_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerExecutionDriver_TextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DockerExecutionDriver_TextActionPerformed
+
+    private void DockerClusterStore_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerClusterStore_TextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DockerClusterStore_TextActionPerformed
+
+    private void DockerClusterAdvertise_TextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerClusterAdvertise_TextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DockerClusterAdvertise_TextActionPerformed
+
+    private void ClusterInfosUpdate_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterInfosUpdate_ButtonActionPerformed
+        clusterUpdateValues();
+        clusterCheckIfWellWritten();
+    }//GEN-LAST:event_ClusterInfosUpdate_ButtonActionPerformed
+
+    private void ClusterNames_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterNames_listActionPerformed
+        // TODO add your handling code here:
+        clusterUpdateValues();
+    }//GEN-LAST:event_ClusterNames_listActionPerformed
+
+    private void ClusterNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterNameActionPerformed
+
+    }//GEN-LAST:event_ClusterNameActionPerformed
+
+    private void ClusterUserNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ClusterUserNameFocusLost
+        clusterUpdateName();
+        clusterUpdateValues();
+    }//GEN-LAST:event_ClusterUserNameFocusLost
+
+    private void ClusterGroupNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ClusterGroupNameFocusLost
+        clusterUpdateGroup();
+        clusterUpdateValues();
+    }//GEN-LAST:event_ClusterGroupNameFocusLost
+
+    private void ClusterAccessAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterAccessAddressActionPerformed
+
+    }//GEN-LAST:event_ClusterAccessAddressActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String[] pathP2rsa = Util.simpleSearchBox("f",false,false);
+        if (pathP2rsa.length == 1 && pathP2rsa[0] != ""){
+            config.set(ClusterPathToRSAFile.getName(),pathP2rsa[0]);
+            ClusterPathToRSAFile.setText(pathP2rsa[0]);
+        } else {
+            config.remove(ClusterPathToRSAFile.getName());
+            ClusterPathToRSAFile.setText("path to Private Key");
+        }
+        clusterUpdateValues();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void ClusterPathToRSAFileFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ClusterPathToRSAFileFocusLost
+        // TODO add your handling code here:
+        String s = ClusterPathToRSAFile.getText();
+        if (s.isEmpty()||s==""||s=="path to Private Key"){
+            config.remove(ClusterPathToRSAFile.getName());
+            ClusterPathToRSAFile.setText("path to Private Key");
+        } else {
+            config.set(ClusterPathToRSAFile.getName(),s);
+            ClusterPathToRSAFile.setText(s);
+        }
+        clusterUpdateValues();
+    }//GEN-LAST:event_ClusterPathToRSAFileFocusLost
+
+    private void TestSave_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestSave_ButtonActionPerformed
+        // TODO add your handling code here:
+        clusterUpdateValues();
+        if (!Cluster.isClusterNeededInfoInConfig()) {
+            boolean b2 = Cluster.getAccessToCluster(config.properties);
+            if (b2) {
+                ClusterPWD.setText(config.get("ClusterPWD"));
+                ArrayList<String> tab = Cluster.getModules(config.properties);
+                if (!tab.isEmpty()){
+                    for (String s : tab) {
+                        ClusterModules.append(s);
+                        ClusterModules.append("\n");
+                    }
+                }
+                String s = Arrays.toString(tab.toArray());
+                config.set("ClusterModules",s);
+            } else {
+                config.remove("ClusterModules");
+                config.remove("ClusterPWD");
+            }
+            jTabbedPane1.setSelectedIndex(1);
+            clusterUpdateValues();
+        } else {
+            System.out.println("Not able to access to the cluster Cluster");
+        }
+
+    }//GEN-LAST:event_TestSave_ButtonActionPerformed
+
+    private void jTabbedPane3ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane3ComponentShown
+
+    }//GEN-LAST:event_jTabbedPane3ComponentShown
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if (Docker.isDockerHere()){
+            jTabbedPane2.setSelectedIndex(1);
+            dockerUpdateValues(true);
+        } else {
+            dockerUpdateValues(false);
+            System.out.println("Not able to access to the cluster Cluster");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void DockerTlsVerifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerTlsVerifyActionPerformed
+        // TODO add your handling code here:
+        String s = DockerTlsVerify.getText();
+        setDockerTlsVerify(s);
+    }//GEN-LAST:event_DockerTlsVerifyActionPerformed
+
+    private void DockerHostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerHostActionPerformed
+        // TODO add your handling code here:
+        String s = DockerHost.getText();
+        setDockerHost(s);
+    }//GEN-LAST:event_DockerHostActionPerformed
+
+    private void DockerHostFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_DockerHostFocusLost
+        // TODO add your handling code here:
+        String s = DockerHost.getText();
+        setDockerHost(s);
+    }//GEN-LAST:event_DockerHostFocusLost
+
+    private void DockerTlsVerifyFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_DockerTlsVerifyFocusLost
+        // TODO add your handling code here:
+        String s = DockerTlsVerify.getText();
+        setDockerTlsVerify(s);
+    }//GEN-LAST:event_DockerTlsVerifyFocusLost
+
+    private void DockerCertPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerCertPathActionPerformed
+        // TODO add your handling code here:
+        String s = DockerCertPath.getText();
+        setDockerCertPath(s);
+    }//GEN-LAST:event_DockerCertPathActionPerformed
+
+    private void DockerCertPathFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_DockerCertPathFocusLost
+        // TODO add your handling code here:
+        String s = DockerCertPath.getText();
+        setDockerCertPath(s);
+    }//GEN-LAST:event_DockerCertPathFocusLost
+
+    private void DockerConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerConfigActionPerformed
+        // TODO add your handling code here:
+        String s = DockerConfig.getText();
+        setDockerConfig(s);
+    }//GEN-LAST:event_DockerConfigActionPerformed
+
+    private void DockerConfigFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_DockerConfigFocusLost
+        // TODO add your handling code here:
+        String s = DockerConfig.getText();
+        setDockerConfig(s);
+    }//GEN-LAST:event_DockerConfigFocusLost
+
+    private void DockerConfig_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerConfig_searchActionPerformed
+        // TODO add your handling code here:
+        String[] f = Util.simpleSearchBox("f",false,false);
+        if (f.length == 1 && f[0] != ""){
+            setDockerConfig(f[0]);
+        } else {
+            setDockerConfig("");
+        }
+    }//GEN-LAST:event_DockerConfig_searchActionPerformed
+
+    private void DockerCertPath_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DockerCertPath_searchActionPerformed
+        // TODO add your handling code here:
+        String[] d = Util.simpleSearchBox("d",false,false);
+        if (d.length == 1 && d[0] != ""){
+            setDockerCertPath(d[0]);
+        } else {
+            setDockerCertPath("");
+        }
+    }//GEN-LAST:event_DockerCertPath_searchActionPerformed
+
+    private void dockerUpdateValues(boolean b){
+        DockerAvailable.setSelected(b);
+        jPanel12.setEnabled(b);
+        jPanel13.setVisible(b);
+        if (b){
+            DockerAvailable.setText("Docker is available");
+            DockerAvailable.setForeground(Color.getHSBColor(76, 76, 76));
+            DockerClusterAdvertise_Text.setText(Docker.getClusterAdvertise());
+            DockerOperatingSystem_Text.setText(Docker.getOperatingSystem());
+            DockerHttpProxy_Text.setText(Docker.getHttpProxy());
+            DockerOsType_Text.setText(Docker.getOsType());
+            DockerServerVersion_Text.setText(Docker.getServerVersion());
+            DockerNCPU_Text.setText(Docker.getNCPU());
+            DockerNFd_Text.setText(Docker.getNFd());
+            DockerInitPath_Text.setText(Docker.getInitPath());
+            DockerRootDir_Text.setText(Docker.getRootDirIfDocker());
+            DockerArchitecture_Text.setText(Docker.getArchitecture());
+            DockerDriver_Text.setText(Docker.getDriver());
+            DockerClusterStore_Text.setText(Docker.getClusterStore());
+            DockerExecutionDriver_Text.setText(Docker.getExecutionDriver());
+            DockerSockets_Text.setText(Docker.getSockets());
+        } else {
+            DockerAvailable.setText("Docker is not available");
+            DockerAvailable.setForeground(Color.red);
+        }
+    }
+    
+    private void setDockerHost(String s){
+        if (Util.isIpV4PortAddress(s)){
+            config.set(DockerHost.getName(),s);
+            DockerHost.setText(s);
+        } else {
+            config.remove(DockerHost.getName());
+            DockerHost.setText("add docker ip address and port like 192.168.99.101:2376");
+        }
+    }
+    
+    private void setDockerTlsVerify(String s){
+        if ("true".equals(s) || "false".equals(s)){
+            config.set(DockerTlsVerify.getName(),s);
+            DockerTlsVerify.setText(s);
+        } else {
+            config.remove(DockerTlsVerify.getName());
+            DockerTlsVerify.setText("true or false, only");
+        }
+    }
+    
+    private void setDockerCertPath(String s){
+        if (Util.DirExists(s)){
+            config.set(DockerCertPath.getName(),s);
+            DockerCertPath.setText(s);
+        } else {
+            config.remove(DockerCertPath.getName());
+            DockerCertPath.setText("C:"+File.separator+"Users"+File.separator+"UserName"+File.separator+".docker"+File.separator+"machine"+File.separator+"machines"+File.separator+"default");
+        }
+    }
+    
+    private void setDockerConfig(String s){
+        if (Util.FileExists(s)){
+            config.set(DockerConfig.getName(),s);
+            DockerConfig.setText(s);
+        } else {
+            config.remove(DockerConfig.getName());
+            DockerConfig.setText("C:"+File.separator+"Users"+File.separator+"UserName"+File.separator+".docker"+File.separator+"machine"+File.separator+"machines"+File.separator+"default"+File.separator+"config.json");
+        }
+    }
+    
     public void updateUI() {
-        String w=String.valueOf(workbox.getCurrentArmadilloWorkflow().width);
-        String h=String.valueOf(workbox.getCurrentArmadilloWorkflow().height);                
+        armadillo_workflow aw = workbox.getCurrentArmadilloWorkflow();
+        String w=String.valueOf(aw.width);
+        String h=String.valueOf(aw.height);                
         //--Project       
-        this.ProjectNamejTextField.setText(workbox.getProject().getName());
-        this.ProjectInstitutionjTextField.setText(workbox.getProject().getInstitution());
-        this.ProjectEmailjTextField.setText(workbox.getProject().getEmail());
-        this.ProjectAuthorjTextField.setText(workbox.getProject().getAuthor());
-        this.ProjectNotejTextArea.setText(workbox.getProject().getNote());
-        if (workbox.getProject().getAuthor().isEmpty()&&config.isSet("author")) {
+        Project p = workbox.getProject();
+        this.ProjectNamejTextField.setText(p.getName());
+        this.ProjectInstitutionjTextField.setText(p.getInstitution());
+        this.ProjectEmailjTextField.setText(p.getEmail());
+        this.ProjectAuthorjTextField.setText(p.getAuthor());
+        this.ProjectNotejTextArea.setText(p.getNote());
+        if (p.getAuthor().isEmpty()&&config.isSet("author")) {
             this.ProjectAuthorjTextField.setText(config.get("author"));
-            workbox.getProject().setAuthor(config.get("author"));
+            p.setAuthor(config.get("author"));
         }
-        if (workbox.getProject().getInstitution().isEmpty()&&config.isSet("institution")) {
+        if (p.getInstitution().isEmpty()&&config.isSet("institution")) {
             this.ProjectInstitutionjTextField.setText(config.get("institution"));
-            workbox.getProject().setInstitution(config.get("institution"));
+            p.setInstitution(config.get("institution"));
         }
-        if (workbox.getProject().getEmail().isEmpty()&&config.isSet("email")) {
+        if (p.getEmail().isEmpty()&&config.isSet("email")) {
             this.ProjectEmailjTextField.setText(config.get("email"));
-            workbox.getProject().setEmail(config.get("email"));
+            p.setEmail(config.get("email"));
         }
         if (config.isSet("RScriptPath")) {
             this.jRScriptPath.setText(config.get("RScriptPath"));
         } else {
              this.jRScriptPath.setText("");
         }
-        //this.ProjectCreatejLabel.setText("Created on :"+workbox.getProject().getDateCreated());
+        //this.ProjectCreatejLabel.setText("Created on :"+p.getDateCreated());
         //--Workflow
         work=this.workbox.getCurrentWorkflows();
         this.ShowGridjCheckBox.setSelected(work.isDisplayLINE());
@@ -957,6 +2322,70 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             //Do nothing...
         }
         
+        /* Load Cluster Saved Values  */
+        ClusterAccessAddress.setEnabled(false);
+        ClusterName.setEnabled(false);
+        ClusterUserName.setEnabled(false);
+        ClusterGroupName.setEnabled(false);
+        if (config.isSet("ClusterAllName")) {
+            String s = config.get("ClusterAllName");
+            if (config.isSet(ClusterName.getName())){
+                String s2 = config.get(ClusterName.getName());
+                ClusterName.setText(s2);
+            }
+            if (config.isSet(ClusterUserName.getName())){
+                String s2 = config.get(ClusterUserName.getName());
+                ClusterUserName.setText(s2);
+                ClusterUserName.setEnabled(true);
+            }
+            if (config.isSet(ClusterGroupName.getName())){
+                String s2 = config.get(ClusterGroupName.getName());
+                ClusterGroupName.setText(s2);
+            }
+            if (s.matches("^Mp2.*")||s.matches("^Ms2.*")){
+                ClusterGroupName.setEnabled(true);
+            }
+            if (config.isSet(ClusterNames_list.getName())){
+                int i = Integer.parseInt(config.get(ClusterNames_list.getName()));
+                ClusterNames_list.setSelectedIndex(i);
+            }
+            if (config.isSet(ClusterAccessAddress.getName())){
+                String s2 = config.get(ClusterAccessAddress.getName());
+                ClusterAccessAddress.setText(s2);
+            }
+        } else {
+            ClusterNames_list.setSelectedIndex(0);
+            config.set(ClusterNames_list.getName(),0);
+            ClusterName.setText("Select a cluster");
+            ClusterUserName.setText("Add user name");
+            ClusterGroupName.setText("Add group name");
+        }
+        if (config.isSet(ClusterPathToRSAFile.getName())) {
+            ClusterPathToRSAFile.setText(config.get(ClusterPathToRSAFile.getName()));
+        } else {
+            ClusterPathToRSAFile.setText("path to Private Key");
+        }
+
+        if (config.isSet(ClusterPWD.getName())){
+            String s = config.get(ClusterPWD.getName());
+            ClusterPWD.setText(s);
+            ClusterEnoughInfo.setSelected(true);
+        } else {
+            ClusterEnoughInfo.setSelected(false);
+        }
+
+        if (config.isSet(ClusterModules.getName()))
+            ClusterModules.setText(config.get(ClusterModules.getName()));
+
+        if (config.isSet(ClusterEnabled.getName()))
+            ClusterEnabled.setSelected(config.getBoolean(ClusterEnabled.getName()));
+        else
+            ClusterEnabled.setSelected(false);
+        
+        if (config.getBoolean("Windows"))
+            windowsOrAdvancedTable.setVisible(true);
+        else
+            windowsOrAdvancedTable.setVisible(false);
     }
 
     public void display() {
@@ -964,22 +2393,28 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
         this.setVisible(true);
     }
 
+    public void display(int i) {
+        updateUI();
+        jTabbedPane1.setSelectedIndex(i);
+        this.setVisible(true);
+    }
+
     /**
      * Simple thread to load file into the project
      */
     public void updateInformations() {
-
+        config.Save();
         SwingWorker<Integer, Object> loadSwingWorker2=new SwingWorker<Integer, Object>() {
 
             @Override
             protected Integer doInBackground() throws Exception {
-            if (modified) {
-                workbox.getProject().updateDatabase();
-                setProgress(50);
-                work.updateDatabase();
-            }
-                setProgress(100);
-                return 0;
+                if (modified) {
+                    workbox.getProject().updateDatabase();
+                    setProgress(50);
+                    work.updateDatabase();
+                }
+                    setProgress(100);
+                    return 0;
             }
 
             @Override
@@ -998,7 +2433,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
 
             @Override
             public void done() {
-                 toolbox.reloadDatabaseTree();
+                toolbox.reloadDatabaseTree();
                 loading.setVisible(false);
 
             }
@@ -1006,8 +2441,8 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
         }; //End SwingWorker definition
 
         loadSwingWorker2.addPropertyChangeListener(
-                 new PropertyChangeListener() {
-                    public  void propertyChange(PropertyChangeEvent evt) {
+                new PropertyChangeListener() {
+                    public void propertyChange(PropertyChangeEvent evt) {
                         if ("progress".equals(evt.getPropertyName())) {
                             SwingWorker o = (SwingWorker)evt.getSource();
                             if (!o.isDone()) {
@@ -1027,7 +2462,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
         loadSwingWorker2.execute();
     }
 
-      void Message(String text, String tooltip) {
+    void Message(String text, String tooltip) {
         this.jStatusMessage.setEnabled(true);
         this.jStatusMessage.setForeground(new java.awt.Color(0, 51, 153));
         this.jStatusMessage.setBackground(Color.WHITE);
@@ -1043,11 +2478,188 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
         this.jStatusMessage.setToolTipText(tooltip);
         this.jStatusMessage.setText(text);
     }
-   
+    
+    /*************************************************************************
+     * DOCKER
+     *************************************************************************/
+    /**
+     * Set Lists for D_UI_list or D_AC_list and clean inactives containers
+     */
+    private void updateDockerLists() {
+        DockerUploadedImages_list.setListData(Docker.getAllImagesNameTab());
+        DockerArmadilloContainer_list.setListData(Docker.getAllContainersNameListTab());
+    }
+    
+    /*************************************************************************
+     * CLUSTER
+     *************************************************************************/
+
+    private void clusterCheckIfWellWritten(){
+        String s = "";
+        if (config.isSet("ClusterAccessAddress"))
+            s = config.get("ClusterAccessAddress");
+        if (!"".equals(s) && !Cluster.isClusterNeededInfoInConfig()
+                && Cluster.clusterAccessAddressIsWellWritten(s))
+            clusterTestSaveButtonEnable(true);
+        else
+            clusterTestSaveButtonEnable(false);
+    }
+
+    private void clusterTestSaveButtonEnable(boolean b){
+        TestSave_Button.setEnabled(b);
+    }
+    /*
+     * Other clusters for the futur
+     *     Briaree_nom@briaree.calculquebec.ca
+     *     Colosse_nom@colosse.calculquebec.ca
+     *     Cottos_nom@cottos.calculquebec.ca
+     *     Guillimin_nom@guillimin.hpc.mcgill.ca
+     *     Mp2_nom@<nom du groupe>-mp2.ccs.usherbrooke.ca
+     *     Ms2_nom@<nom du groupe>-ms.ccs.usherbrooke.ca
+     *     Psi_nom@psi.concordia.ca
+     */
+    
+    
+    /**
+     * General Update
+     */
+    private void clusterUpdateValues() {
+        ClusterAccessAddress.setEnabled(false);
+        ClusterName.setEnabled(false);
+        
+        int i = this.ClusterNames_list.getSelectedIndex();
+        String s   = (String)this.ClusterNames_list.getModel().getElementAt(i).toString();
+        config.set("ClusterAllName",s);
+        config.set(ClusterNames_list.getName(),i);
+        if (s.matches("^Mp2.*")||s.matches("^Ms2.*")){
+            s = s.replaceAll("\\<nom du groupe\\>","");
+            ClusterGroupName.setEnabled(true);
+        } else {
+            ClusterGroupName.setEnabled(false);
+        }
+        s = s.replaceAll("^\\w*_nom@","");
+        config.set(ClusterName.getName(),s);
+        ClusterName.setText(s);
+        ClusterUserName.setEnabled(true);
+        clusterUpdateName();
+        clusterUpdateGroup();
+        clusterUpdateAccess();
+        clusterUpdateEnabled();
+        clusterTestSaveButtonEnable(false);
+        config.Save();
+    }
+    /**
+     * Name Update
+     */
+    private void clusterUpdateName() {
+        String s = ClusterUserName.getText();
+        if (s.equals("")||!(config.isSet(ClusterUserName.getName()))){
+            config.set(ClusterUserName.getName(),"Add a name");
+            ClusterUserName.setText("Add a name");
+        } else {
+            config.set(ClusterUserName.getName(),s);
+            ClusterUserName.setText(s);
+        }
+    }
+    /**
+     * Group Update
+     */
+    private void clusterUpdateGroup() {
+        String s = ClusterGroupName.getText();
+        if (s.equals("")||!(config.isSet(ClusterGroupName.getName()))){
+            config.set(ClusterGroupName.getName(),"Add a group");
+            ClusterGroupName.setText("Add a group");
+        } else {
+            config.set(ClusterGroupName.getName(),s);
+            ClusterGroupName.setText(s);
+        }
+    }
+    
+    /**
+     * Access Update
+     */
+    private void clusterUpdateAccess() {
+        if (config.isSet("ClusterAllName")) {
+            String s       = config.get("ClusterAllName");
+            String group   = "";
+            String name    = config.get(ClusterUserName.getName());
+            String cluster = config.get(ClusterName.getName());
+            if (s.matches("^Mp2.*")||s.matches("^Ms2.*"))
+                group = config.get(ClusterGroupName.getName());
+            String access  = name+"@"+group+cluster;
+            ClusterAccessAddress.setText(access);
+            config.set(ClusterAccessAddress.getName(),access);
+            config.set("Description","Cluster address used:\n"+access+"\nPrivate key path used:\n"+config.get("PathToRSAFile"));
+        }
+    }
+    
+    /**
+     * Access Update
+     */
+    public void clusterUpdateEnabled(){
+        
+        /*
+        Workbox workbox = parent_workflow.getWorkbox();
+        boolean b = Cluster.isClusterEnable(workbox);
+        if (b) {
+            ClusterEnabled.setSelected(true);
+            properties.put(ClusterEnabled.getName(),true);
+        } else {
+            ClusterEnabled.setSelected(false);
+            properties.remove(ClusterEnabled.getName());
+        }
+        */
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CanceljButton;
     private javax.swing.JButton ClosejButton;
+    private javax.swing.JButton ClosejButton1;
+    private javax.swing.JTextField ClusterAccessAddress;
+    private javax.swing.JTextField ClusterEmail;
+    private javax.swing.JCheckBox ClusterEnabled;
+    private javax.swing.JCheckBox ClusterEnoughInfo;
+    private javax.swing.JTextField ClusterGroupName;
+    private javax.swing.JButton ClusterInfosUpdate_Button;
+    private javax.swing.JTextArea ClusterModules;
+    private javax.swing.JTextField ClusterName;
+    private javax.swing.JComboBox ClusterNames_list;
+    private javax.swing.JTextField ClusterPWD;
+    private javax.swing.JTextField ClusterPathToRSAFile;
+    private javax.swing.JTextField ClusterRapID;
+    private javax.swing.JTextField ClusterUserName;
     private javax.swing.JLabel CreatedjLabel;
+    private javax.swing.JButton DAC_StopAllCont_button;
+    private javax.swing.JButton D_AC_StopSelectedCont;
+    private javax.swing.JButton D_UI_deleteSelectedImages;
+    private javax.swing.JTextField DockerApiVersion;
+    private javax.swing.JTextField DockerArchitecture_Text;
+    private javax.swing.JList DockerArmadilloContainer_list;
+    private javax.swing.JCheckBox DockerAvailable;
+    private javax.swing.JTextField DockerCertPath;
+    private javax.swing.JButton DockerCertPath_search;
+    private javax.swing.JTextField DockerClusterAdvertise_Text;
+    private javax.swing.JTextField DockerClusterStore_Text;
+    private javax.swing.JTextField DockerConfig;
+    private javax.swing.JButton DockerConfig_search;
+    private javax.swing.JTextField DockerDriver_Text;
+    private javax.swing.JTextField DockerExecutionDriver_Text;
+    private javax.swing.JTextField DockerHost;
+    private javax.swing.JTextField DockerHttpProxy_Text;
+    private javax.swing.JTextField DockerInitPath_Text;
+    private javax.swing.JTextField DockerNCPU_Text;
+    private javax.swing.JTextField DockerNFd_Text;
+    private javax.swing.JTextField DockerOperatingSystem_Text;
+    private javax.swing.JTextField DockerOsType_Text;
+    private javax.swing.JTextField DockerRegistryEmail_Text;
+    private javax.swing.JTextField DockerRegistryPassword_Text;
+    private javax.swing.JTextField DockerRegistryUrl;
+    private javax.swing.JTextField DockerRegistryUserName_Text;
+    private javax.swing.JTextField DockerRootDir_Text;
+    private javax.swing.JTextField DockerServerVersion_Text;
+    private javax.swing.JTextField DockerSockets_Text;
+    private javax.swing.JTextField DockerTlsVerify;
+    private javax.swing.JList DockerUploadedImages_list;
     private javax.swing.JLabel IdentificationjLabel;
     private javax.swing.JCheckBox LowResolutionCheckBox;
     private javax.swing.JComboBox Memory_jComboBox4;
@@ -1061,9 +2673,13 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox Separator_jComboBox3;
     private javax.swing.JCheckBox ShowGridjCheckBox;
     private javax.swing.JCheckBox SimpleGraphjCheckBox;
+    private javax.swing.JButton TestSave_Button;
+    private javax.swing.JButton Update_docker_button;
     private javax.swing.JComboBox fontsize_jComboBox4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
@@ -1073,16 +2689,65 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1092,10 +2757,17 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jRScriptPath;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jStatusMessage;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JPanel windowsOrAdvancedTable;
     private javax.swing.JTextField workflow_name_JTextfield;
     // End of variables declaration//GEN-END:variables
 

@@ -64,6 +64,7 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
 import javax.swing.JCheckBox;
@@ -392,8 +393,36 @@ public class Util {
         return tmp;
     }
     
-    
-    
+    /**
+     * List the files in directory
+     * @return
+     */
+    public static Vector<String> listDir(String dir) {
+        Vector<String> tmp=new Vector<String>();
+        try {
+            File f=new File(dir);
+            if (!f.isDirectory()) {
+                dir+=File.separator;
+                f=new File(dir);
+            }
+            for (String filename:f.list()) tmp.add(filename);
+        } catch(Exception e) {}
+        return tmp;
+    }
+
+    public static boolean changeDirWindows(String path) {
+        try {
+            String[] command={"cmd.exe","/C","CD","\""+path+"\""};
+            for(String s:command) Config.log(s+"\t");
+            Runtime r = Runtime.getRuntime();
+            Process p = r.exec(command);
+            int result=p.waitFor();
+            File f=new File("");
+            Config.log(path+" : "+f.getAbsolutePath());
+            return result==0;
+        } catch(Exception e) {e.printStackTrace();return false;}
+    }
+
     /**
      * Recursive fonction to list a directory
      * Note: Use the Config.listDirFullPath function
@@ -799,11 +828,14 @@ public class Util {
     public static boolean CreateDir(String directory) {
         try {
             File f=new File(directory);
-            if (DirExists(directory)) return false;
+            if (DirExists(directory))
+                return false;
             return (f.mkdirs());
         } catch(Exception e) {
-            System.out.println("Create Directory Failed!");
-            System.out.println(e);
+            Config.log("Unable to create "+directory+ " directory");
+            Config.log(e.toString());
+            Util.dm("Unable to create "+directory+ " directory");
+            Util.dm(e.toString());
             return false;
         }
     }
@@ -867,7 +899,7 @@ public class Util {
         try {
             File outtree=new File(directory);
             if (outtree.exists()&&outtree.isDirectory()) {
-                for (String file:Config.listDir(directory)) {
+                for (String file:listDir(directory)) {
                     deleteFile(directory+File.separator+file);
                 }
                 return outtree.delete();
@@ -1222,6 +1254,22 @@ public class Util {
         return "";
     }
     
+    public static boolean isIpV4PortAddress(String s){
+        /*
+        Source: https://stackoverflow.com/questions/36247902/java-regex-string-check-if-ipport-string-contains-a-valid-ipv4-or-dns-address
+        */
+        Pattern p = Pattern.compile("^"
+                + "("
+                //+ "((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}" // Domain name
+                //+ "|"
+                + "localhost" // localhost
+                + "|"
+                + "(([0-9]{1,3}\\.){3})[0-9]{1,3})" // Ip
+                + ":"
+                + "[0-9]{1,5}$"); // Port
+
+        return p.matcher(s).matches();
+    }
     
     public static ArrayList<String> loadStrings(String filename) {
         ArrayList<String> tmp=new ArrayList<String>();
@@ -2043,6 +2091,18 @@ public class Util {
     }
     
     /*
+    Test if a list of variables are in properties
+    */
+    public static workflow_properties addListInProperties(workflow_properties properties,String[] tab){
+        for (String s:tab){
+            if (config.isSet(s)){
+                properties.put(s,config.get(s));
+            }
+        }
+        return properties;
+    }
+    
+    /*
     Return string for requirements
     BadRequirements = BR
     */
@@ -2061,14 +2121,16 @@ public class Util {
     public static String BRDockerNotFound(){
         return "Docker is not found. Please install Docker";
     }
+    public static String BRDockerAPINotAccessible(){
+        return "Docker API is not accessible with setted parameters";
+    }
+    public static String BRDockerUnableToCreateClient(){
+        return "Unable to create a Docker Client";
+    }
     public static String RUNDockerDuration(String where, long duration){
         return "\t<TIME> Time to "+where+" Docker container is >"+duration+" s";
     }
     public static String RUNCommandLine(String type, String cli){
         return "If it's used, the "+type+" CommandLine is: \n$ "+cli;
     }
-
-    
-    
-    
 }

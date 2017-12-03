@@ -249,7 +249,7 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
         /// Sample
         Vector<JMenuItem>sample_menu=new Vector<JMenuItem>();
         //--Create menu item for each sample
-        for (String filename:Config.listDir("examples")) {
+        for (String filename:Util.listDir("examples")) {
             if (filename.endsWith("db")) {
                 File f=new File(filename);
                 if (config.getBoolean("MacOSX")&&f.getName().startsWith("LocalBlast.db")) {
@@ -1356,7 +1356,6 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
     
     private void Run_jMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Run_jMenuItemActionPerformed
         this.workbox.resetState();
-        Cluster.setClusterEnable(workbox.getCurrentArmadilloWorkflow(),false);
         this.workbox.Run();
     }//GEN-LAST:event_Run_jMenuItemActionPerformed
     

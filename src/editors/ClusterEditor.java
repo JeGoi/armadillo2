@@ -522,7 +522,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
     private void TestSave_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestSave_ButtonActionPerformed
         // TODO add your handling code here:
         updateValues();
-        if (Cluster.isClusterAccessInfoHere(properties)) {
+        if (!Cluster.isClusterNeededInfoInConfig()) {
             boolean b2 = Cluster.getAccessToCluster(properties);
             if (b2) {
                 ClusterPWD.setText(properties.get("ClusterPWD"));
@@ -552,7 +552,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
         if (properties.isSet("ClusterAccessAddress"))
             s = properties.get("ClusterAccessAddress");
         if ("".equals(s) || !Cluster.clusterAccessAddressIsWellWritten(s)
-                || (!Cluster.isClusterAccessInfoHere(properties)))
+                || (!Cluster.isClusterNeededInfoInConfig()))
             TestSaveButtonEnable(false);
         else
             TestSaveButtonEnable(true);
@@ -650,7 +650,7 @@ public class ClusterEditor extends javax.swing.JDialog implements EditorInterfac
      */
     public void updateEnabled(){
         Workbox workbox = parent_workflow.getWorkbox();
-        boolean b = Cluster.isClusterEnable(workbox);
+        boolean b = Cluster.isClusterEnable();
         if (b) {
             ClusterEnabled.setSelected(true);
             properties.put(ClusterEnabled.getName(),true);

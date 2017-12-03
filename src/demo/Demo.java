@@ -677,7 +677,7 @@ public static void CalculateNumberOfSequence() {
     
     //--Load the files...
     String path="C:\\Documents and Settings\\lore26107809\\Mes documents\\Dropbox\\22dec2011";
-    Vector<String>filenames=Config.listDirWithFullPath(path);
+    Vector<String>filenames=Util.listDirWithFullPath(path);
     Util seqname=new Util("seqname_file.txt");
     for (String filename:filenames) {
         re e=new re();
@@ -919,7 +919,7 @@ public static Vector<Alignment> Create_Group_Sequences(Alignment align) {
     
     
      public static void SearchWorkflow_byTools() {
-        Vector<String> dir=Config.listDirWithFullPath(config.projectsDir());
+        Vector<String> dir=Util.listDirWithFullPath(config.projectsDir());
         armadillo_workflow a=new armadillo_workflow();
         for (String filename:dir) {
             if (filename.endsWith(".db")) {
@@ -1369,13 +1369,13 @@ public static Vector<Alignment> Create_Group_Sequences(Alignment align) {
         //--Create a list of all the program to find         
          
          HashMap<String, Vector<String>>ProgramToFind=new HashMap<String, Vector<String>>(); //--WE look for class name...
-         Vector<String> dir_properties=Config.listDirWithFullPath(config.propertiesPath());
+         Vector<String> dir_properties=Util.listDirWithFullPath(config.propertiesPath());
          //-Create a list of all the program to find and an example of workflow?
          for (String properties_filename:dir_properties) {
              workflow_properties pro=new workflow_properties(properties_filename);
              ProgramToFind.put(pro.get("ClassName"),new Vector<String>());
          }        
-         Vector<String> dir=Config.listDirWithFullPath(config.projectsDir());
+         Vector<String> dir=Util.listDirWithFullPath(config.projectsDir());
         armadillo_workflow a=new armadillo_workflow();
         for (String filename:dir) {
             if (filename.endsWith(".db")) {
@@ -1415,7 +1415,7 @@ public static Vector<Alignment> Create_Group_Sequences(Alignment align) {
     }
     
      public static void SearchWorkflow_forError() {
-        Vector<String> dir=Config.listDirWithFullPath(config.projectsDir());
+        Vector<String> dir=Util.listDirWithFullPath(config.projectsDir());
         armadillo_workflow a=new armadillo_workflow();        
         //--Statistics about the workflows in the current project directory
         for (String filename:dir) {
@@ -2074,7 +2074,7 @@ public static Vector<Alignment> Create_Group_Sequences(Alignment align) {
         //MemoryTest m=new MemoryTest();
         //--Select the file in the help directory
          
-       Vector<String> files = Config.listDirWithFullPath(config.dataPath()+File.separator+"help");
+       Vector<String> files = Util.listDirWithFullPath(config.dataPath()+File.separator+"help");
         
         
         

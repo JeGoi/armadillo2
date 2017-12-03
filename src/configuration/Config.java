@@ -97,12 +97,10 @@ public class Config {
 
     public Config()  {
        if (properties==null) {
-           
-           
             currentPath=new File("").getAbsolutePath();
             properties=new workflow_properties();            
             if (!Load()) {
-                 setDefaultProperties();
+                setDefaultProperties();
                 Save();
             } else {
                 //--Test path
@@ -110,7 +108,7 @@ public class Config {
                     //--Case 1. test default path
                     if (Util.FileExists( currentPath+File.separator+"projects"+File.separator+"Untitled.db")) {
                         //Reset path to database                    
-                         setDefaultProperties();
+                        setDefaultProperties();
                         Save();
                     }
                 }
@@ -124,13 +122,14 @@ public class Config {
                 Config.log("Unable to determine compiler: "+e.getMessage());
             }            
             // -- Get armadillo icon
-           if (image==null) loadIcon();
+            if (image==null) loadIcon();
             if (log==null) {
                 try {
-                log=new PrintWriter(new FileWriter(new File(log_file),true));
+                    log=new PrintWriter(new FileWriter(new File(log_file),true));
                 } catch(Exception e) {
                     //Config.log("Unable to open log file: "+log_file);
-                    return;}
+                    return;
+                }
             }       
        }
     }
@@ -170,22 +169,23 @@ public class Config {
     public void loadIcon() {
         //-- Load Armadillo Icon
         File tmp=new File(get("smallIconPath"));
-                    try {
-                    icon = new ImageIcon(tmp.toURI().toURL());
-                    image = icon.getImage();
-         
-        //--Load Database Tree Explorer icon
-             String[] iconName=loadImageslisting(iconsPath());
-             for (String filename:iconName) {
-                 if (filename.indexOf("icons")>-1) {
-                     tmp=new File(iconsPath()+File.separator+filename);
-                     ImageIcon tmpImage=new ImageIcon(tmp.toURI().toURL());
-                     filename=filename.substring(filename.indexOf(".")+1,filename.indexOf("_"));
-                     properties.put(filename, tmpImage);
-                 }
-             }
-                        
-        } catch(Exception e) {library_mode=true;}
+        try {
+            icon = new ImageIcon(tmp.toURI().toURL());
+            image = icon.getImage();
+            
+            //--Load Database Tree Explorer icon
+            String[] iconName=loadImageslisting(iconsPath());
+            for (String filename:iconName) {
+                if (filename.indexOf("icons")>-1) {
+                    tmp=new File(iconsPath()+File.separator+filename);
+                    ImageIcon tmpImage=new ImageIcon(tmp.toURI().toURL());
+                    filename=filename.substring(filename.indexOf(".")+1,filename.indexOf("_"));
+                    properties.put(filename, tmpImage);
+                }
+            }
+        } catch(Exception e) {
+            library_mode=true;
+        }
     } 
   
      /**
@@ -196,15 +196,16 @@ public class Config {
      * @return true if success
      */
     public boolean Load(String filename) {
-    try {
-        BufferedReader br=new BufferedReader(new FileReader(new File(filename)));
-        properties.load(br);
-        if (isSet("log")) log_file=get("log");
-        br.close();
-        //Config.log("Loading of config file "+filename+" successfull.");
-    } catch(Exception e) {
-        return false;}
-    return true;
+        try {
+            BufferedReader br=new BufferedReader(new FileReader(new File(filename)));
+            properties.load(br);
+            if (isSet("log")) log_file=get("log");
+            br.close();
+            //Config.log("Loading of config file "+filename+" successfull.");
+        } catch(Exception e) {
+            return false;
+        }
+        return true;
     }
 
     public boolean Load() {
@@ -217,13 +218,13 @@ public class Config {
      * @return true if success, false otherwise
      */
     public boolean Save(String filename) {
-    try {
-        properties.save(filename);
-//        BufferedWriter bw=new BufferedWriter(new FileWriter(new File(filename)));
+        try {
+            properties.save(filename);
+//            BufferedWriter bw=new BufferedWriter(new FileWriter(new File(filename)));
 //            properties.store(bw, get("applicationName")+" "+get("version")+" (c) "+get("authorArmadillo"));
-//        bw.flush();
-//        bw.close();
-        //Config.log("Saving of config file "+filename+" successfull.");
+//            bw.flush();
+//            bw.close();
+//            Config.log("Saving of config file "+filename+" successfull.");
         } catch(Exception e) {return false;}
     return true;
     }
@@ -235,305 +236,260 @@ public class Config {
      /**
       * This set the default configuration properties
       */
-     public void setDefaultProperties() {  
+    public void setDefaultProperties() {  
         //--Ask to set Email and other helpfull
-
-
-         //--Path
-         set("Name","Configuration file (config.dat)");
-         set("currentPath", currentPath);
-         //==
-         //==Note:
-         //==This databasePath represent the default project filename
-         set("databasePath", currentPath+File.separator+"projects"+File.separator+"New_Untitled.db");
-         set("propertiesPath",currentPath+File.separator+"data"+File.separator+"properties"); // Reflect armadillo properties path
-         set("classPath",currentPath+File.separator+"build"+File.separator+"classes"+File.separator+"programs"); //Running program class
-         set("editorPath",currentPath+File.separator+"build"+File.separator+"classes"+File.separator+"editors"); //editor class
-         set("dataPath",currentPath+File.separator+"data");
-         set("ExecutableDir",currentPath+File.separator+"Executable");
-         set("tmpDir", currentPath+File.separator+"tmp");
-         set("temporaryDir", currentPath+File.separator+"tmp"+File.separator+"temporary");
-         set("resultsDir", currentPath+File.separator+"results");
-         set("testDir", currentPath+File.separator+"test");
-         set("iconsPath",currentPath+File.separator+"data"+File.separator+"icons");
-         set("projectsDir", currentPath+File.separator+"projects"); // Projects Directory
-         set("hgncDataPath", dataPath()+File.separator+"hgnc.txt"); //default hgnc database...
-         set("hgncWebDownload", "http://www.genenames.org/cgi-bin/hgnc_downloads.cgi?title=HGNC+output+data&hgnc_dbtag=on&preset=all&status=Approved&status=Entry+Withdrawn&status_opt=2&level=pri&=on&where=&order_by=gd_app_sym_sort&limit=&format=text&submit=submit&.cgifields=&.cgifields=level&.cgifields=chr&.cgifields=status&.cgifields=hgnc_dbtag");
-         set("log",currentPath+File.separator+"armadillo.log");
+        //--Path
+        set("Name","Configuration file (config.dat)");
+        set("currentPath", currentPath);
+        //==
+        //==Note:
+        //==This databasePath represent the default project filename
+        set("databasePath", currentPath+File.separator+"projects"+File.separator+"New_Untitled.db");
+        set("propertiesPath",currentPath+File.separator+"data"+File.separator+"properties"); // Reflect armadillo properties path
+        set("classPath",currentPath+File.separator+"build"+File.separator+"classes"+File.separator+"programs"); //Running program class
+        set("editorPath",currentPath+File.separator+"build"+File.separator+"classes"+File.separator+"editors"); //editor class
+        set("dataPath",currentPath+File.separator+"data");
+        set("ExecutableDir",currentPath+File.separator+"Executable");
+        set("tmpDir", currentPath+File.separator+"tmp");
+        set("temporaryDir", currentPath+File.separator+"tmp"+File.separator+"temporary");
+        set("resultsDir", currentPath+File.separator+"results");
+        set("testDir", currentPath+File.separator+"test");
+        set("iconsPath",currentPath+File.separator+"data"+File.separator+"icons");
+        set("projectsDir", currentPath+File.separator+"projects"); // Projects Directory
+        set("hgncDataPath", dataPath()+File.separator+"hgnc.txt"); //default hgnc database...
+        set("hgncWebDownload", "http://www.genenames.org/cgi-bin/hgnc_downloads.cgi?title=HGNC+output+data&hgnc_dbtag=on&preset=all&status=Approved&status=Entry+Withdrawn&status_opt=2&level=pri&=on&where=&order_by=gd_app_sym_sort&limit=&format=text&submit=submit&.cgifields=&.cgifields=level&.cgifields=chr&.cgifields=status&.cgifields=hgnc_dbtag");
+        set("log",currentPath+File.separator+"armadillo.log");
          
-         //--Try to create the tempDir (temporary file directory) if doesn't exists
-         createDir(get("tmpDir"));
-         createDir(get("resultsDir"));
-         createDir(get("projectsDir"));
-         try {
-             if (Util.FileExists(dataPath("New_Untitled_default.db"))) {
-                Util.copy(dataPath("New_Untitled_default.db"), this.projectsDir()+File.separator+"New_Untitled.db");
-             } else {
-                 log("Unable to find the default project file...");                 
-             }
-         } catch(Exception e) {}
-         createDir(get("temporaryDir"));
+        //--Try to create the tempDir (temporary file directory) if doesn't exists
+        Util.CreateDir(get("tmpDir"));
+        Util.CreateDir(get("resultsDir"));
+        Util.CreateDir(get("projectsDir"));
+        try {
+            if (Util.FileExists(dataPath("New_Untitled_default.db"))) {
+               Util.copy(dataPath("New_Untitled_default.db"), this.projectsDir()+File.separator+"New_Untitled.db");
+            } else {
+                log("Unable to find the default project file...");                 
+            }
+        } catch(Exception e) {}
+        
+        Util.CreateDir(get("temporaryDir"));
 
-         //--Version and Other
-         set("authorArmadillo","Etienne Lord, Mickael Leclercq, Alix Boc,  Abdoulaye Baniré Diallo, Vladimir Makarenkov");
-         set("version","2.0");
-         set("applicationName","Armadillo Workflow Platform");
-         set("webpageArmadillo","http://adn.bioinfo.uqam.ca/armadillo/"); //--Armadillo default webpage
-         set("webserverArmadillo","http://trex.uqam.ca/armadillo/");      //--Armadillo webserver
-         set("helpArmadillo","http://adn.bioinfo.uqam.ca/armadillo/wiki/index.php/Main_Page"); //--Armadillo default help page
-         set("getting_startedArmadillo", dataPath()+File.separator+"Documents"+File.separator+"getting_started.html"); //--Getting started page shown at start up
-         set("splashIconPath",currentPath+File.separator+"data"+File.separator+"splash1.png");
-         set("smallIconPath",currentPath+File.separator+"data"+File.separator+"armadillo.png");
-         set("imagePath",currentPath+File.separator+"data"+File.separator+"images");
-         set("imageNcbiLoading",currentPath+File.separator+"data"+File.separator+"LoadingNcbi.jpg");
-         set("imageEnsemblLoading",currentPath+File.separator+"data"+File.separator+"LoadingEnsembl.jpg");
-         set("imageSequenceLoading",currentPath+File.separator+"data"+File.separator+"LoadingSequence.jpg");
+        //--Version and Other
+        set("authorArmadillo","Etienne Lord, Mickael Leclercq, Alix Boc,  Abdoulaye Baniré Diallo, Vladimir Makarenkov");
+        set("version","2.0");
+        set("applicationName","Armadillo Workflow Platform");
+        set("webpageArmadillo","http://adn.bioinfo.uqam.ca/armadillo/"); //--Armadillo default webpage
+        set("webserverArmadillo","http://trex.uqam.ca/armadillo/");      //--Armadillo webserver
+        set("helpArmadillo","http://adn.bioinfo.uqam.ca/armadillo/wiki/index.php/Main_Page"); //--Armadillo default help page
+        set("getting_startedArmadillo", dataPath()+File.separator+"Documents"+File.separator+"getting_started.html"); //--Getting started page shown at start up
+        set("splashIconPath",currentPath+File.separator+"data"+File.separator+"splash1.png");
+        set("smallIconPath",currentPath+File.separator+"data"+File.separator+"armadillo.png");
+        set("imagePath",currentPath+File.separator+"data"+File.separator+"images");
+        set("imageNcbiLoading",currentPath+File.separator+"data"+File.separator+"LoadingNcbi.jpg");
+        set("imageEnsemblLoading",currentPath+File.separator+"data"+File.separator+"LoadingEnsembl.jpg");
+        set("imageSequenceLoading",currentPath+File.separator+"data"+File.separator+"LoadingSequence.jpg");
 
-         //--Editor version and name
-         set("editorApplicationName","Armadillo Editor");
-         set("editorVersion","0.1");
-         set("editorAuthor","Etienne Lord, Mickael Leclercq");         
-         set("workflow_w",2000); //Initial workflow size
-         set("workflow_h",600);
-         set("font_size_adjuster",0); //--Increase of decrease workflow font size;
-         set("FirstTime",1);
+        //--Editor version and name
+        set("editorApplicationName","Armadillo Editor");
+        set("editorVersion","0.1");
+        set("editorAuthor","Etienne Lord, Mickael Leclercq");         
+        set("workflow_w",2000); //Initial workflow size
+        set("workflow_h",600);
+        set("font_size_adjuster",0); //--Increase of decrease workflow font size;
+        set("FirstTime",1);
 
-         //--Special (Tree Editor, etc...)
-         set("LoadPhyloWidget", false);
-         //--By default, display the Start page
-         set("DisplayStartPage", true);
-         
-         //--Programs
-          currentPath=new File("").getAbsolutePath();
+        //--Special (Tree Editor, etc...)
+        set("LoadPhyloWidget", false);
+        //--By default, display the Start page
+        set("DisplayStartPage", true);
+
+        //--Programs
+        currentPath=new File("").getAbsolutePath();
+        
         //Databases used
-        properties.put("HGNCData",currentPath+File.separator+"data"+File.separator+"hgnc.txt");
-        properties.put("Tooltip",currentPath+File.separator+"data"+File.separator+"tooltips.csv");
-        //properties.put("iso",currentPath+"//data//iso.txt");
-        properties.put("EnsemblDb",currentPath+File.separator+"data"+File.separator+"EnsemblDB.tsv");
+        set("HGNCData",currentPath+File.separator+"data"+File.separator+"hgnc.txt");
+        set("Tooltip",currentPath+File.separator+"data"+File.separator+"tooltips.csv");
+        //set("iso",currentPath+"//data//iso.txt");
+        set("EnsemblDb",currentPath+File.separator+"data"+File.separator+"EnsemblDB.tsv");
         //Others
-        properties.put("defaultSplashPath",currentPath+File.separator+"data"+File.separator+"splash"+File.separator);
+        set("defaultSplashPath",currentPath+File.separator+"data"+File.separator+"splash"+File.separator);
      
-        properties.put("urlToModelTest","http://www.hiv.lanl.gov/content/sequence/findmodel/findmodel.html");
-        properties.put("download_genbank", false);
-        properties.put("debugEditor", false);
+        set("urlToModelTest","http://www.hiv.lanl.gov/content/sequence/findmodel/findmodel.html");
+        set("download_genbank", false);
+        set("debugEditor", false);
         
         //--System environment specific options
         if(SystemUtils.IS_OS_MAC_OSX||SystemUtils.IS_OS_MAC) {
-            properties.put("MacOSX", true);
-            properties.put("font_size_adjuster", -1);
-        } else
-        if(SystemUtils.IS_OS_LINUX||SystemUtils.IS_OS_UNIX) {
-            properties.put("Linux", true);
+            set("MacOSX", true);
+            set("font_size_adjuster", -1);
+        } else if(SystemUtils.IS_OS_LINUX||SystemUtils.IS_OS_UNIX) {
+            set("Linux", true);
+        } else if (SystemUtils.IS_OS_WINDOWS) {
+            set("Windows", true);
         }
-        
-        
-     }
+        Save();
+    }
 
  
 
  ///////////////////////////////////////////////////////////////////////////////
  /// Defautl Getter / Setter
 
- public String dataPath() {
-     return this.get("dataPath");
- }
-
-  public String dataPath(String filename) {
-     if (!Util.DirExists("data")) {
-         this.createDir("data");
-         set("dataPath","data");         
-     }
-      return this.get("dataPath")+File.separator+filename;
- }
-  
- public String propertiesPath() {
-     return this.get("propertiesPath");
- }
- public String iconsPath() {
-     return this.get("iconsPath");
- }
- public String imagePath() {
-     return this.get("imagePath");
- }
-
- public String tmpDir() {
-     return this.get("tmpDir");
- }
-
- public String resultsDir() {
-     return this.get("resultsDir");
- }
-
-  public String ExecutableDir() {
-     String dir= this.get("ExecutableDir");
-     return dir;
- }
-
- public String testDir(){
-     return this.get("testDir");
- }
-
- public String projectsDir(){
-     return this.get("projectsDir");
- }
-
-public String databasePath() {
-    return this.get("databasePath");
-}
-public String temporaryDir() {
-     return this.get("temporaryDir");
- }
-public void temporaryDir(String dir) {
-    //--Delete old if exists
-    if (Util.FileExists(temporaryDir())) {
-        Util.deleteFile(temporaryDir());
+    public String dataPath() {
+        return this.get("dataPath");
     }
-    String directory="tmp"+File.separator+dir;
-    if (!Util.FileExists(directory)) this.createDir(directory);
-    set("temporaryDir",directory);
-}
 
-public boolean isDevelopperMode() {
-    return this.getBoolean("DeveloperMode");
-}
-
-public String currentPath() {
-    return this.get("currentPath");
-}
-
-public boolean isCompilerFound() {
-    return this.getBoolean("CompilerFound");
-}
-
-  /**
-   * Normal getter for config option
-   * @param key
-   * @return
-   */
-   public String get(Object key) {
-        String value=(String) properties.get(key);
-        return (value==null?"Key: "+key+" not found.":value);
-      }
-
-   public ImageIcon getIcon(Object key) {
-       return properties.getImageIcon(key);
-   }
-
-   public Boolean getBoolean(Object key) {
-       return properties.getBoolean(key);
-   }
-
-   public Integer getInt(Object key) {
-       return properties.getInt(key);
-   }
-
-   /**
-    * Normal setter for config option
-    * @param key
-    * @param value
-    */
-   public void set(Object key, Object value) {
-       try {
-        properties.put(key, value);
-       } catch(Exception e) {}
-   }
-
-   /**
-    * Normal remove
-    * @param key
-    *
-    */
-   public void remove(Object key) {
-       try {
-        properties.remove(key);
-       } catch(Exception e){}
-   }
-
-   public void createDir(String path) {
-       File dir=new File(path);
-       //1.5 created if
-       try {
-        if (!dir.exists()||!dir.isDirectory()) {
-           if (!dir.mkdirs()) {
-               Config.log("Unable to create "+path);
-            }
+    public String dataPath(String filename) {
+        if (!Util.DirExists("data")) {
+            Util.CreateDir("data");
+            set("dataPath","data");         
         }
-       } catch(Exception e) {Config.log("Unable to create "+path+ " directory");}
-   }
-
-//   public static boolean changeDir(String path) {
-//       try {
-//           String[] command={"cmd.exe","/C","CD","\""+path+"\""};
-//           for(String s:command) Config.log(s+"\t");
-//           Runtime r = Runtime.getRuntime();
-//           Process p = r.exec(command);
-//           int result=p.waitFor();
-//           File f=new File("");
-//           Config.log(path+" : "+f.getAbsolutePath());
-//           return result==0;
-//       } catch(Exception e) {e.printStackTrace();return false;}
-//   }
-
-      /**
- * Return a string array of the PNG in the specify directory or null if not found
- */
-    public String[] loadImageslisting (String path) {
-      FilenameFilter filter=new FilenameFilter() {
-      public boolean accept(File dir, String name) {
-      if (name.charAt(0) == '.') return false;
-      if (name.toLowerCase().endsWith(".png")) return true;
-      return false;
-      }
-      };
-      File dataFolder = new File(path);
-      String[] names = dataFolder.list(filter);
-      return names;
+        return this.get("dataPath")+File.separator+filename;
     }
 
-    /**
-     * List the files in directory
-     * @return
-     */
-    public static Vector<String> listDir(String dir) {
-        Vector<String> tmp=new Vector<String>();
-        try {
-            File f=new File(dir);
-            if (!f.isDirectory()) {
-                dir+=File.separator;
-                f=new File(dir);
-            }
-            for (String filename:f.list()) tmp.add(filename);
-        } catch(Exception e) {}
-        return tmp;
-    }
-
-    /**
-     * List the files in directory and return filename with the full path
-     * @return
-     */
-    public static Vector<String> listDirWithFullPath(String dir) {
-        Vector<String> tmp=new Vector<String>();
-        try {
-            File f=new File(dir);
-            if (!f.isDirectory()) {
-                dir+=File.separator;
-                f=new File(dir);
-            }
-            for (String filename:f.list()) tmp.add(f.getAbsolutePath()+File.separator+filename);
-        } catch(Exception e) {}
-        return tmp;
+    public String propertiesPath() {
+        return this.get("propertiesPath");
     }
     
+    public String iconsPath() {
+        return this.get("iconsPath");
+    }
+    
+    public String imagePath() {
+        return this.get("imagePath");
+    }
+
+    public String tmpDir() {
+        return this.get("tmpDir");
+    }
+
+    public String resultsDir() {
+        return this.get("resultsDir");
+    }
+
+    public String ExecutableDir() {
+        String dir= this.get("ExecutableDir");
+        return dir;
+    }
+
+    public String testDir(){
+        return this.get("testDir");
+    }
+
+    public String projectsDir(){
+        return this.get("projectsDir");
+    }
+
+    public String databasePath() {
+        return this.get("databasePath");
+    }
+    
+    public String temporaryDir() {
+         return this.get("temporaryDir");
+    }
+    
+    public void temporaryDir(String dir) {
+        //--Delete old if exists
+        if (Util.FileExists(temporaryDir())) {
+            Util.deleteFile(temporaryDir());
+        }
+        String directory="tmp"+File.separator+dir;
+        if (!Util.FileExists(directory)) Util.CreateDir(directory);
+        set("temporaryDir",directory);
+    }
+
+    public boolean isDevelopperMode() {
+        return this.getBoolean("DeveloperMode");
+    }
+
+    public String currentPath() {
+        return this.get("currentPath");
+    }
+
+    public boolean isCompilerFound() {
+        return this.getBoolean("CompilerFound");
+    }
+
+    /**
+     * Normal getter for config option
+     * @param key
+     * @return
+     */
+    public String get(Object key) {
+        String value=(String) properties.get(key);
+        return (value==null?"Key: "+key+" not found.":value);
+    }
+
+    public ImageIcon getIcon(Object key) {
+        return properties.getImageIcon(key);
+    }
+
+    public Boolean getBoolean(Object key) {
+        return properties.getBoolean(key);
+    }
+
+    public Integer getInt(Object key) {
+        return properties.getInt(key);
+    }
+
+    /**
+     * Normal setter for config option
+     * @param key
+     * @param value
+     */
+    public void set(Object key, Object value) {
+        try {
+            properties.put(key, value);
+        } catch(Exception e) {}
+    }
+
+    /**
+     * Setter for cluster config
+     * @param boolean
+     */
+    public void setCluster(boolean b) {
+        try {
+            properties.put("ClusterEnabled", b);
+        } catch(Exception e) {}
+    }
+
+    /**
+     * Normal remove
+     * @param key
+     *
+     */
+    public void remove(Object key) {
+        try {
+            properties.remove(key);
+        } catch(Exception e){}
+    }
+
+    /**
+     * Return a string array of the PNG in the specify directory or null if not found
+     */
+    public String[] loadImageslisting (String path) {
+        FilenameFilter filter=new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                if (name.charAt(0) == '.') return false;
+                if (name.toLowerCase().endsWith(".png")) return true;
+                    return false;
+            }
+        };
+        File dataFolder = new File(path);
+        String[] names = dataFolder.list(filter);
+        return names;
+    }
+
     /**
      * List the files in the current directory
      * @return
      */
     public static Vector<String> listCurrentDir() {
         String filename=(new File("").getAbsolutePath())+File.separator;
-        return listDir(filename);
+        return Util.listDir(filename);
     }
 
-     /**
+    /**
      * @return the explorerPath
      */
     public String getExplorerPath() {

@@ -496,7 +496,7 @@ public class bwa_memEditors extends javax.swing.JDialog implements EditorInterfa
         // Set the program properties
         this.setProperties(properties);
         
-        if (Cluster.isClusterEnable(parent_workflow))
+        if (Cluster.isClusterEnable())
             ClusterProgramButton.setVisible(true);
         else
             ClusterProgramButton.setVisible(false);

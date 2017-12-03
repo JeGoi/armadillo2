@@ -807,7 +807,7 @@ public class clusterEditorProgram extends javax.swing.JDialog implements EditorI
         this.resetDictionaries(properties);
         this.perpareDictionaries(properties);
         this.setProperties(properties);
-        if (Cluster.isClusterEnable(workbox))
+        if (Cluster.isClusterEnable())
             clusterEnabled.setSelected(true);
         else
             clusterEnabled.setSelected(false);

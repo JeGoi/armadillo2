@@ -499,7 +499,7 @@ public class Docker {
             String   id = containers.get(i).getId();
             String[] names = containers.get(i).getNames();
             for (String name : names){
-                if (name.toLowerCase().contains(kword)){
+                if (name.contains(kword)){
                     list.add(containers.get(i));
                 }
             }

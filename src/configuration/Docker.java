@@ -739,7 +739,7 @@ public class Docker {
         long startTime = System.nanoTime();
         if (properties.isSet("DockerContainerID")){
             String DockerContainerID = properties.get("DockerContainerID");
-            //removeContainer(DockerContainerID);
+            removeContainer(DockerContainerID);
         }
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);

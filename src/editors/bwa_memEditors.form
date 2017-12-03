@@ -28,17 +28,18 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Component id="close_jButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="close_jButton" min="-2" pref="91" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="docker_jButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="ClusterProgramButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="docker_jButton" min="-2" pref="128" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="how_jButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <Component id="bwa_mem_tab" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,10 +47,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="close_jButton" min="-2" max="-2" attributes="0"/>
-                  <Component id="ClusterProgramButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="how_jButton" min="-2" max="-2" attributes="0"/>
-                  <Component id="docker_jButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="ClusterProgramButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="docker_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="close_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bwa_mem_tab" min="-2" max="32767" attributes="0"/>
@@ -108,7 +109,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="docker_jButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Docker Editor"/>
+        <Property name="text" type="java.lang.String" value="Docker"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[91, 29]"/>
         </Property>
@@ -435,7 +436,16 @@
     </Container>
     <Component class="javax.swing.JButton" name="ClusterProgramButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cluster Options"/>
+        <Property name="text" type="java.lang.String" value="Cluster"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClusterProgramButtonActionPerformed"/>

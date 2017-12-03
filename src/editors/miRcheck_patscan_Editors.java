@@ -9,6 +9,8 @@ package editors;
 import configuration.Config;
 import editor.EditorInterface;
 import configuration.Util;
+import editor.clusterEditorProgram;
+import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Robot;
@@ -80,7 +82,6 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
         jPanel2 = new javax.swing.JPanel();
         name_jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
         Options_panel = new javax.swing.JTabbedPane();
         Patscan_panel = new javax.swing.JPanel();
         P_mismatches_valueInt = new javax.swing.JSpinner();
@@ -89,12 +90,14 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
         P_mismatches_box = new javax.swing.JCheckBox();
         P_deletions_box = new javax.swing.JCheckBox();
         P_insertions_box = new javax.swing.JCheckBox();
-        reset_jButton3 = new javax.swing.JButton();
-        stop_jButton4 = new javax.swing.JButton();
-        run_jButton5 = new javax.swing.JButton();
-        ClosejButton6 = new javax.swing.JButton();
         default_options_jbutton = new javax.swing.JRadioButton();
         advanced_options_jbutton = new javax.swing.JRadioButton();
+        reset_jButton = new javax.swing.JButton();
+        stop_jButton = new javax.swing.JButton();
+        run_jButton = new javax.swing.JButton();
+        ClusterProgramButton = new javax.swing.JButton();
+        docker_jButton = new javax.swing.JButton();
+        close_jButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -120,9 +123,6 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
         });
 
         jLabel1.setText("Name");
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel3.setPreferredSize(new java.awt.Dimension(367, 223));
 
         Options_panel.setPreferredSize(new java.awt.Dimension(341, 156));
         Options_panel.setRequestFocusEnabled(false);
@@ -215,34 +215,6 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
 
         Options_panel.addTab("advanced options", Patscan_panel);
 
-        reset_jButton3.setText("Reset default value");
-        reset_jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reset_jButton3ActionPerformed(evt);
-            }
-        });
-
-        stop_jButton4.setText("Stop");
-        stop_jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stop_jButton4ActionPerformed(evt);
-            }
-        });
-
-        run_jButton5.setText("Run");
-        run_jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                run_jButton5ActionPerformed(evt);
-            }
-        });
-
-        ClosejButton6.setText("Close");
-        ClosejButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClosejButton6ActionPerformed(evt);
-            }
-        });
-
         buttonGroup1.add(default_options_jbutton);
         default_options_jbutton.setText("default options");
         default_options_jbutton.setName("default_options_jbutton"); // NOI18N
@@ -261,67 +233,69 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(default_options_jbutton)
-                        .addGap(18, 18, 18)
-                        .addComponent(advanced_options_jbutton))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(reset_jButton3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(stop_jButton4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(run_jButton5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ClosejButton6))
-                        .addComponent(Options_panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(default_options_jbutton)
-                    .addComponent(advanced_options_jbutton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Options_panel, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reset_jButton3)
-                    .addComponent(stop_jButton4)
-                    .addComponent(run_jButton5)
-                    .addComponent(ClosejButton6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        reset_jButton.setForeground(new java.awt.Color(255, 116, 0));
+        reset_jButton.setText("Reset");
+        reset_jButton.setName("reset_jButton"); // NOI18N
+
+        stop_jButton.setForeground(new java.awt.Color(255, 0, 0));
+        stop_jButton.setText("Stop");
+        stop_jButton.setMaximumSize(new java.awt.Dimension(71, 29));
+        stop_jButton.setMinimumSize(new java.awt.Dimension(71, 29));
+        stop_jButton.setName("stop_jButton"); // NOI18N
+        stop_jButton.setPreferredSize(new java.awt.Dimension(71, 29));
+
+        run_jButton.setForeground(new java.awt.Color(0, 255, 3));
+        run_jButton.setText("Run");
+        run_jButton.setMaximumSize(new java.awt.Dimension(71, 29));
+        run_jButton.setMinimumSize(new java.awt.Dimension(71, 29));
+        run_jButton.setName("run_jButton"); // NOI18N
+        run_jButton.setPreferredSize(new java.awt.Dimension(71, 29));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(name_jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74))))
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(name_jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(reset_jButton)
+                                .addGap(74, 74, 74)
+                                .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Options_panel, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(default_options_jbutton)
+                            .addGap(18, 18, 18)
+                            .addComponent(advanced_options_jbutton))))
+                .addGap(0, 393, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(name_jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reset_jButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(default_options_jbutton)
+                    .addComponent(advanced_options_jbutton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Options_panel, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -330,7 +304,7 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,21 +315,59 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
 
         miRcheck.addTab("miRcheck", jPanel1);
 
+        ClusterProgramButton.setText("Cluster");
+        ClusterProgramButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
+
+        docker_jButton.setText("Docker");
+        docker_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        docker_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        docker_jButton.setName("docker_jButton"); // NOI18N
+        docker_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        docker_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docker_jButton_ActionPerformed(evt);
+            }
+        });
+
+        close_jButton.setForeground(new java.awt.Color(0, 0, 255));
+        close_jButton.setText("Close");
+        close_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        close_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        close_jButton.setName("close_jButton"); // NOI18N
+        close_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(miRcheck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(miRcheck, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(miRcheck, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -369,37 +381,11 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
         // TODO add your handling code here:
     }//GEN-LAST:event_miRcheckComponentShown
 
-    private void ClosejButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClosejButton6ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-    }//GEN-LAST:event_ClosejButton6ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         HelpEditor help = new HelpEditor(this.frame, false, properties);
         help.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void reset_jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_jButton3ActionPerformed
-        // TODO add your handling code here:
-        properties.load();             //--reload current properties from file
-        this.setProperties(properties);//--Update current field
-    }//GEN-LAST:event_reset_jButton3ActionPerformed
-
-    private void stop_jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_jButton4ActionPerformed
-        // TODO add your handling code here:
-        properties.put("Status", Config.status_nothing);
-        properties.killThread();
-    }//GEN-LAST:event_stop_jButton4ActionPerformed
-
-    private void run_jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_run_jButton5ActionPerformed
-        // TODO add your handling code here:
-        if(properties.isSet("ClassName")) {
-            this.parent_workflow.workflow.updateDependance();
-            programs prog=new programs(parent_workflow.workbox.getCurrentWorkflows());
-            prog.Run(properties);
-        }
-    }//GEN-LAST:event_run_jButton5ActionPerformed
     
     private void P_mismatches_valueIntStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_P_mismatches_valueIntStateChanged
         // TODO add your handling code here:
@@ -456,6 +442,18 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
             properties.put("Name", name_jTextField1.getText());
         }
     }//GEN-LAST:event_name_jTextField1FocusLost
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
+
+    private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton_ActionPerformed
+        // TODO add your handling code here:
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
+        dock.setVisible(true);
+    }//GEN-LAST:event_docker_jButton_ActionPerformed
     
     /**
     ***************************************************************************
@@ -548,7 +546,7 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ClosejButton6;
+    private javax.swing.JButton ClusterProgramButton;
     private javax.swing.JTabbedPane Options_panel;
     private javax.swing.JCheckBox P_deletions_box;
     private javax.swing.JSpinner P_deletions_valueInt;
@@ -559,16 +557,17 @@ public class miRcheck_patscan_Editors extends javax.swing.JDialog implements Edi
     private javax.swing.JPanel Patscan_panel;
     private javax.swing.JRadioButton advanced_options_jbutton;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton close_jButton;
     private javax.swing.JRadioButton default_options_jbutton;
+    private javax.swing.JButton docker_jButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane miRcheck;
     private javax.swing.JTextField name_jTextField1;
-    private javax.swing.JButton reset_jButton3;
-    private javax.swing.JButton run_jButton5;
-    private javax.swing.JButton stop_jButton4;
+    private javax.swing.JButton reset_jButton;
+    private javax.swing.JButton run_jButton;
+    private javax.swing.JButton stop_jButton;
     // End of variables declaration//GEN-END:variables
 }

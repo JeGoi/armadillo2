@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.clusterEditorProgram;
 import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -76,7 +77,6 @@ public class EMBOSS_diffseqEditors extends javax.swing.JDialog implements Editor
     private void initComponents() {
 
         Menu_Buttons = new javax.swing.ButtonGroup();
-        docker_jButton = new javax.swing.JButton();
         EMBOSS_diffseqEditors2 = new javax.swing.JTabbedPane();
         general_jPanel1 = new javax.swing.JPanel();
         name_jLabel = new javax.swing.JLabel();
@@ -93,16 +93,10 @@ public class EMBOSS_diffseqEditors extends javax.swing.JDialog implements Editor
         run_jButton = new javax.swing.JButton();
         how_jButton = new javax.swing.JButton();
         close_jButton = new javax.swing.JButton();
+        docker_jButton1 = new javax.swing.JButton();
+        ClusterProgramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        docker_jButton.setText("Docker Editor");
-        docker_jButton.setName("docker_jButton"); // NOI18N
-        docker_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                docker_jButton_ActionPerformed(evt);
-            }
-        });
 
         EMBOSS_diffseqEditors2.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -328,30 +322,54 @@ public class EMBOSS_diffseqEditors extends javax.swing.JDialog implements Editor
             }
         });
 
+        docker_jButton1.setText("Docker");
+        docker_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setName("docker_jButton"); // NOI18N
+        docker_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docker_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        ClusterProgramButton.setText("Cluster");
+        ClusterProgramButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(docker_jButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(EMBOSS_diffseqEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(EMBOSS_diffseqEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(docker_jButton)
                     .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EMBOSS_diffseqEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        docker_jButton.getAccessibleContext().setAccessibleDescription("Access to the docker editor");
         EMBOSS_diffseqEditors2.getAccessibleContext().setAccessibleName("EMBOSS_diffseqEditors");
 
         pack();
@@ -360,13 +378,7 @@ public class EMBOSS_diffseqEditors extends javax.swing.JDialog implements Editor
     private void EMBOSS_diffseqEditors2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_EMBOSS_diffseqEditors2ComponentShown
         // TODO add your handling code here:
     }//GEN-LAST:event_EMBOSS_diffseqEditors2ComponentShown
-    
-    private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton_ActionPerformed
-        // TODO add your handling code here:
-        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
-        dock.setVisible(true);
-    }//GEN-LAST:event_docker_jButton_ActionPerformed
-    
+        
     private void name_jTextField_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name_jTextField_ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_name_jTextField_ActionPerformed
@@ -447,6 +459,18 @@ public class EMBOSS_diffseqEditors extends javax.swing.JDialog implements Editor
         // TODO add your handling code here:
         properties.put("Name", name_jTextField.getText());
     }//GEN-LAST:event_name_jTextFieldFocusLost
+
+    private void docker_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
+        dock.setVisible(true);
+    }//GEN-LAST:event_docker_jButton1_ActionPerformed
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
 
     /*******************************************************************
      * Set the configuration properties for this object
@@ -550,6 +574,7 @@ public class EMBOSS_diffseqEditors extends javax.swing.JDialog implements Editor
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Advanced_Options_RButton;
+    private javax.swing.JButton ClusterProgramButton;
     private javax.swing.JTabbedPane EMBOSS_diffseqEditors2;
     private javax.swing.ButtonGroup Menu_Buttons;
     private javax.swing.JCheckBox Sq_globaldifferences_Box;
@@ -559,7 +584,7 @@ public class EMBOSS_diffseqEditors extends javax.swing.JDialog implements Editor
     private javax.swing.JSpinner Sq_wordsize_Box_IntValue;
     private javax.swing.JButton close_jButton;
     private javax.swing.JRadioButton default_RButton;
-    private javax.swing.JButton docker_jButton;
+    private javax.swing.JButton docker_jButton1;
     private javax.swing.JPanel general_jPanel1;
     private javax.swing.JButton how_jButton;
     private javax.swing.JLabel name_jLabel;

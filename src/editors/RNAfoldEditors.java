@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.clusterEditorProgram;
 import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -63,17 +64,12 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
     private void initComponents() {
 
         Menu_Buttons = new javax.swing.ButtonGroup();
-        docker_jButton = new javax.swing.JButton();
         how_jButton = new javax.swing.JButton();
         RNAfoldEditors2 = new javax.swing.JTabbedPane();
         general_jPanel1 = new javax.swing.JPanel();
         name_jLabel = new javax.swing.JLabel();
         name_jTextField = new javax.swing.JTextField();
         rename_jButton = new javax.swing.JButton();
-        reset_jButton = new javax.swing.JButton();
-        close_jButton = new javax.swing.JButton();
-        stop_jButton = new javax.swing.JButton();
-        run_jButton = new javax.swing.JButton();
         Default_Options_RButton = new javax.swing.JRadioButton();
         Advanced_Options_RButton = new javax.swing.JRadioButton();
         AO_panel = new javax.swing.JPanel();
@@ -127,16 +123,14 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
         AO_M__energyModel_EQUALSYMBOL_Box_IntValue = new javax.swing.JSpinner();
         AO_M__betaScale_EQUALSYMBOL_Box = new javax.swing.JCheckBox();
         AO_M__betaScale_EQUALSYMBOL_Box_DouValue = new javax.swing.JSpinner();
+        reset_jButton1 = new javax.swing.JButton();
+        stop_jButton1 = new javax.swing.JButton();
+        run_jButton1 = new javax.swing.JButton();
+        close_jButton1 = new javax.swing.JButton();
+        docker_jButton = new javax.swing.JButton();
+        ClusterProgramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        docker_jButton.setText("Docker Editor");
-        docker_jButton.setName("docker_jButton"); // NOI18N
-        docker_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                docker_jButton_ActionPerformed(evt);
-            }
-        });
 
         how_jButton.setText("?");
         how_jButton.setName("how_jButton"); // NOI18N
@@ -172,38 +166,6 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
         rename_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rename_jButton_ActionPerformed(evt);
-            }
-        });
-
-        reset_jButton.setText("Reset");
-        reset_jButton.setName("reset_jButton"); // NOI18N
-        reset_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reset_jButton_ActionPerformed(evt);
-            }
-        });
-
-        close_jButton.setText("Close");
-        close_jButton.setName("close_jButton"); // NOI18N
-        close_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                close_jButton_ActionPerformed(evt);
-            }
-        });
-
-        stop_jButton.setText("Stop");
-        stop_jButton.setName("stop_jButton"); // NOI18N
-        stop_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stop_jButton_ActionPerformed(evt);
-            }
-        });
-
-        run_jButton.setText("Run");
-        run_jButton.setName("run_jButton"); // NOI18N
-        run_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                run_jButton_ActionPerformed(evt);
             }
         });
 
@@ -895,6 +857,42 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
                 .addContainerGap())
         );
 
+        reset_jButton1.setForeground(new java.awt.Color(255, 116, 0));
+        reset_jButton1.setText("Reset");
+        reset_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        reset_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        reset_jButton1.setName("reset_jButton"); // NOI18N
+        reset_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        reset_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reset_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        stop_jButton1.setForeground(new java.awt.Color(0, 0, 255));
+        stop_jButton1.setText("Stop");
+        stop_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        stop_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        stop_jButton1.setName("stop_jButton"); // NOI18N
+        stop_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        stop_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stop_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        run_jButton1.setForeground(new java.awt.Color(255, 116, 0));
+        run_jButton1.setText("RUN");
+        run_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        run_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        run_jButton1.setName("run_jButton"); // NOI18N
+        run_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        run_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                run_jButton1_ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout general_jPanel1Layout = new javax.swing.GroupLayout(general_jPanel1);
         general_jPanel1.setLayout(general_jPanel1Layout);
         general_jPanel1Layout.setHorizontalGroup(
@@ -905,20 +903,20 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
                 .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(rename_jButton))
-            .addGroup(general_jPanel1Layout.createSequentialGroup()
-                .addComponent(Default_Options_RButton)
-                .addGap(18, 18, 18)
-                .addComponent(Advanced_Options_RButton))
             .addComponent(AO_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(general_jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(reset_jButton)
-                .addGap(18, 18, 18)
-                .addComponent(stop_jButton)
-                .addGap(18, 18, 18)
-                .addComponent(run_jButton)
-                .addGap(18, 18, 18)
-                .addComponent(close_jButton))
+                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
+                        .addComponent(Default_Options_RButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(Advanced_Options_RButton))
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
+                        .addComponent(reset_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(stop_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(run_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         general_jPanel1Layout.setVerticalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -930,53 +928,87 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
                     .addComponent(rename_jButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(stop_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reset_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(run_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Default_Options_RButton)
                     .addComponent(Advanced_Options_RButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(AO_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reset_jButton)
-                    .addComponent(stop_jButton)
-                    .addComponent(run_jButton)
-                    .addComponent(close_jButton)))
+                .addGap(35, 35, 35))
         );
 
         name_jTextField.getAccessibleContext().setAccessibleDescription("");
         rename_jButton.getAccessibleContext().setAccessibleDescription("");
-        reset_jButton.getAccessibleContext().setAccessibleDescription("");
-        close_jButton.getAccessibleContext().setAccessibleDescription("");
-        stop_jButton.getAccessibleContext().setAccessibleDescription("");
-        run_jButton.getAccessibleContext().setAccessibleDescription("");
         Default_Options_RButton.getAccessibleContext().setAccessibleDescription("");
         Advanced_Options_RButton.getAccessibleContext().setAccessibleDescription("");
 
         RNAfoldEditors2.addTab("RNAfoldEditors", general_jPanel1);
+
+        close_jButton1.setForeground(new java.awt.Color(0, 0, 255));
+        close_jButton1.setText("Close");
+        close_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        close_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        close_jButton1.setName("close_jButton"); // NOI18N
+        close_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        close_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                close_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        docker_jButton.setText("Docker");
+        docker_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        docker_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        docker_jButton.setName("docker_jButton"); // NOI18N
+        docker_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        docker_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docker_jButton_ActionPerformed(evt);
+            }
+        });
+
+        ClusterProgramButton.setText("Cluster");
+        ClusterProgramButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(230, Short.MAX_VALUE)
-                .addComponent(docker_jButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
-                .addComponent(how_jButton))
+                .addComponent(close_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(RNAfoldEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(docker_jButton)
-                    .addComponent(how_jButton))
+                    .addComponent(how_jButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(close_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RNAfoldEditors2, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        docker_jButton.getAccessibleContext().setAccessibleDescription("Access to the docker editor");
         how_jButton.getAccessibleContext().setAccessibleDescription(".");
         RNAfoldEditors2.getAccessibleContext().setAccessibleName("RNAfoldEditors");
 
@@ -986,45 +1018,12 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
     private void RNAfoldEditors2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_RNAfoldEditors2ComponentShown
         // TODO add your handling code here:
     }//GEN-LAST:event_RNAfoldEditors2ComponentShown
-    
-    private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton_ActionPerformed
-        // TODO add your handling code here:
-        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
-        dock.setVisible(true);
-    }//GEN-LAST:event_docker_jButton_ActionPerformed
-    
+        
     private void how_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_how_jButton_ActionPerformed
         // TODO add your handling code here:
         HelpEditor help = new HelpEditor(this.frame, false, properties);
         help.setVisible(true);
     }//GEN-LAST:event_how_jButton_ActionPerformed
-
-    private void close_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close_jButton_ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-    }//GEN-LAST:event_close_jButton_ActionPerformed
-
-    private void run_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_run_jButton_ActionPerformed
-        // TODO add your handling code here:
-        if (this.properties.isSet("ClassName")) {
-            this.parent_workflow.workflow.updateDependance();
-            programs prog=new programs(parent_workflow.workbox.getCurrentWorkflows());
-            prog.Run(properties);
-        }
-    }//GEN-LAST:event_run_jButton_ActionPerformed
-
-    private void stop_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_jButton_ActionPerformed
-        // TODO add your handling code here:
-        properties.put("Status", Config.status_nothing);
-        properties.killThread();
-    }//GEN-LAST:event_stop_jButton_ActionPerformed
-
-    private void reset_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_jButton_ActionPerformed
-        // TODO add your handling code here:
-        properties.load();             //--reload current properties from file
-        this.setProperties(properties);//--Update current field
-        this.display(properties);
-    }//GEN-LAST:event_reset_jButton_ActionPerformed
 
     private void rename_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rename_jButton_ActionPerformed
         // TODO add your handling code here:
@@ -1329,6 +1328,46 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
         // TODO add your handling code here:
         Util.boxEventSpinner(properties,AO_M__betaScale_EQUALSYMBOL_Box,AO_M__betaScale_EQUALSYMBOL_Box_DouValue);
     }//GEN-LAST:event_AO_M__betaScale_EQUALSYMBOL_Box_DouValue_StateChanged
+
+    private void close_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_close_jButton1_ActionPerformed
+
+    private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton_ActionPerformed
+        // TODO add your handling code here:
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
+        dock.setVisible(true);
+    }//GEN-LAST:event_docker_jButton_ActionPerformed
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
+
+    private void reset_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        properties.load();             //--reload current properties from file
+        this.setProperties(properties);//--Update current field
+        //this.display(properties);
+        this.setVisible(false);
+    }//GEN-LAST:event_reset_jButton1_ActionPerformed
+
+    private void stop_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        properties.put("Status", Config.status_nothing);
+        properties.killThread();
+    }//GEN-LAST:event_stop_jButton1_ActionPerformed
+
+    private void run_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_run_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        if (this.properties.isSet("ClassName")){
+            this.parent_workflow.workflow.updateDependance();
+            programs prog=new programs(parent_workflow.workbox.getCurrentWorkflows());
+            prog.Run(properties);
+        }
+    }//GEN-LAST:event_run_jButton1_ActionPerformed
     /*******************************************************************
     * Enabled Function
     *******************************************************************/
@@ -1799,19 +1838,20 @@ public class RNAfoldEditors extends javax.swing.JDialog implements EditorInterfa
     private javax.swing.JPanel AO_panel;
     private javax.swing.JTabbedPane AO_tabpanel;
     private javax.swing.JRadioButton Advanced_Options_RButton;
+    private javax.swing.JButton ClusterProgramButton;
     private javax.swing.JRadioButton Default_Options_RButton;
     private javax.swing.ButtonGroup Menu_Buttons;
     private javax.swing.JTabbedPane RNAfoldEditors2;
-    private javax.swing.JButton close_jButton;
+    private javax.swing.JButton close_jButton1;
     private javax.swing.JButton docker_jButton;
     private javax.swing.JPanel general_jPanel1;
     private javax.swing.JButton how_jButton;
     private javax.swing.JLabel name_jLabel;
     private javax.swing.JTextField name_jTextField;
     private javax.swing.JButton rename_jButton;
-    private javax.swing.JButton reset_jButton;
-    private javax.swing.JButton run_jButton;
-    private javax.swing.JButton stop_jButton;
+    private javax.swing.JButton reset_jButton1;
+    private javax.swing.JButton run_jButton1;
+    private javax.swing.JButton stop_jButton1;
     // End of variables declaration//GEN-END:variables
     }
 

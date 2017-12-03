@@ -8,6 +8,8 @@ package editors;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.clusterEditorProgram;
+import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Robot;
@@ -67,9 +69,6 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
         name_jLabel = new javax.swing.JLabel();
         name_jTextField = new javax.swing.JTextField();
         rename_jButton = new javax.swing.JButton();
-        Default_Options_RButton = new javax.swing.JRadioButton();
-        Train_Valid_and_Pred_RButton = new javax.swing.JRadioButton();
-        Training_Section_RButton = new javax.swing.JRadioButton();
         Validation_Section_RButton = new javax.swing.JRadioButton();
         Prediction_Section_RButton = new javax.swing.JRadioButton();
         O_panel = new javax.swing.JPanel();
@@ -111,10 +110,15 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
         O_PO_f_Box_Text = new javax.swing.JTextField();
         O_PO_i_Box = new javax.swing.JCheckBox();
         O_PO_i_Box_Text = new javax.swing.JTextField();
-        reset_jButton = new javax.swing.JButton();
+        Default_Options_RButton = new javax.swing.JRadioButton();
+        Train_Valid_and_Pred_RButton = new javax.swing.JRadioButton();
+        Training_Section_RButton = new javax.swing.JRadioButton();
         stop_jButton = new javax.swing.JButton();
+        reset_jButton = new javax.swing.JButton();
         run_jButton = new javax.swing.JButton();
-        close_jButton = new javax.swing.JButton();
+        close_jButton1 = new javax.swing.JButton();
+        docker_jButton1 = new javax.swing.JButton();
+        ClusterProgramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -149,34 +153,6 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
         rename_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rename_jButton_ActionPerformed(evt);
-            }
-        });
-
-        SelectOption.add(Default_Options_RButton);
-        Default_Options_RButton.setSelected(true);
-        Default_Options_RButton.setText("Default Options");
-        Default_Options_RButton.setName("Default_Options_RButton"); // NOI18N
-        Default_Options_RButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Default_Options_RButton_ActionPerformed(evt);
-            }
-        });
-
-        SelectOption.add(Train_Valid_and_Pred_RButton);
-        Train_Valid_and_Pred_RButton.setText("Train Valid and Pred");
-        Train_Valid_and_Pred_RButton.setName("Train_Valid_and_Pred_RButton"); // NOI18N
-        Train_Valid_and_Pred_RButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Train_Valid_and_Pred_RButton_ActionPerformed(evt);
-            }
-        });
-
-        SelectOption.add(Training_Section_RButton);
-        Training_Section_RButton.setText("Training Section");
-        Training_Section_RButton.setName("Training_Section_RButton"); // NOI18N
-        Training_Section_RButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Training_Section_RButton_ActionPerformed(evt);
             }
         });
 
@@ -654,49 +630,98 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
 
         O_tabpanel.addTab("Prediction Options", O_PO_panel);
 
+        SelectOption.add(Default_Options_RButton);
+        Default_Options_RButton.setSelected(true);
+        Default_Options_RButton.setText("Default Options");
+        Default_Options_RButton.setName("Default_Options_RButton"); // NOI18N
+        Default_Options_RButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Default_Options_RButton_ActionPerformed(evt);
+            }
+        });
+
+        SelectOption.add(Train_Valid_and_Pred_RButton);
+        Train_Valid_and_Pred_RButton.setText("Train Valid and Pred");
+        Train_Valid_and_Pred_RButton.setName("Train_Valid_and_Pred_RButton"); // NOI18N
+        Train_Valid_and_Pred_RButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Train_Valid_and_Pred_RButton_ActionPerformed(evt);
+            }
+        });
+
+        SelectOption.add(Training_Section_RButton);
+        Training_Section_RButton.setText("Training Section");
+        Training_Section_RButton.setName("Training_Section_RButton"); // NOI18N
+        Training_Section_RButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Training_Section_RButton_ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout O_panelLayout = new javax.swing.GroupLayout(O_panel);
         O_panel.setLayout(O_panelLayout);
         O_panelLayout.setHorizontalGroup(
             O_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, O_panelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(O_tabpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(O_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(O_tabpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Default_Options_RButton)
+                .addGap(18, 18, 18)
+                .addGroup(O_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Training_Section_RButton)
+                    .addComponent(Train_Valid_and_Pred_RButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         O_panelLayout.setVerticalGroup(
             O_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(O_tabpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+            .addGroup(O_panelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(O_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Default_Options_RButton)
+                    .addComponent(Train_Valid_and_Pred_RButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Training_Section_RButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(O_tabpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        reset_jButton.setText("Reset default value");
-        reset_jButton.setName("reset_jButton"); // NOI18N
-        reset_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reset_jButton_ActionPerformed(evt);
-            }
-        });
-
+        stop_jButton.setForeground(new java.awt.Color(0, 0, 255));
         stop_jButton.setText("Stop");
+        stop_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        stop_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
         stop_jButton.setName("stop_jButton"); // NOI18N
+        stop_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
         stop_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stop_jButton_ActionPerformed(evt);
             }
         });
 
-        run_jButton.setText("Run");
-        run_jButton.setName("run_jButton"); // NOI18N
-        run_jButton.addActionListener(new java.awt.event.ActionListener() {
+        reset_jButton.setForeground(new java.awt.Color(255, 116, 0));
+        reset_jButton.setText("Reset");
+        reset_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        reset_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        reset_jButton.setName("reset_jButton"); // NOI18N
+        reset_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        reset_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                run_jButton_ActionPerformed(evt);
+                reset_jButton_ActionPerformed(evt);
             }
         });
 
-        close_jButton.setText("Close");
-        close_jButton.setName("close_jButton"); // NOI18N
-        close_jButton.addActionListener(new java.awt.event.ActionListener() {
+        run_jButton.setForeground(new java.awt.Color(255, 116, 0));
+        run_jButton.setText("RUN");
+        run_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        run_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        run_jButton.setName("run_jButton"); // NOI18N
+        run_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        run_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                close_jButton_ActionPerformed(evt);
+                run_jButton_ActionPerformed(evt);
             }
         });
 
@@ -705,76 +730,112 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
         general_jPanel1Layout.setHorizontalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(general_jPanel1Layout.createSequentialGroup()
-                .addComponent(name_jLabel)
-                .addGap(18, 18, 18)
-                .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(rename_jButton))
-            .addComponent(O_panel, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(general_jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(general_jPanel1Layout.createSequentialGroup()
-                        .addComponent(reset_jButton)
+                        .addComponent(name_jLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(stop_jButton)
+                        .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(run_jButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(close_jButton))
-                    .addGroup(general_jPanel1Layout.createSequentialGroup()
-                        .addComponent(Default_Options_RButton)
-                        .addGap(18, 18, 18)
-                        .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Training_Section_RButton)
-                            .addComponent(Train_Valid_and_Pred_RButton))
-                        .addGap(264, 264, 264)
+                        .addComponent(rename_jButton)
+                        .addGap(189, 189, 189)
                         .addComponent(Validation_Section_RButton)
                         .addGap(18, 18, 18)
-                        .addComponent(Prediction_Section_RButton))))
+                        .addComponent(Prediction_Section_RButton))
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
+                        .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addComponent(O_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         general_jPanel1Layout.setVerticalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(general_jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(name_jLabel)
-                    .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rename_jButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Default_Options_RButton)
-                    .addComponent(Validation_Section_RButton)
-                    .addComponent(Prediction_Section_RButton)
-                    .addComponent(Train_Valid_and_Pred_RButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Training_Section_RButton)
+                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Validation_Section_RButton)
+                            .addComponent(Prediction_Section_RButton)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, general_jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(name_jLabel)
+                            .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rename_jButton))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(O_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reset_jButton)
-                    .addComponent(stop_jButton)
-                    .addComponent(run_jButton)
-                    .addComponent(close_jButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         miRdupEditors.addTab("miRdupEditors", general_jPanel1);
+
+        close_jButton1.setForeground(new java.awt.Color(0, 0, 255));
+        close_jButton1.setText("Close");
+        close_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        close_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        close_jButton1.setName("close_jButton"); // NOI18N
+        close_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        close_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                close_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        docker_jButton1.setText("Docker");
+        docker_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setName("docker_jButton"); // NOI18N
+        docker_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docker_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        ClusterProgramButton.setText("Cluster");
+        ClusterProgramButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(close_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(how_jButton))
-            .addComponent(miRdupEditors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(miRdupEditors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(how_jButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(how_jButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(close_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(miRdupEditors, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -795,34 +856,7 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
         HelpEditor help = new HelpEditor(this.frame, false, properties);
         help.setVisible(true);
     }//GEN-LAST:event_how_jButton_ActionPerformed
-    
-    private void close_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close_jButton_ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-    }//GEN-LAST:event_close_jButton_ActionPerformed
-    
-    private void run_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_run_jButton_ActionPerformed
-        // TODO add your handling code here:
-        if (this.properties.isSet("ClassName")) {
-            this.parent_workflow.workflow.updateDependance();
-            programs prog=new programs(parent_workflow.workbox.getCurrentWorkflows());
-            prog.Run(properties);
-        }
-    }//GEN-LAST:event_run_jButton_ActionPerformed
-    
-    private void stop_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_jButton_ActionPerformed
-        // TODO add your handling code here:
-        properties.put("Status", Config.status_nothing);
-        properties.killThread();
-    }//GEN-LAST:event_stop_jButton_ActionPerformed
-    
-    private void reset_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_jButton_ActionPerformed
-        // TODO add your handling code here:
-        properties.load();             //--reload current properties from file
-        this.setProperties(properties);//--Update current field
-        this.display(properties);
-    }//GEN-LAST:event_reset_jButton_ActionPerformed
-    
+                    
     private void rename_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rename_jButton_ActionPerformed
         // TODO add your handling code here:
         properties.put("Name", this.name_jTextField.getText());
@@ -1108,6 +1142,46 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
             Util.boxEventText(properties,O_C_r_Box,O_C_r_Box_DirFile);
         }
     }//GEN-LAST:event_O_C_r_Box_Dir_ActionPerformed
+
+    private void close_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_close_jButton1_ActionPerformed
+
+    private void docker_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
+        dock.setVisible(true);
+    }//GEN-LAST:event_docker_jButton1_ActionPerformed
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
+
+    private void reset_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_jButton_ActionPerformed
+        // TODO add your handling code here:
+        properties.load();             //--reload current properties from file
+        this.setProperties(properties);//--Update current field
+        //this.display(properties);
+        this.setVisible(false);
+    }//GEN-LAST:event_reset_jButton_ActionPerformed
+
+    private void stop_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_jButton_ActionPerformed
+        // TODO add your handling code here:
+        properties.put("Status", Config.status_nothing);
+        properties.killThread();
+    }//GEN-LAST:event_stop_jButton_ActionPerformed
+
+    private void run_jButton_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_run_jButton_ActionPerformed
+        // TODO add your handling code here:
+        if (this.properties.isSet("ClassName")){
+            this.parent_workflow.workflow.updateDependance();
+            programs prog=new programs(parent_workflow.workbox.getCurrentWorkflows());
+            prog.Run(properties);
+        }
+    }//GEN-LAST:event_run_jButton_ActionPerformed
     /*******************************************************************
     * Enabled Function
     *******************************************************************/
@@ -1497,6 +1571,7 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ClusterProgramButton;
     private javax.swing.JRadioButton Default_Options_RButton;
     private javax.swing.JPanel O_C_panel;
     private javax.swing.JCheckBox O_C_r_Box;
@@ -1542,7 +1617,8 @@ public class miRdupEditors extends javax.swing.JDialog implements EditorInterfac
     private javax.swing.JRadioButton Train_Valid_and_Pred_RButton;
     private javax.swing.JRadioButton Training_Section_RButton;
     private javax.swing.JRadioButton Validation_Section_RButton;
-    private javax.swing.JButton close_jButton;
+    private javax.swing.JButton close_jButton1;
+    private javax.swing.JButton docker_jButton1;
     private javax.swing.JPanel general_jPanel1;
     private javax.swing.JButton how_jButton;
     private javax.swing.JTabbedPane miRdupEditors;

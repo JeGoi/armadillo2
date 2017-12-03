@@ -29,12 +29,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Component id="close_jButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="docker_jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="ClusterProgramButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="docker_jButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="how_jButton" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="EMBOSS_est2test_tab" min="-2" max="-2" attributes="0"/>
+          <Component id="EMBOSS_est2test_tab" min="-2" pref="435" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -43,10 +45,13 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="close_jButton" min="-2" max="-2" attributes="0"/>
                   <Component id="how_jButton" min="-2" max="-2" attributes="0"/>
-                  <Component id="docker_jButton" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                      <Component id="ClusterProgramButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="docker_jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="EMBOSS_est2test_tab" min="-2" max="32767" attributes="0"/>
+              <Component id="EMBOSS_est2test_tab" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -100,27 +105,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="how_jButton_ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="docker_jButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Docker Editor"/>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[91, 29]"/>
-        </Property>
-        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[91, 29]"/>
-        </Property>
-        <Property name="name" type="java.lang.String" value="docker_jButton" noResource="true"/>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[91, 29]"/>
-        </Property>
-      </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Access to the docker editor"/>
-      </AccessibilityProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="docker_jButton_ActionPerformed"/>
-      </Events>
-    </Component>
     <Container class="javax.swing.JTabbedPane" name="EMBOSS_est2test_tab">
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="EMBOSS_est2test"/>
@@ -152,27 +136,29 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="reset_jButton" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="stop_jButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="run_jButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="name_jLabel" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="name_jTextField" alignment="0" min="-2" pref="204" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="Default_Options" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="Returned_Options" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="Advanced_Options" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="main_jScroll" pref="0" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="reset_jButton" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <Component id="stop_jButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="run_jButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="name_jLabel" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="name_jTextField" alignment="0" min="-2" pref="204" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="Default_Options" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="Returned_Options" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="Advanced_Options" min="-2" max="-2" attributes="0"/>
+                          <Component id="main_jScroll" alignment="0" min="-2" pref="418" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -410,8 +396,8 @@
                         </Component>
                         <Component class="javax.swing.JCheckBox" name="OO_OO1_matchoo1_box">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="OO_OO1_matchoo1_box" noResource="true"/>
                             <Property name="text" type="java.lang.String" value="-matchOO1"/>
+                            <Property name="name" type="java.lang.String" value="OO_OO1_matchoo1_box" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OO_OO1_matchoo1_box_ActionPerformed"/>
@@ -419,10 +405,10 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="OO_OO1_matchoo1_JSpinnerValue">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="OO_OO1_matchoo1_JSpinnerValue" noResource="true"/>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                               <SpinnerModel initial="1.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="OO_OO1_matchoo1_JSpinnerValue" noResource="true"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[115, 28]"/>
                             </Property>
@@ -443,16 +429,16 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="RO_RO_JTabbedPane" min="-2" pref="261" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="215" max="32767" attributes="0"/>
+                                  <Component id="RO_RO_JTabbedPane" min="-2" pref="296" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="305" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="RO_RO_JTabbedPane" pref="70" max="32767" attributes="0"/>
-                                  <EmptySpace min="0" pref="70" max="32767" attributes="0"/>
+                                  <Component id="RO_RO_JTabbedPane" min="-2" pref="216" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="101" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -497,8 +483,8 @@
                               <SubComponents>
                                 <Component class="javax.swing.JCheckBox" name="RO_RO1_nomatchao1_box">
                                   <Properties>
-                                    <Property name="name" type="java.lang.String" value="RO_RO1_nomatchao1_box" noResource="true"/>
                                     <Property name="text" type="java.lang.String" value="-NOmatchAO1"/>
+                                    <Property name="name" type="java.lang.String" value="RO_RO1_nomatchao1_box" noResource="true"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RO_RO1_nomatchao1_box_ActionPerformed"/>
@@ -506,10 +492,10 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="RO_RO1_nomatchao1_JSpinnerValue">
                                   <Properties>
-                                    <Property name="name" type="java.lang.String" value="RO_RO1_nomatchao1_JSpinnerValue" noResource="true"/>
                                     <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                                       <SpinnerModel initial="1.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
                                     </Property>
+                                    <Property name="name" type="java.lang.String" value="RO_RO1_nomatchao1_JSpinnerValue" noResource="true"/>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[115, 28]"/>
                                     </Property>
@@ -552,8 +538,8 @@
                               <SubComponents>
                                 <Component class="javax.swing.JCheckBox" name="RO_RO2_nomatchao2_box">
                                   <Properties>
-                                    <Property name="name" type="java.lang.String" value="RO_RO2_nomatchao2_box" noResource="true"/>
                                     <Property name="text" type="java.lang.String" value="-NOmatchAO2"/>
+                                    <Property name="name" type="java.lang.String" value="RO_RO2_nomatchao2_box" noResource="true"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RO_RO2_nomatchao2_box_ActionPerformed"/>
@@ -561,10 +547,10 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="RO_RO2_nomatchao2_JSpinnerValue">
                                   <Properties>
-                                    <Property name="name" type="java.lang.String" value="RO_RO2_nomatchao2_JSpinnerValue" noResource="true"/>
                                     <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                                       <SpinnerModel initial="1.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
                                     </Property>
+                                    <Property name="name" type="java.lang.String" value="RO_RO2_nomatchao2_JSpinnerValue" noResource="true"/>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[115, 28]"/>
                                     </Property>
@@ -674,8 +660,8 @@
                         </Component>
                         <Component class="javax.swing.JCheckBox" name="AO_AO1_matchao1_box">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO1_matchao1_box" noResource="true"/>
                             <Property name="text" type="java.lang.String" value="-matchAO1"/>
+                            <Property name="name" type="java.lang.String" value="AO_AO1_matchao1_box" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AO_AO1_matchao1_box_ActionPerformed"/>
@@ -683,10 +669,10 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="AO_AO1_matchao1_JSpinnerValue">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO1_matchao1_JSpinnerValue" noResource="true"/>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                               <SpinnerModel initial="1.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="AO_AO1_matchao1_JSpinnerValue" noResource="true"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[115, 28]"/>
                             </Property>
@@ -706,8 +692,8 @@
                         </Component>
                         <Component class="javax.swing.JCheckBox" name="AO_AO2_matchao2_box">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO2_matchao2_box" noResource="true"/>
                             <Property name="text" type="java.lang.String" value="-matchAO2"/>
+                            <Property name="name" type="java.lang.String" value="AO_AO2_matchao2_box" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AO_AO2_matchao2_box_ActionPerformed"/>
@@ -715,10 +701,10 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="AO_AO2_matchao2_JSpinnerValue">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO2_matchao2_JSpinnerValue" noResource="true"/>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                               <SpinnerModel initial="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="AO_AO2_matchao2_JSpinnerValue" noResource="true"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[115, 28]"/>
                             </Property>
@@ -738,8 +724,8 @@
                         </Component>
                         <Component class="javax.swing.JCheckBox" name="AO_AO3_matchao3_box">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO3_matchao3_box" noResource="true"/>
                             <Property name="text" type="java.lang.String" value="-matchAO3"/>
+                            <Property name="name" type="java.lang.String" value="AO_AO3_matchao3_box" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AO_AO3_matchao3_box_ActionPerformed"/>
@@ -747,10 +733,10 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="AO_AO3_matchao3_JSpinnerValue">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO3_matchao3_JSpinnerValue" noResource="true"/>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                               <SpinnerModel initial="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="AO_AO3_matchao3_JSpinnerValue" noResource="true"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[115, 28]"/>
                             </Property>
@@ -796,8 +782,8 @@
                         </Component>
                         <Component class="javax.swing.JCheckBox" name="AO_AO4_mismatchao4_box">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO4_mismatchao4_box" noResource="true"/>
                             <Property name="text" type="java.lang.String" value="-mismatchAO4"/>
+                            <Property name="name" type="java.lang.String" value="AO_AO4_mismatchao4_box" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AO_AO4_mismatchao4_box_ActionPerformed"/>
@@ -805,10 +791,10 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="AO_AO4_mismatchao4_JSpinnerValue">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO4_mismatchao4_JSpinnerValue" noResource="true"/>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                               <SpinnerModel initial="1" maximum="100" numberType="java.lang.Integer" stepSize="1" type="number"/>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="AO_AO4_mismatchao4_JSpinnerValue" noResource="true"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[115, 28]"/>
                             </Property>
@@ -816,8 +802,8 @@
                         </Component>
                         <Component class="javax.swing.JCheckBox" name="AO_AO4_graphao4_box">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO4_graphao4_box" noResource="true"/>
                             <Property name="text" type="java.lang.String" value="-graphAO4"/>
+                            <Property name="name" type="java.lang.String" value="AO_AO4_graphao4_box" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AO_AO4_graphao4_box_ActionPerformed"/>
@@ -825,7 +811,6 @@
                         </Component>
                         <Component class="javax.swing.JComboBox" name="AO_AO4_graphao4_JComboBoxValue">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="AO_AO4_graphao4_JComboBoxValue" noResource="true"/>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="4">
                                 <StringItem index="0" value="ps"/>
@@ -834,6 +819,7 @@
                                 <StringItem index="3" value="hp7580"/>
                               </StringArray>
                             </Property>
+                            <Property name="name" type="java.lang.String" value="AO_AO4_graphao4_JComboBoxValue" noResource="true"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AO_AO4_graphao4_JComboBoxValue_ActionPerformed"/>
@@ -849,5 +835,40 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="docker_jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Docker"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="docker_jButton" noResource="true"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="docker_jButton1_ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="ClusterProgramButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cluster"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[91, 29]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClusterProgramButtonActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

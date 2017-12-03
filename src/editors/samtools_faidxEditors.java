@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.clusterEditorProgram;
 import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -69,32 +70,47 @@ public class samtools_faidxEditors extends javax.swing.JDialog implements Editor
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents(){
-    
+    private void initComponents() {
+
         Menu_Buttons = new javax.swing.ButtonGroup();
-        docker_jButton = new javax.swing.JButton();
-        how_jButton      = new javax.swing.JButton();
+        close_jButton = new javax.swing.JButton();
+        how_jButton = new javax.swing.JButton();
         samtools_faidx_tab = new javax.swing.JTabbedPane();
-        general_jPanel1  = new javax.swing.JPanel();
-        name_jLabel      = new javax.swing.JLabel();
-        name_jTextField  = new javax.swing.JTextField();
-        rename_jButton   = new javax.swing.JButton();
-        reset_jButton    = new javax.swing.JButton();
-        close_jButton    = new javax.swing.JButton();
-        stop_jButton     = new javax.swing.JButton();
-        run_jButton      = new javax.swing.JButton();
+        general_jPanel1 = new javax.swing.JPanel();
+        stop_jButton = new javax.swing.JButton();
+        reset_jButton = new javax.swing.JButton();
+        run_jButton = new javax.swing.JButton();
+        name_jLabel = new javax.swing.JLabel();
+        name_jTextField = new javax.swing.JTextField();
         Default_Options = new javax.swing.JRadioButton();
         main_jScroll = new javax.swing.JScrollPane();
         options_tab_panel = new javax.swing.JTabbedPane();
+        docker_jButton1 = new javax.swing.JButton();
+        ClusterProgramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        docker_jButton.setText("Docker Editor");
-        docker_jButton.setName("docker_jButton"); // NOI18N
-        docker_jButton.getAccessibleContext().setAccessibleDescription("Access to the docker editor");
-        docker_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                docker_jButton_ActionPerformed(evt);
+        close_jButton.setForeground(new java.awt.Color(0, 0, 255));
+        close_jButton.setText("Close");
+        close_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        close_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        close_jButton.setName("close_jButton"); // NOI18N
+        close_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        close_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                close_jButton_ActionPerformed(evt);
+            }
+        });
+
+        how_jButton.setForeground(new java.awt.Color(255, 0, 255));
+        how_jButton.setText("?");
+        how_jButton.setMaximumSize(new java.awt.Dimension(51, 29));
+        how_jButton.setMinimumSize(new java.awt.Dimension(51, 29));
+        how_jButton.setName("how_jButton"); // NOI18N
+        how_jButton.setPreferredSize(new java.awt.Dimension(51, 29));
+        how_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                how_jButton_ActionPerformed(evt);
             }
         });
 
@@ -104,115 +120,92 @@ public class samtools_faidxEditors extends javax.swing.JDialog implements Editor
             }
         });
 
-        general_jPanel1.setName("general_jPanel1");
+        general_jPanel1.setName("general_jPanel1"); // NOI18N
         general_jPanel1.setPreferredSize(new java.awt.Dimension(459, 400));
 
+        stop_jButton.setForeground(new java.awt.Color(0, 0, 255));
         stop_jButton.setText("Stop");
+        stop_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        stop_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
         stop_jButton.setName("stop_jButton"); // NOI18N
-        stop_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        stop_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        stop_jButton.setPreferredSize(new java.awt.Dimension(91,29));
-        stop_jButton.setForeground(new java.awt.Color(255, 0, 0));
-        stop_jButton.getAccessibleContext().setAccessibleDescription("Stop this box");
-        stop_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        stop_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        stop_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stop_jButton_ActionPerformed(evt);
             }
         });
-        reset_jButton.setText("Reset");
-        reset_jButton.setName("reset_jButton"); // NOI18N
-        reset_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        reset_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        reset_jButton.setPreferredSize(new java.awt.Dimension(91,29));
+
         reset_jButton.setForeground(new java.awt.Color(255, 116, 0));
-        reset_jButton.getAccessibleContext().setAccessibleDescription("Reset to default values");
-        reset_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        reset_jButton.setText("Reset");
+        reset_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        reset_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        reset_jButton.setName("reset_jButton"); // NOI18N
+        reset_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        reset_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reset_jButton_ActionPerformed(evt);
             }
         });
-        run_jButton.setText("Run");
+
+        run_jButton.setForeground(new java.awt.Color(255, 116, 0));
+        run_jButton.setText("RUN");
+        run_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        run_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
         run_jButton.setName("run_jButton"); // NOI18N
-        run_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        run_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        run_jButton.setPreferredSize(new java.awt.Dimension(91,29));
-        run_jButton.setForeground(new java.awt.Color(0, 255, 3));
-        run_jButton.getAccessibleContext().setAccessibleDescription("Run this box");
-        run_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        run_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        run_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 run_jButton_ActionPerformed(evt);
             }
         });
-        how_jButton.setText("?");
-        how_jButton.setName("how_jButton"); // NOI18N
-        how_jButton.setMaximumSize(new java.awt.Dimension(51,29));
-        how_jButton.setMinimumSize(new java.awt.Dimension(51,29));
-        how_jButton.setPreferredSize(new java.awt.Dimension(51,29));
-        how_jButton.setForeground(new java.awt.Color(255, 0, 255));
-        how_jButton.getAccessibleContext().setAccessibleDescription("About this box");
-        how_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                how_jButton_ActionPerformed(evt);
-            }
-        });
-        close_jButton.setText("Close");
-        close_jButton.setName("close_jButton"); // NOI18N
-        close_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        close_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        close_jButton.setPreferredSize(new java.awt.Dimension(91,29));
-        close_jButton.setForeground(new java.awt.Color(0, 0, 255));
-        close_jButton.getAccessibleContext().setAccessibleDescription("Close this box");
-        close_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                close_jButton_ActionPerformed(evt);
-            }
-        });
+
+        name_jLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         name_jLabel.setText("(re)Name");
         name_jLabel.setName("name_jLabel"); // NOI18N
-        name_jLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
-        name_jLabel.getAccessibleContext().setAccessibleDescription("Name Box");
 
+        name_jTextField.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         name_jTextField.setText("Name");
         name_jTextField.setName("name_jTextField"); // NOI18N
-        name_jTextField.getAccessibleContext().setAccessibleDescription("Rename the box here");
-        name_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-             public void focusLost(java.awt.event.FocusEvent evt) {
-                 name_jTextField_FocusLost(evt);
-             }
-        });
-        name_jTextField.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        name_jTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 name_jTextField_ActionPerformed(evt);
+            }
+        });
+        name_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                name_jTextField_FocusLost(evt);
             }
         });
 
         Menu_Buttons.add(Default_Options);
         Default_Options.setText("Default Options");
         Default_Options.setName("Default_Options"); // NOI18N
-        Default_Options.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        Default_Options.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Default_Options_ActionPerformed(evt);
             }
         });
-        general_jPanel1.setName("general_jPanel1"); // NOI18N
-        general_jPanel1.setPreferredSize(new java.awt.Dimension(459, 400));
+
+        main_jScroll.setViewportView(options_tab_panel);
+
         javax.swing.GroupLayout general_jPanel1Layout = new javax.swing.GroupLayout(general_jPanel1);
         general_jPanel1.setLayout(general_jPanel1Layout);
         general_jPanel1Layout.setHorizontalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(general_jPanel1Layout.createSequentialGroup()
-                    .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                       .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                       .addGap(18, 18, 18)
-                       .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                       .addGap(18, 18, 18)
-                       .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(name_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(Default_Options)
-                    .addComponent(main_jScroll))
+            .addGroup(general_jPanel1Layout.createSequentialGroup()
+                .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(general_jPanel1Layout.createSequentialGroup()
+                .addComponent(name_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(Default_Options)
+            .addGroup(general_jPanel1Layout.createSequentialGroup()
+                .addComponent(main_jScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         general_jPanel1Layout.setVerticalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,55 +213,84 @@ public class samtools_faidxEditors extends javax.swing.JDialog implements Editor
                 .addContainerGap()
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reset_jButton)
+                    .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(name_jLabel)
                     .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Default_Options)
+                .addComponent(Default_Options)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(main_jScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        stop_jButton.getAccessibleContext().setAccessibleDescription("Stop this box");
+        reset_jButton.getAccessibleContext().setAccessibleDescription("Reset to default values");
+        run_jButton.getAccessibleContext().setAccessibleDescription("Run this box");
+        name_jLabel.getAccessibleContext().setAccessibleDescription("Name Box");
+        name_jTextField.getAccessibleContext().setAccessibleDescription("Rename the box here");
+        Default_Options.getAccessibleContext().setAccessibleDescription("Default Options");
+
+        samtools_faidx_tab.addTab("samtools_faidx", general_jPanel1);
+
+        docker_jButton1.setText("Docker");
+        docker_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setName("docker_jButton"); // NOI18N
+        docker_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docker_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        ClusterProgramButton.setText("Cluster");
+        ClusterProgramButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(docker_jButton)
-                .addGap(18, 18, 18)
-                .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(samtools_faidx_tab, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(samtools_faidx_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(docker_jButton)
                     .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(samtools_faidx_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(samtools_faidx_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        close_jButton.getAccessibleContext().setAccessibleDescription("Close this box");
+        how_jButton.getAccessibleContext().setAccessibleDescription("About this box");
         samtools_faidx_tab.getAccessibleContext().setAccessibleName("samtools_faidx");
-        samtools_faidx_tab.addTab("samtools_faidx", general_jPanel1);
-        samtools_faidx_tab.addTab("samtools_faidx", general_jPanel1);
-        samtools_faidx_tab.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                samtools_faidx_tab_ComponentShown(evt);
-            }
-        });
-        main_jScroll.setViewportView(options_tab_panel);
 
         pack();
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void samtools_faidx_tab_ComponentShown(java.awt.event.ComponentEvent evt){//GEN-FIRST:event_samtools_faidx_tab_ComponentShown
         // TODO add your handling code here:
@@ -317,16 +339,22 @@ public class samtools_faidxEditors extends javax.swing.JDialog implements Editor
         // TODO add your handling code here:
         properties.put("Name", name_jTextField.getText());
     }//GEN-LAST:event_name_jTextField_ActionPerformed
-
-    private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt){//GEN-FIRST:event_docker_jButton_ActionPerformed
-        // TODO add your handling code here:
-        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
-        dock.setVisible(true);
-    }//GEN-LAST:event_docker_jButton_ActionPerformed
     
     private void Default_Options_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Default_Options_ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Default_Options_ActionPerformed
+
+    private void docker_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
+        dock.setVisible(true);
+    }//GEN-LAST:event_docker_jButton1_ActionPerformed
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
     
     /*******************************************************************
      * Perpare List Dictionaries
@@ -455,21 +483,21 @@ public class samtools_faidxEditors extends javax.swing.JDialog implements Editor
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton how_jButton;
-    private javax.swing.JTabbedPane samtools_faidx_tab;
+    private javax.swing.JButton ClusterProgramButton;
+    private javax.swing.JRadioButton Default_Options;
+    private javax.swing.ButtonGroup Menu_Buttons;
+    private javax.swing.JButton close_jButton;
+    private javax.swing.JButton docker_jButton1;
     private javax.swing.JPanel general_jPanel1;
+    private javax.swing.JButton how_jButton;
+    private javax.swing.JScrollPane main_jScroll;
     private javax.swing.JLabel name_jLabel;
     private javax.swing.JTextField name_jTextField;
-    private javax.swing.JButton rename_jButton;
-    private javax.swing.JButton reset_jButton;
-    private javax.swing.JButton close_jButton;
-    private javax.swing.JButton stop_jButton;
-    private javax.swing.JButton run_jButton;
-    private javax.swing.ButtonGroup Menu_Buttons;
-    private javax.swing.JButton docker_jButton;
-    private javax.swing.JRadioButton Default_Options;
-    private javax.swing.JScrollPane main_jScroll;
     private javax.swing.JTabbedPane options_tab_panel;
+    private javax.swing.JButton reset_jButton;
+    private javax.swing.JButton run_jButton;
+    private javax.swing.JTabbedPane samtools_faidx_tab;
+    private javax.swing.JButton stop_jButton;
     // End of variables declaration//GEN-END:variables
     }
 

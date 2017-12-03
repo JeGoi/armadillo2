@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.clusterEditorProgram;
 import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -89,38 +90,36 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents(){
-    
+    private void initComponents() {
+
         Menu_Buttons = new javax.swing.ButtonGroup();
-        docker_jButton = new javax.swing.JButton();
-        how_jButton      = new javax.swing.JButton();
+        close_jButton = new javax.swing.JButton();
+        how_jButton = new javax.swing.JButton();
         EMBOSS_est2test_tab = new javax.swing.JTabbedPane();
-        general_jPanel1  = new javax.swing.JPanel();
-        name_jLabel      = new javax.swing.JLabel();
-        name_jTextField  = new javax.swing.JTextField();
-        rename_jButton   = new javax.swing.JButton();
-        reset_jButton    = new javax.swing.JButton();
-        close_jButton    = new javax.swing.JButton();
-        stop_jButton     = new javax.swing.JButton();
-        run_jButton      = new javax.swing.JButton();
+        general_jPanel1 = new javax.swing.JPanel();
+        stop_jButton = new javax.swing.JButton();
+        reset_jButton = new javax.swing.JButton();
+        run_jButton = new javax.swing.JButton();
+        name_jLabel = new javax.swing.JLabel();
+        name_jTextField = new javax.swing.JTextField();
         Default_Options = new javax.swing.JRadioButton();
         Returned_Options = new javax.swing.JRadioButton();
         Advanced_Options = new javax.swing.JRadioButton();
         main_jScroll = new javax.swing.JScrollPane();
         options_tab_panel = new javax.swing.JTabbedPane();
-        OO_JPanel = new javax.swing.JPanel();
+        OO_jPanel = new javax.swing.JPanel();
         OO_OO1_JLabel = new javax.swing.JLabel();
         OO_OO1_matchoo1_box = new javax.swing.JCheckBox();
         OO_OO1_matchoo1_JSpinnerValue = new javax.swing.JSpinner();
-        RO_JPanel = new javax.swing.JPanel();
+        RO_jPanel = new javax.swing.JPanel();
         RO_RO_JTabbedPane = new javax.swing.JTabbedPane();
-        RO_RO1_JPanel = new javax.swing.JPanel();
+        RO1_jPanel = new javax.swing.JPanel();
         RO_RO1_nomatchao1_box = new javax.swing.JCheckBox();
         RO_RO1_nomatchao1_JSpinnerValue = new javax.swing.JSpinner();
-        RO_RO2_JPanel = new javax.swing.JPanel();
+        RO2_jPanel = new javax.swing.JPanel();
         RO_RO2_nomatchao2_box = new javax.swing.JCheckBox();
         RO_RO2_nomatchao2_JSpinnerValue = new javax.swing.JSpinner();
-        AO_JPanel = new javax.swing.JPanel();
+        AO_jPanel = new javax.swing.JPanel();
         AO_AO1_JLabel = new javax.swing.JLabel();
         AO_AO1_matchao1_box = new javax.swing.JCheckBox();
         AO_AO1_matchao1_JSpinnerValue = new javax.swing.JSpinner();
@@ -137,15 +136,32 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
         AO_AO4_mismatchao4_JSpinnerValue = new javax.swing.JSpinner();
         AO_AO4_graphao4_box = new javax.swing.JCheckBox();
         AO_AO4_graphao4_JComboBoxValue = new javax.swing.JComboBox();
+        docker_jButton1 = new javax.swing.JButton();
+        ClusterProgramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        docker_jButton.setText("Docker Editor");
-        docker_jButton.setName("docker_jButton"); // NOI18N
-        docker_jButton.getAccessibleContext().setAccessibleDescription("Access to the docker editor");
-        docker_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                docker_jButton_ActionPerformed(evt);
+        close_jButton.setForeground(new java.awt.Color(0, 0, 255));
+        close_jButton.setText("Close");
+        close_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        close_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        close_jButton.setName("close_jButton"); // NOI18N
+        close_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        close_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                close_jButton_ActionPerformed(evt);
+            }
+        });
+
+        how_jButton.setForeground(new java.awt.Color(255, 0, 255));
+        how_jButton.setText("?");
+        how_jButton.setMaximumSize(new java.awt.Dimension(51, 29));
+        how_jButton.setMinimumSize(new java.awt.Dimension(51, 29));
+        how_jButton.setName("how_jButton"); // NOI18N
+        how_jButton.setPreferredSize(new java.awt.Dimension(51, 29));
+        how_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                how_jButton_ActionPerformed(evt);
             }
         });
 
@@ -155,514 +171,405 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
             }
         });
 
-        general_jPanel1.setName("general_jPanel1");
+        general_jPanel1.setName("general_jPanel1"); // NOI18N
         general_jPanel1.setPreferredSize(new java.awt.Dimension(459, 400));
 
+        stop_jButton.setForeground(new java.awt.Color(0, 0, 255));
         stop_jButton.setText("Stop");
+        stop_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        stop_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
         stop_jButton.setName("stop_jButton"); // NOI18N
-        stop_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        stop_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        stop_jButton.setPreferredSize(new java.awt.Dimension(91,29));
-        stop_jButton.setForeground(new java.awt.Color(255, 0, 0));
-        stop_jButton.getAccessibleContext().setAccessibleDescription("Stop this box");
-        stop_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        stop_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        stop_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stop_jButton_ActionPerformed(evt);
             }
         });
-        reset_jButton.setText("Reset");
-        reset_jButton.setName("reset_jButton"); // NOI18N
-        reset_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        reset_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        reset_jButton.setPreferredSize(new java.awt.Dimension(91,29));
+
         reset_jButton.setForeground(new java.awt.Color(255, 116, 0));
-        reset_jButton.getAccessibleContext().setAccessibleDescription("Reset to default values");
-        reset_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        reset_jButton.setText("Reset");
+        reset_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        reset_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        reset_jButton.setName("reset_jButton"); // NOI18N
+        reset_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        reset_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reset_jButton_ActionPerformed(evt);
             }
         });
-        run_jButton.setText("Run");
+
+        run_jButton.setForeground(new java.awt.Color(255, 116, 0));
+        run_jButton.setText("RUN");
+        run_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        run_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
         run_jButton.setName("run_jButton"); // NOI18N
-        run_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        run_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        run_jButton.setPreferredSize(new java.awt.Dimension(91,29));
-        run_jButton.setForeground(new java.awt.Color(0, 255, 3));
-        run_jButton.getAccessibleContext().setAccessibleDescription("Run this box");
-        run_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        run_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        run_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 run_jButton_ActionPerformed(evt);
             }
         });
-        how_jButton.setText("?");
-        how_jButton.setName("how_jButton"); // NOI18N
-        how_jButton.setMaximumSize(new java.awt.Dimension(51,29));
-        how_jButton.setMinimumSize(new java.awt.Dimension(51,29));
-        how_jButton.setPreferredSize(new java.awt.Dimension(51,29));
-        how_jButton.setForeground(new java.awt.Color(255, 0, 255));
-        how_jButton.getAccessibleContext().setAccessibleDescription("About this box");
-        how_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                how_jButton_ActionPerformed(evt);
-            }
-        });
-        close_jButton.setText("Close");
-        close_jButton.setName("close_jButton"); // NOI18N
-        close_jButton.setMaximumSize(new java.awt.Dimension(91,29));
-        close_jButton.setMinimumSize(new java.awt.Dimension(91,29));
-        close_jButton.setPreferredSize(new java.awt.Dimension(91,29));
-        close_jButton.setForeground(new java.awt.Color(0, 0, 255));
-        close_jButton.getAccessibleContext().setAccessibleDescription("Close this box");
-        close_jButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                close_jButton_ActionPerformed(evt);
-            }
-        });
+
+        name_jLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         name_jLabel.setText("(re)Name");
         name_jLabel.setName("name_jLabel"); // NOI18N
-        name_jLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
-        name_jLabel.getAccessibleContext().setAccessibleDescription("Name Box");
 
+        name_jTextField.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         name_jTextField.setText("Name");
         name_jTextField.setName("name_jTextField"); // NOI18N
-        name_jTextField.getAccessibleContext().setAccessibleDescription("Rename the box here");
-        name_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-             public void focusLost(java.awt.event.FocusEvent evt) {
-                 name_jTextField_FocusLost(evt);
-             }
-        });
-        name_jTextField.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        name_jTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 name_jTextField_ActionPerformed(evt);
+            }
+        });
+        name_jTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                name_jTextField_FocusLost(evt);
             }
         });
 
         Menu_Buttons.add(Default_Options);
         Default_Options.setText("Default Options");
         Default_Options.setName("Default_Options"); // NOI18N
-        Default_Options.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        Default_Options.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Default_Options_ActionPerformed(evt);
             }
         });
+
         Menu_Buttons.add(Returned_Options);
         Returned_Options.setText("Returned Options");
         Returned_Options.setName("Returned_Options"); // NOI18N
-        Returned_Options.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        Returned_Options.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Returned_Options_ActionPerformed(evt);
             }
         });
+
         Menu_Buttons.add(Advanced_Options);
         Advanced_Options.setText("Advanced Options");
         Advanced_Options.setName("Advanced_Options"); // NOI18N
-        Advanced_Options.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        Advanced_Options.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Advanced_Options_ActionPerformed(evt);
             }
         });
-        OO_OO1_JLabel.setText("Other Options 1");
-        OO_OO1_JLabel.setName("OO_OO1_JLabel"); // NOI18N
-        OO_OO1_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
-        OO_OO1_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
 
-        OO_OO1_matchoo1_box.setText("matchOO1");
+        OO_OO1_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
+        OO_OO1_JLabel.setText("OO_OO1_JLabel");
+        OO_OO1_JLabel.setName("OO_OO1_JLabel"); // NOI18N
+
         OO_OO1_matchoo1_box.setName("OO_OO1_matchoo1_box"); // NOI18N
-        OO_OO1_matchoo1_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        OO_OO1_matchoo1_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        OO_OO1_matchoo1_box.setText("-matchOO1");
+        OO_OO1_matchoo1_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OO_OO1_matchoo1_box_ActionPerformed(evt);
             }
         });
 
-        OO_OO1_matchoo1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d,null,null,1.0d));
         OO_OO1_matchoo1_JSpinnerValue.setName("OO_OO1_matchoo1_JSpinnerValue"); // NOI18N
-        OO_OO1_matchoo1_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
+        OO_OO1_matchoo1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
         OO_OO1_matchoo1_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        OO_OO1_matchoo1_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                OO_OO1_matchoo1_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        RO_RO1_nomatchao1_box.setText("NOmatchAO1");
+        javax.swing.GroupLayout OO_jPanelLayout = new javax.swing.GroupLayout(OO_jPanel);
+        OO_jPanel.setLayout(OO_jPanelLayout);
+        OO_jPanelLayout.setHorizontalGroup(
+            OO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OO_jPanelLayout.createSequentialGroup()
+                .addGroup(OO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(OO_OO1_JLabel)
+                    .addComponent(OO_OO1_matchoo1_box))
+                .addGap(18, 18, 18)
+                .addComponent(OO_OO1_matchoo1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        OO_jPanelLayout.setVerticalGroup(
+            OO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OO_jPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(OO_OO1_JLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(OO_OO1_matchoo1_box)
+                    .addComponent(OO_OO1_matchoo1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        OO_OO1_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+
+        options_tab_panel.addTab("Other Options", OO_jPanel);
+
         RO_RO1_nomatchao1_box.setName("RO_RO1_nomatchao1_box"); // NOI18N
-        RO_RO1_nomatchao1_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        RO_RO1_nomatchao1_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        RO_RO1_nomatchao1_box.setText("-NOmatchAO1");
+        RO_RO1_nomatchao1_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RO_RO1_nomatchao1_box_ActionPerformed(evt);
             }
         });
 
-        RO_RO1_nomatchao1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d,null,null,1.0d));
         RO_RO1_nomatchao1_JSpinnerValue.setName("RO_RO1_nomatchao1_JSpinnerValue"); // NOI18N
-        RO_RO1_nomatchao1_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
+        RO_RO1_nomatchao1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
         RO_RO1_nomatchao1_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        RO_RO1_nomatchao1_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                RO_RO1_nomatchao1_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        RO_RO2_nomatchao2_box.setText("NOmatchAO2");
+        javax.swing.GroupLayout RO1_jPanelLayout = new javax.swing.GroupLayout(RO1_jPanel);
+        RO1_jPanel.setLayout(RO1_jPanelLayout);
+        RO1_jPanelLayout.setHorizontalGroup(
+            RO1_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RO1_jPanelLayout.createSequentialGroup()
+                .addComponent(RO_RO1_nomatchao1_box)
+                .addGap(18, 18, 18)
+                .addComponent(RO_RO1_nomatchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        RO1_jPanelLayout.setVerticalGroup(
+            RO1_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RO1_jPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(RO1_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RO_RO1_nomatchao1_box)
+                    .addComponent(RO_RO1_nomatchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        RO_RO_JTabbedPane.addTab("Returned Options 1", RO1_jPanel);
+
         RO_RO2_nomatchao2_box.setName("RO_RO2_nomatchao2_box"); // NOI18N
-        RO_RO2_nomatchao2_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        RO_RO2_nomatchao2_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        RO_RO2_nomatchao2_box.setText("-NOmatchAO2");
+        RO_RO2_nomatchao2_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RO_RO2_nomatchao2_box_ActionPerformed(evt);
             }
         });
 
-        RO_RO2_nomatchao2_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d,null,null,1.0d));
         RO_RO2_nomatchao2_JSpinnerValue.setName("RO_RO2_nomatchao2_JSpinnerValue"); // NOI18N
-        RO_RO2_nomatchao2_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
+        RO_RO2_nomatchao2_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
         RO_RO2_nomatchao2_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        RO_RO2_nomatchao2_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                RO_RO2_nomatchao2_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        AO_AO1_JLabel.setText("Advanced Options 1");
-        AO_AO1_JLabel.setName("AO_AO1_JLabel"); // NOI18N
+        javax.swing.GroupLayout RO2_jPanelLayout = new javax.swing.GroupLayout(RO2_jPanel);
+        RO2_jPanel.setLayout(RO2_jPanelLayout);
+        RO2_jPanelLayout.setHorizontalGroup(
+            RO2_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RO2_jPanelLayout.createSequentialGroup()
+                .addComponent(RO_RO2_nomatchao2_box)
+                .addGap(18, 18, 18)
+                .addComponent(RO_RO2_nomatchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        RO2_jPanelLayout.setVerticalGroup(
+            RO2_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RO2_jPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(RO2_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RO_RO2_nomatchao2_box)
+                    .addComponent(RO_RO2_nomatchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        RO_RO_JTabbedPane.addTab("Returned Options 2", RO2_jPanel);
+
+        javax.swing.GroupLayout RO_jPanelLayout = new javax.swing.GroupLayout(RO_jPanel);
+        RO_jPanel.setLayout(RO_jPanelLayout);
+        RO_jPanelLayout.setHorizontalGroup(
+            RO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RO_jPanelLayout.createSequentialGroup()
+                .addComponent(RO_RO_JTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 305, Short.MAX_VALUE))
+        );
+        RO_jPanelLayout.setVerticalGroup(
+            RO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RO_jPanelLayout.createSequentialGroup()
+                .addComponent(RO_RO_JTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 101, Short.MAX_VALUE))
+        );
+
+        options_tab_panel.addTab("Returned Options", RO_jPanel);
+
         AO_AO1_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
-        AO_AO1_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO1_JLabel.setText("AO_AO1_JLabel");
+        AO_AO1_JLabel.setName("AO_AO1_JLabel"); // NOI18N
 
-        AO_AO1_matchao1_box.setText("matchAO1");
         AO_AO1_matchao1_box.setName("AO_AO1_matchao1_box"); // NOI18N
-        AO_AO1_matchao1_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        AO_AO1_matchao1_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        AO_AO1_matchao1_box.setText("-matchAO1");
+        AO_AO1_matchao1_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_matchao1_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO1_matchao1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d,null,null,1.0d));
         AO_AO1_matchao1_JSpinnerValue.setName("AO_AO1_matchao1_JSpinnerValue"); // NOI18N
-        AO_AO1_matchao1_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
+        AO_AO1_matchao1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
         AO_AO1_matchao1_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        AO_AO1_matchao1_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                AO_AO1_matchao1_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        AO_AO2_JLabel.setText("Advanced Options 2");
-        AO_AO2_JLabel.setName("AO_AO2_JLabel"); // NOI18N
         AO_AO2_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
-        AO_AO2_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO2_JLabel.setText("AO_AO2_JLabel");
+        AO_AO2_JLabel.setName("AO_AO2_JLabel"); // NOI18N
 
-        AO_AO2_matchao2_box.setText("matchAO2");
         AO_AO2_matchao2_box.setName("AO_AO2_matchao2_box"); // NOI18N
-        AO_AO2_matchao2_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        AO_AO2_matchao2_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        AO_AO2_matchao2_box.setText("-matchAO2");
+        AO_AO2_matchao2_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO2_matchao2_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO2_matchao2_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1,null,null,1));
         AO_AO2_matchao2_JSpinnerValue.setName("AO_AO2_matchao2_JSpinnerValue"); // NOI18N
-        AO_AO2_matchao2_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
+        AO_AO2_matchao2_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
         AO_AO2_matchao2_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        AO_AO2_matchao2_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                AO_AO2_matchao2_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        AO_AO3_JLabel.setText("Advanced Options 3");
-        AO_AO3_JLabel.setName("AO_AO3_JLabel"); // NOI18N
         AO_AO3_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
-        AO_AO3_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO3_JLabel.setText("AO_AO3_JLabel");
+        AO_AO3_JLabel.setName("AO_AO3_JLabel"); // NOI18N
 
-        AO_AO3_matchao3_box.setText("matchAO3");
         AO_AO3_matchao3_box.setName("AO_AO3_matchao3_box"); // NOI18N
-        AO_AO3_matchao3_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        AO_AO3_matchao3_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        AO_AO3_matchao3_box.setText("-matchAO3");
+        AO_AO3_matchao3_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO3_matchao3_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO3_matchao3_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1,null,null,1));
         AO_AO3_matchao3_JSpinnerValue.setName("AO_AO3_matchao3_JSpinnerValue"); // NOI18N
-        AO_AO3_matchao3_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
+        AO_AO3_matchao3_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
         AO_AO3_matchao3_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        AO_AO3_matchao3_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                AO_AO3_matchao3_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        AO_AO4_JLabel.setText("Advanced Options 4");
-        AO_AO4_JLabel.setName("AO_AO4_JLabel"); // NOI18N
         AO_AO4_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
-        AO_AO4_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO4_JLabel.setText("AO_AO4_JLabel");
+        AO_AO4_JLabel.setName("AO_AO4_JLabel"); // NOI18N
 
-        AO_AO4_matchao4_box.setText("matchAO4");
+        AO_AO4_matchao4_box.setText("-matchAO4");
         AO_AO4_matchao4_box.setName("AO_AO4_matchao4_box"); // NOI18N
-        AO_AO4_matchao4_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        AO_AO4_matchao4_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        AO_AO4_matchao4_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO4_matchao4_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO4_matchao4_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1,0,null,1));
+        AO_AO4_matchao4_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
         AO_AO4_matchao4_JSpinnerValue.setName("AO_AO4_matchao4_JSpinnerValue"); // NOI18N
-        AO_AO4_matchao4_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
         AO_AO4_matchao4_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        AO_AO4_matchao4_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                AO_AO4_matchao4_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        AO_AO4_mismatchao4_box.setText("mismatchAO4");
         AO_AO4_mismatchao4_box.setName("AO_AO4_mismatchao4_box"); // NOI18N
-        AO_AO4_mismatchao4_box.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
-        AO_AO4_mismatchao4_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        AO_AO4_mismatchao4_box.setText("-mismatchAO4");
+        AO_AO4_mismatchao4_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO4_mismatchao4_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO4_mismatchao4_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1,null,100,1));
         AO_AO4_mismatchao4_JSpinnerValue.setName("AO_AO4_mismatchao4_JSpinnerValue"); // NOI18N
-        AO_AO4_mismatchao4_JSpinnerValue.getAccessibleContext().setAccessibleDescription("Score for matching two bases. Default 1");
+        AO_AO4_mismatchao4_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, null, 100, 1));
         AO_AO4_mismatchao4_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
-        AO_AO4_mismatchao4_JSpinnerValue.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                AO_AO4_mismatchao4_JSpinnerValue_StateChanged(evt);
-            }
-        });
 
-        AO_AO4_graphao4_box.setText("graphAO4");
         AO_AO4_graphao4_box.setName("AO_AO4_graphao4_box"); // NOI18N
-        AO_AO4_graphao4_box.getAccessibleContext().setAccessibleDescription("Choose Graph type, EMBOSS_GRAPHICS value");
-        AO_AO4_graphao4_box.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
+        AO_AO4_graphao4_box.setText("-graphAO4");
+        AO_AO4_graphao4_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO4_graphao4_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO4_graphao4_JComboBoxValue.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ps", "hpgl", "hp7470", "hp7580" }));
         AO_AO4_graphao4_JComboBoxValue.setName("AO_AO4_graphao4_JComboBoxValue"); // NOI18N
-        AO_AO4_graphao4_JComboBoxValue.getAccessibleContext().setAccessibleDescription("Choose Graph type, EMBOSS_GRAPHICS value");
+        AO_AO4_graphao4_JComboBoxValue.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ps", "hpgl", "hp7470", "hp7580" }));
         AO_AO4_graphao4_JComboBoxValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO4_graphao4_JComboBoxValue_ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout OO_Layout = new javax.swing.GroupLayout(OO_JPanel);
-        OO_JPanel.setLayout(OO_Layout);
-        OO_Layout.setHorizontalGroup(
-            OO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(OO_Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(OO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(OO_OO1_JLabel)
-                        .addComponent(OO_OO1_matchoo1_box)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(OO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(OO_OO1_matchoo1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addContainerGap() 
-                )
+        javax.swing.GroupLayout AO_jPanelLayout = new javax.swing.GroupLayout(AO_jPanel);
+        AO_jPanel.setLayout(AO_jPanelLayout);
+        AO_jPanelLayout.setHorizontalGroup(
+            AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AO_jPanelLayout.createSequentialGroup()
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AO_AO1_JLabel)
+                    .addComponent(AO_AO1_matchao1_box)
+                    .addComponent(AO_AO2_JLabel)
+                    .addComponent(AO_AO2_matchao2_box)
+                    .addComponent(AO_AO3_JLabel)
+                    .addComponent(AO_AO3_matchao3_box)
+                    .addComponent(AO_AO4_JLabel)
+                    .addComponent(AO_AO4_matchao4_box)
+                    .addComponent(AO_AO4_mismatchao4_box)
+                    .addComponent(AO_AO4_graphao4_box))
+                .addGap(18, 18, 18)
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AO_AO1_matchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AO_AO2_matchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AO_AO3_matchao3_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AO_AO4_matchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AO_AO4_mismatchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AO_AO4_graphao4_JComboBoxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
-        OO_Layout.setVerticalGroup(
-            OO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-             .addGroup(OO_Layout.createSequentialGroup()
+        AO_jPanelLayout.setVerticalGroup(
+            AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AO_jPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                    .addGroup(OO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(OO_OO1_JLabel)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(OO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(OO_OO1_matchoo1_box)
-                        .addComponent(OO_OO1_matchoo1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                 .addContainerGap()
-             )
+                .addComponent(AO_AO1_JLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AO_AO1_matchao1_box)
+                    .addComponent(AO_AO1_matchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AO_AO2_JLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AO_AO2_matchao2_box)
+                    .addComponent(AO_AO2_matchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AO_AO3_JLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AO_AO3_matchao3_box)
+                    .addComponent(AO_AO3_matchao3_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AO_AO4_JLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AO_AO4_matchao4_box)
+                    .addComponent(AO_AO4_matchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AO_AO4_mismatchao4_box)
+                    .addComponent(AO_AO4_mismatchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(AO_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AO_AO4_graphao4_box)
+                    .addComponent(AO_AO4_graphao4_JComboBoxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout RO_RO1_Layout = new javax.swing.GroupLayout(RO_RO1_JPanel);
-        RO_RO1_JPanel.setLayout(RO_RO1_Layout);
-        RO_RO1_Layout.setHorizontalGroup(
-            RO_RO1_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(RO_RO1_Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(RO_RO1_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(RO_RO1_nomatchao1_box)
-                        )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(RO_RO1_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(RO_RO1_nomatchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        )
-                    .addContainerGap()) 
-        );
-        RO_RO1_Layout.setVerticalGroup(
-            RO_RO1_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-             .addGroup(RO_RO1_Layout.createSequentialGroup()
-                .addContainerGap()
-                    .addGroup(RO_RO1_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(RO_RO1_nomatchao1_box)
-                        .addComponent(RO_RO1_nomatchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addContainerGap()) 
-        );
+        AO_AO1_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO2_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO3_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO4_JLabel.getAccessibleContext().setAccessibleDescription("Sub Items");
+        AO_AO4_matchao4_box.getAccessibleContext().setAccessibleDescription("couojb");
+        AO_AO4_matchao4_JSpinnerValue.getAccessibleContext().setAccessibleDescription("couojb");
 
-        javax.swing.GroupLayout RO_RO2_Layout = new javax.swing.GroupLayout(RO_RO2_JPanel);
-        RO_RO2_JPanel.setLayout(RO_RO2_Layout);
-        RO_RO2_Layout.setHorizontalGroup(
-            RO_RO2_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(RO_RO2_Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(RO_RO2_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(RO_RO2_nomatchao2_box)
-                        )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(RO_RO2_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(RO_RO2_nomatchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        )
-                    .addContainerGap()) 
-        );
-        RO_RO2_Layout.setVerticalGroup(
-            RO_RO2_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-             .addGroup(RO_RO2_Layout.createSequentialGroup()
-                .addContainerGap()
-                    .addGroup(RO_RO2_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(RO_RO2_nomatchao2_box)
-                        .addComponent(RO_RO2_nomatchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addContainerGap()) 
-        );
+        options_tab_panel.addTab("Advanced Options", AO_jPanel);
 
-        javax.swing.GroupLayout RO_Layout = new javax.swing.GroupLayout(RO_JPanel);
-        RO_JPanel.setLayout(RO_Layout);
-        RO_Layout.setHorizontalGroup(
-            RO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(RO_RO_JTabbedPane)
-        );
-        RO_Layout.setVerticalGroup(
-            RO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RO_Layout.createSequentialGroup()
-                .addComponent(RO_RO_JTabbedPane)
-                .addContainerGap())
-        );
+        main_jScroll.setViewportView(options_tab_panel);
 
-        javax.swing.GroupLayout AO_Layout = new javax.swing.GroupLayout(AO_JPanel);
-        AO_JPanel.setLayout(AO_Layout);
-        AO_Layout.setHorizontalGroup(
-            AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(AO_Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(AO_AO1_JLabel)
-                        .addComponent(AO_AO1_matchao1_box)
-                        .addComponent(AO_AO2_JLabel)
-                        .addComponent(AO_AO2_matchao2_box)
-                        .addComponent(AO_AO3_JLabel)
-                        .addComponent(AO_AO3_matchao3_box)
-                        .addComponent(AO_AO4_JLabel)
-                        .addComponent(AO_AO4_matchao4_box)
-                        .addComponent(AO_AO4_mismatchao4_box)
-                        .addComponent(AO_AO4_graphao4_box)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(AO_AO1_matchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AO_AO2_matchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AO_AO3_matchao3_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AO_AO4_matchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AO_AO4_mismatchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AO_AO4_graphao4_JComboBoxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addContainerGap() 
-                )
-        );
-        AO_Layout.setVerticalGroup(
-            AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-             .addGroup(AO_Layout.createSequentialGroup()
-                .addContainerGap()
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO1_JLabel)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO1_matchao1_box)
-                        .addComponent(AO_AO1_matchao1_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO2_JLabel)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO2_matchao2_box)
-                        .addComponent(AO_AO2_matchao2_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO3_JLabel)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO3_matchao3_box)
-                        .addComponent(AO_AO3_matchao3_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO4_JLabel)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO4_matchao4_box)
-                        .addComponent(AO_AO4_matchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO4_mismatchao4_box)
-                        .addComponent(AO_AO4_mismatchao4_JSpinnerValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(AO_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AO_AO4_graphao4_box)
-                        .addComponent(AO_AO4_graphao4_JComboBoxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                 .addContainerGap()
-             )
-        );
-
-        general_jPanel1.setName("general_jPanel1"); // NOI18N
-        general_jPanel1.setPreferredSize(new java.awt.Dimension(459, 400));
         javax.swing.GroupLayout general_jPanel1Layout = new javax.swing.GroupLayout(general_jPanel1);
         general_jPanel1.setLayout(general_jPanel1Layout);
         general_jPanel1Layout.setHorizontalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(general_jPanel1Layout.createSequentialGroup()
-                    .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                       .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                       .addGap(18, 18, 18)
-                       .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                       .addGap(18, 18, 18)
-                       .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(general_jPanel1Layout.createSequentialGroup()
+                .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
+                        .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(general_jPanel1Layout.createSequentialGroup()
                         .addComponent(name_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(general_jPanel1Layout.createSequentialGroup()
-                        .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Default_Options)
-                    .addGap(18, 18, 18)
-                            .addComponent(Returned_Options)
-                        )
-                        .addComponent(Advanced_Options)
-                    )
-                    .addComponent(main_jScroll))
+                        .addComponent(Default_Options)
+                        .addGap(18, 18, 18)
+                        .addComponent(Returned_Options))
+                    .addComponent(Advanced_Options)
+                    .addComponent(main_jScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         general_jPanel1Layout.setVerticalGroup(
             general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -670,7 +577,7 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
                 .addContainerGap()
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stop_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reset_jButton)
+                    .addComponent(reset_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(run_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -678,15 +585,46 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
                     .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Default_Options)
-                            .addComponent(Returned_Options)
-                        )
+                    .addComponent(Default_Options)
+                    .addComponent(Returned_Options))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Advanced_Options)
+                .addComponent(Advanced_Options)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(main_jScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        stop_jButton.getAccessibleContext().setAccessibleDescription("Stop this box");
+        reset_jButton.getAccessibleContext().setAccessibleDescription("Reset to default values");
+        run_jButton.getAccessibleContext().setAccessibleDescription("Run this box");
+        name_jLabel.getAccessibleContext().setAccessibleDescription("Name Box");
+        name_jTextField.getAccessibleContext().setAccessibleDescription("Rename the box here");
+        Default_Options.getAccessibleContext().setAccessibleDescription("Default Options");
+        Returned_Options.getAccessibleContext().setAccessibleDescription("Returned Options");
+        Advanced_Options.getAccessibleContext().setAccessibleDescription("Advanced Options");
+
+        EMBOSS_est2test_tab.addTab("EMBOSS_est2test", general_jPanel1);
+
+        docker_jButton1.setText("Docker");
+        docker_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setName("docker_jButton"); // NOI18N
+        docker_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docker_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        ClusterProgramButton.setText("Cluster");
+        ClusterProgramButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -694,41 +632,33 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(docker_jButton)
-                .addGap(18, 18, 18)
                 .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(EMBOSS_est2test_tab, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(EMBOSS_est2test_tab, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(docker_jButton)
                     .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(EMBOSS_est2test_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(EMBOSS_est2test_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        close_jButton.getAccessibleContext().setAccessibleDescription("Close this box");
+        how_jButton.getAccessibleContext().setAccessibleDescription("About this box");
         EMBOSS_est2test_tab.getAccessibleContext().setAccessibleName("EMBOSS_est2test");
-        EMBOSS_est2test_tab.addTab("EMBOSS_est2test", general_jPanel1);
-        EMBOSS_est2test_tab.addTab("EMBOSS_est2test", general_jPanel1);
-        EMBOSS_est2test_tab.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                EMBOSS_est2test_tab_ComponentShown(evt);
-            }
-        });
-        main_jScroll.setViewportView(options_tab_panel);
-        options_tab_panel.addTab("OO",OO_JPanel);
-        options_tab_panel.addTab("RO",RO_JPanel);
-        RO_RO_JTabbedPane.addTab("Returned Options 1",RO_RO1_JPanel);
-        RO_RO_JTabbedPane.addTab("Returned Options 2",RO_RO2_JPanel);
-        options_tab_panel.addTab("AO",AO_JPanel);
 
         pack();
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void EMBOSS_est2test_tab_ComponentShown(java.awt.event.ComponentEvent evt){//GEN-FIRST:event_EMBOSS_est2test_tab_ComponentShown
         // TODO add your handling code here:
@@ -776,12 +706,6 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
         // TODO add your handling code here:
         properties.put("Name", name_jTextField.getText());
     }//GEN-LAST:event_name_jTextField_ActionPerformed
-
-    private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt){//GEN-FIRST:event_docker_jButton_ActionPerformed
-        // TODO add your handling code here:
-        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
-        dock.setVisible(true);
-    }//GEN-LAST:event_docker_jButton_ActionPerformed
     
     private void Default_Options_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Default_Options_ActionPerformed
         // TODO add your handling code here:
@@ -909,6 +833,18 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
         // TODO add your handling code here:
         Util.boxEventComboBox(properties,AO_AO4_graphao4_box,AO_AO4_graphao4_JComboBoxValue);
     }//GEN-LAST:event_AO_AO4_graphao4_box_ActionPerformed
+
+    private void docker_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
+        dock.setVisible(true);
+    }//GEN-LAST:event_docker_jButton1_ActionPerformed
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
     /*******************************************************************
      * Perpare List Dictionaries
      ******************************************************************/
@@ -1057,52 +993,52 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton how_jButton;
+    private javax.swing.JLabel AO_AO1_JLabel;
+    private javax.swing.JSpinner AO_AO1_matchao1_JSpinnerValue;
+    private javax.swing.JCheckBox AO_AO1_matchao1_box;
+    private javax.swing.JLabel AO_AO2_JLabel;
+    private javax.swing.JSpinner AO_AO2_matchao2_JSpinnerValue;
+    private javax.swing.JCheckBox AO_AO2_matchao2_box;
+    private javax.swing.JLabel AO_AO3_JLabel;
+    private javax.swing.JSpinner AO_AO3_matchao3_JSpinnerValue;
+    private javax.swing.JCheckBox AO_AO3_matchao3_box;
+    private javax.swing.JLabel AO_AO4_JLabel;
+    private javax.swing.JComboBox AO_AO4_graphao4_JComboBoxValue;
+    private javax.swing.JCheckBox AO_AO4_graphao4_box;
+    private javax.swing.JSpinner AO_AO4_matchao4_JSpinnerValue;
+    private javax.swing.JCheckBox AO_AO4_matchao4_box;
+    private javax.swing.JSpinner AO_AO4_mismatchao4_JSpinnerValue;
+    private javax.swing.JCheckBox AO_AO4_mismatchao4_box;
+    private javax.swing.JPanel AO_jPanel;
+    private javax.swing.JRadioButton Advanced_Options;
+    private javax.swing.JButton ClusterProgramButton;
+    private javax.swing.JRadioButton Default_Options;
     private javax.swing.JTabbedPane EMBOSS_est2test_tab;
+    private javax.swing.ButtonGroup Menu_Buttons;
+    private javax.swing.JLabel OO_OO1_JLabel;
+    private javax.swing.JSpinner OO_OO1_matchoo1_JSpinnerValue;
+    private javax.swing.JCheckBox OO_OO1_matchoo1_box;
+    private javax.swing.JPanel OO_jPanel;
+    private javax.swing.JPanel RO1_jPanel;
+    private javax.swing.JPanel RO2_jPanel;
+    private javax.swing.JSpinner RO_RO1_nomatchao1_JSpinnerValue;
+    private javax.swing.JCheckBox RO_RO1_nomatchao1_box;
+    private javax.swing.JSpinner RO_RO2_nomatchao2_JSpinnerValue;
+    private javax.swing.JCheckBox RO_RO2_nomatchao2_box;
+    private javax.swing.JTabbedPane RO_RO_JTabbedPane;
+    private javax.swing.JPanel RO_jPanel;
+    private javax.swing.JRadioButton Returned_Options;
+    private javax.swing.JButton close_jButton;
+    private javax.swing.JButton docker_jButton1;
     private javax.swing.JPanel general_jPanel1;
+    private javax.swing.JButton how_jButton;
+    private javax.swing.JScrollPane main_jScroll;
     private javax.swing.JLabel name_jLabel;
     private javax.swing.JTextField name_jTextField;
-    private javax.swing.JButton rename_jButton;
-    private javax.swing.JButton reset_jButton;
-    private javax.swing.JButton close_jButton;
-    private javax.swing.JButton stop_jButton;
-    private javax.swing.JButton run_jButton;
-    private javax.swing.ButtonGroup Menu_Buttons;
-    private javax.swing.JButton docker_jButton;
-    private javax.swing.JRadioButton Default_Options;
-    private javax.swing.JRadioButton Returned_Options;
-    private javax.swing.JRadioButton Advanced_Options;
-    private javax.swing.JScrollPane main_jScroll;
     private javax.swing.JTabbedPane options_tab_panel;
-    private javax.swing.JPanel OO_JPanel;
-    private javax.swing.JLabel OO_OO1_JLabel;
-    private javax.swing.JCheckBox OO_OO1_matchoo1_box;
-    private javax.swing.JSpinner OO_OO1_matchoo1_JSpinnerValue;
-    private javax.swing.JPanel RO_JPanel;
-    private javax.swing.JTabbedPane RO_RO_JTabbedPane;
-    private javax.swing.JPanel RO_RO1_JPanel;
-    private javax.swing.JCheckBox RO_RO1_nomatchao1_box;
-    private javax.swing.JSpinner RO_RO1_nomatchao1_JSpinnerValue;
-    private javax.swing.JPanel RO_RO2_JPanel;
-    private javax.swing.JCheckBox RO_RO2_nomatchao2_box;
-    private javax.swing.JSpinner RO_RO2_nomatchao2_JSpinnerValue;
-    private javax.swing.JPanel AO_JPanel;
-    private javax.swing.JLabel AO_AO1_JLabel;
-    private javax.swing.JCheckBox AO_AO1_matchao1_box;
-    private javax.swing.JSpinner AO_AO1_matchao1_JSpinnerValue;
-    private javax.swing.JLabel AO_AO2_JLabel;
-    private javax.swing.JCheckBox AO_AO2_matchao2_box;
-    private javax.swing.JSpinner AO_AO2_matchao2_JSpinnerValue;
-    private javax.swing.JLabel AO_AO3_JLabel;
-    private javax.swing.JCheckBox AO_AO3_matchao3_box;
-    private javax.swing.JSpinner AO_AO3_matchao3_JSpinnerValue;
-    private javax.swing.JLabel AO_AO4_JLabel;
-    private javax.swing.JCheckBox AO_AO4_matchao4_box;
-    private javax.swing.JSpinner AO_AO4_matchao4_JSpinnerValue;
-    private javax.swing.JCheckBox AO_AO4_mismatchao4_box;
-    private javax.swing.JSpinner AO_AO4_mismatchao4_JSpinnerValue;
-    private javax.swing.JCheckBox AO_AO4_graphao4_box;
-    private javax.swing.JComboBox AO_AO4_graphao4_JComboBoxValue;
+    private javax.swing.JButton reset_jButton;
+    private javax.swing.JButton run_jButton;
+    private javax.swing.JButton stop_jButton;
     // End of variables declaration//GEN-END:variables
     }
 

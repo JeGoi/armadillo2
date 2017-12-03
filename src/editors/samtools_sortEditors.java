@@ -9,6 +9,7 @@ import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
+import editor.clusterEditorProgram;
 import editor.dockerEditorProgram;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -80,7 +81,6 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
         Menu_Buttons = new javax.swing.ButtonGroup();
         close_jButton = new javax.swing.JButton();
         how_jButton = new javax.swing.JButton();
-        docker_jButton = new javax.swing.JButton();
         samtools_sort_tab = new javax.swing.JTabbedPane();
         general_jPanel1 = new javax.swing.JPanel();
         stop_jButton = new javax.swing.JButton();
@@ -99,6 +99,8 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
         AO_AO1_H_box = new javax.swing.JCheckBox();
         AO_AO1_O_box = new javax.swing.JCheckBox();
         AO_AO1_O_JComboBoxValue = new javax.swing.JComboBox();
+        docker_jButton1 = new javax.swing.JButton();
+        ClusterProgramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -123,17 +125,6 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
         how_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 how_jButton_ActionPerformed(evt);
-            }
-        });
-
-        docker_jButton.setText("Docker Editor");
-        docker_jButton.setMaximumSize(new java.awt.Dimension(91, 29));
-        docker_jButton.setMinimumSize(new java.awt.Dimension(91, 29));
-        docker_jButton.setName("docker_jButton"); // NOI18N
-        docker_jButton.setPreferredSize(new java.awt.Dimension(91, 29));
-        docker_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                docker_jButton_ActionPerformed(evt);
             }
         });
 
@@ -222,17 +213,17 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
         AO_AO1_JLabel.setText("Advanced Options 1");
         AO_AO1_JLabel.setName("AO_AO1_JLabel"); // NOI18N
 
-        AO_AO1_T_box.setName("AO_AO1_T_box"); // NOI18N
         AO_AO1_T_box.setText("-T");
+        AO_AO1_T_box.setName("AO_AO1_T_box"); // NOI18N
         AO_AO1_T_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_T_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO1_T_JTextFieldValue.setName("AO_AO1_T_JTextFieldValue"); // NOI18N
         AO_AO1_T_JTextFieldValue.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         AO_AO1_T_JTextFieldValue.setText("['PREFIX']");
+        AO_AO1_T_JTextFieldValue.setName("AO_AO1_T_JTextFieldValue"); // NOI18N
         AO_AO1_T_JTextFieldValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_T_JTextFieldValue_ActionPerformed(evt);
@@ -244,24 +235,24 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
             }
         });
 
-        AO_AO1_H_box.setName("AO_AO1_H_box"); // NOI18N
         AO_AO1_H_box.setText("-H");
+        AO_AO1_H_box.setName("AO_AO1_H_box"); // NOI18N
         AO_AO1_H_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_H_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO1_O_box.setName("AO_AO1_O_box"); // NOI18N
         AO_AO1_O_box.setText("-O");
+        AO_AO1_O_box.setName("AO_AO1_O_box"); // NOI18N
         AO_AO1_O_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_O_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO1_O_JComboBoxValue.setName("AO_AO1_O_JComboBoxValue"); // NOI18N
         AO_AO1_O_JComboBoxValue.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "bam", "sam", "cram" }));
+        AO_AO1_O_JComboBoxValue.setName("AO_AO1_O_JComboBoxValue"); // NOI18N
         AO_AO1_O_JComboBoxValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_O_JComboBoxValue_ActionPerformed(evt);
@@ -361,17 +352,42 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
 
         samtools_sort_tab.addTab("samtools_sort", general_jPanel1);
 
+        docker_jButton1.setText("Docker");
+        docker_jButton1.setMaximumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setMinimumSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.setName("docker_jButton"); // NOI18N
+        docker_jButton1.setPreferredSize(new java.awt.Dimension(91, 29));
+        docker_jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docker_jButton1_ActionPerformed(evt);
+            }
+        });
+
+        ClusterProgramButton.setText("Cluster");
+        ClusterProgramButton.setMaximumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setMinimumSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.setPreferredSize(new java.awt.Dimension(91, 29));
+        ClusterProgramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClusterProgramButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(samtools_sort_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(samtools_sort_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,14 +395,15 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(docker_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(samtools_sort_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         close_jButton.getAccessibleContext().setAccessibleDescription("Close this box");
         how_jButton.getAccessibleContext().setAccessibleDescription("About this box");
-        docker_jButton.getAccessibleContext().setAccessibleDescription("Access to the docker editor");
         samtools_sort_tab.getAccessibleContext().setAccessibleName("samtools_sort");
 
         pack();
@@ -439,12 +456,6 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
         // TODO add your handling code here:
         properties.put("Name", name_jTextField.getText());
     }//GEN-LAST:event_name_jTextField_ActionPerformed
-
-    private void docker_jButton_ActionPerformed(java.awt.event.ActionEvent evt){//GEN-FIRST:event_docker_jButton_ActionPerformed
-        // TODO add your handling code here:
-        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
-        dock.setVisible(true);
-    }//GEN-LAST:event_docker_jButton_ActionPerformed
     
     private void Default_Options_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Default_Options_ActionPerformed
         // TODO add your handling code here:
@@ -491,6 +502,18 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
         // TODO add your handling code here:
         Util.boxEventComboBox(properties,AO_AO1_O_box,AO_AO1_O_JComboBoxValue);
     }//GEN-LAST:event_AO_AO1_O_box_ActionPerformed
+
+    private void docker_jButton1_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docker_jButton1_ActionPerformed
+        // TODO add your handling code here:
+        dockerEditorProgram dock = new dockerEditorProgram(this.frame, false, properties);
+        dock.setVisible(true);
+    }//GEN-LAST:event_docker_jButton1_ActionPerformed
+
+    private void ClusterProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClusterProgramButtonActionPerformed
+        // TODO add your handling code here:
+        clusterEditorProgram clus = new clusterEditorProgram(this.frame, false, properties);
+        clus.setVisible(true);
+    }//GEN-LAST:event_ClusterProgramButtonActionPerformed
     /*******************************************************************
      * Perpare List Dictionaries
      ******************************************************************/
@@ -637,10 +660,11 @@ public class samtools_sortEditors extends javax.swing.JDialog implements EditorI
     private javax.swing.JCheckBox AO_AO1_T_box;
     private javax.swing.JPanel AO_jPanel;
     private javax.swing.JRadioButton Advanced_Options;
+    private javax.swing.JButton ClusterProgramButton;
     private javax.swing.JRadioButton Default_Options;
     private javax.swing.ButtonGroup Menu_Buttons;
     private javax.swing.JButton close_jButton;
-    private javax.swing.JButton docker_jButton;
+    private javax.swing.JButton docker_jButton1;
     private javax.swing.JPanel general_jPanel1;
     private javax.swing.JButton how_jButton;
     private javax.swing.JScrollPane main_jScroll;

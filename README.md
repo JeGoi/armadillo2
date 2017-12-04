@@ -26,3 +26,12 @@ Remove also ./config.dat and ./armadillo.log \
 Remove ./Armadillo.jar. Rename ./Armadillo.jar_mac for Mac (and ./Armadillo.jar_win for Windows) in Armadillo.jar \
 Then run Armadillo as before.
 On linux, just follow instruction from here: https://github.com/JeGoi/Armadillo_SNPs_WF_test/blob/master/README.md or clone (download this depot) and use Armadillo.jar_lin as Armadillo.jar
+
+# NGS not on Docker
+The following programs are not on Docker, you will have to add their binary files in ./executable
+- Bowtie
+- Bowtie2
+- Cutadapt
+- FastqC
+...
+We expect to moved them on Docker quickly

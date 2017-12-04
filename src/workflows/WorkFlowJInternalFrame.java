@@ -28,7 +28,6 @@ import configuration.Cluster;
 import configuration.Docker;
 import configuration.Util;
 import database.ExplorerTreeMutableTreeNode;
-import editor.dockerEditor;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Point;

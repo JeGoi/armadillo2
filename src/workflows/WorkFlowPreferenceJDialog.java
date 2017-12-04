@@ -1973,8 +1973,9 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
 
     private void DAC_StopAllCont_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DAC_StopAllCont_buttonActionPerformed
         // TODO add your handling code here:
-        Docker.stopAllArmadilloContainer();
-        Docker.removeAllArmadilloContainer();
+        Docker.stopAllArmadilloContainers();
+        Docker.killAllArmadilloContainers();
+        Docker.removeAllArmadilloContainers();
         updateDockerLists();
     }//GEN-LAST:event_DAC_StopAllCont_buttonActionPerformed
 
@@ -2099,7 +2100,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             jTabbedPane1.setSelectedIndex(1);
             clusterUpdateValues();
         } else {
-            System.out.println("Not able to access to the cluster Cluster");
+            System.out.println(Util.BRClusterUnableToAccess());
         }
 
     }//GEN-LAST:event_TestSave_ButtonActionPerformed
@@ -2115,7 +2116,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
             dockerUpdateValues(true);
         } else {
             dockerUpdateValues(false);
-            System.out.println("Not able to access to the cluster Cluster");
+            System.out.println(Util.BRClusterUnableToAccess());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

@@ -2045,6 +2045,12 @@ public class Util {
         return f;
     }
     
+    public static List<String> merge2ListsWithoutDup(List<String> list1, List<String> list2){
+        list1.removeAll(list2);
+        list1.addAll(list2);
+        return list1;
+    }
+    
     /**
      * Added by JG 2017
      * @param s a string from outputs program
@@ -2126,6 +2132,9 @@ public class Util {
     }
     public static String BRDockerUnableToCreateClient(){
         return "Unable to create a Docker Client";
+    }
+    public static String BRClusterUnableToAccess(){
+        return "Not able to access to the cluster";
     }
     public static String RUNDockerDuration(String where, long duration){
         return "\t<TIME> Time to "+where+" Docker container is >"+duration+" s";

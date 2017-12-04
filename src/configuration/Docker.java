@@ -495,41 +495,22 @@ public class Docker {
     public static List<Container> getAllArmadilloContainersList () {
         List<Container> containers = getAllContainersList ();
         List<Container> list = new ArrayList<Container>();
-        for(int i=0; i < containers.size(); i++){
-            String   id = containers.get(i).getId();
-            String[] names = containers.get(i).getNames();
-            for (String name : names){
-                if (name.contains(kword)){
+        for(int i=0; i < containers.size(); i++)
+            for (String name : containers.get(i).getNames())
+                if (name.contains(kword))
                     list.add(containers.get(i));
-                }
-            }
-        }
         return list;
     }
     
-    public static List<String> getAllArmadilloContainersIDList () {
-        List<Container> containers = getAllArmadilloContainersList ();
-        List<String> list = new ArrayList<String>();
-        for(int i=0; i < containers.size(); i++){
-            list.add(containers.get(i).getId());
-        }
+    public static List<Container> getContainersTypeList (String type) {
+        List<Container> containers = getAllArmadilloContainersList();
+        List<Container> list = new ArrayList<Container>();
+        for(int i=0; i < containers.size(); i++)
+            if (containers.get(i).getStatus().toLowerCase().contains(type))
+                list.add(containers.get(i));
         return list;
     }
-    
-    public static List<String> getAllArmadilloContainersNameList () {
-        List<Container> containers = getAllArmadilloContainersList ();
-        List<String> list = new ArrayList<String>();
-        for(int i=0; i < containers.size(); i++){
-            String[] names = containers.get(i).getNames();
-            for (String name : names){
-                if (name.contains(kword)){
-                    list.add(name);
-                }
-            }
-        }
-        return list;
-    }
-    
+
     public static List<Container> getAllArmadilloContainersListFromImage (String image) {
         List<Container> containers = getAllArmadilloContainersList ();
         List<Container> list = new ArrayList<Container>();
@@ -541,6 +522,32 @@ public class Docker {
             }
         }
         return list;
+    }
+    
+    public static List<String> getContainersIdList (List<Container> containers) {
+        List<String> list = new ArrayList<String>();
+        for(int i=0; i < containers.size(); i++)
+            list.add(containers.get(i).getId());
+        return list;
+    }
+
+    public static List<String> getContainersNameList (List<Container> containers) {
+        List<String> list = new ArrayList<String>();
+        for(int i=0; i < containers.size(); i++)
+            for (String name : containers.get(i).getNames())
+                if (name.contains(kword))
+                    list.add(name);
+        return list;
+    }
+
+    public static List<String> getAllArmadilloContainersIDList () {
+        List<Container> containers = getAllArmadilloContainersList ();
+        return getContainersIdList(containers);
+    }
+    
+    public static List<String> getAllArmadilloContainersNameList () {
+        List<Container> containers = getAllArmadilloContainersList ();
+        return getContainersNameList(containers);
     }
     
     public static String[] getAllContainersIDListTab() {
@@ -555,42 +562,65 @@ public class Docker {
         return tab;
     }
     
-    public static List<String> getRunningContainersList () {
-        DockerClient dockerClient = getDockerClient();
-        List<Container> containers = dockerClient.listContainersCmd()
-                .withShowAll(true)
-                .withStatusFilter("running")
-                .exec();
-        List<String> list = new ArrayList<String>();
-        for(int i=0; i < containers.size(); i++){
-            String   id = containers.get(i).getId();
-            String[] names = containers.get(i).getNames();
-            for (String name : names){
-                if (name.contains(kword)){
-                    list.add(id);
-                }
-            }
-        }
-        return list;
+    public static List<String> getRunningContainersIdList () {
+        List<Container> containers = getContainersTypeList("running");
+        return getContainersIdList(containers);
     }
     
-    public static List<String> getExitedContainersList () {
-        DockerClient dockerClient = getDockerClient();
-        List<Container> containers = dockerClient.listContainersCmd()
-                .withShowAll(true)
-                .withStatusFilter("exited")
-                .exec();
-        List<String> list = new ArrayList<String>();
-        for(int i=0; i < containers.size(); i++){
-            String   id = containers.get(i).getId();
-            String[] names = containers.get(i).getNames();
-            for (String name : names){
-                if (name.contains(kword)){
-                    list.add(id);
-                }
-            }
-        }
-        return list;
+    public static List<String> getUpContainersIdList () {
+        List<Container> containers = getContainersTypeList("up");
+        return getContainersIdList(containers);
+    }
+    
+    public static List<String> getCreatedContainersIdList () {
+        List<Container> containers = getContainersTypeList("created");
+        return getContainersIdList(containers);
+    }
+    
+    public static List<String> getRestartingContainersIdList () {
+        List<Container> containers = getContainersTypeList("restarting");
+        return getContainersIdList(containers);
+    }
+    
+    public static List<String> getPausedContainersIdList () {
+        List<Container> containers = getContainersTypeList("paused");
+        return getContainersIdList(containers);
+    }
+    
+    public static List<String> getExitedContainersIdList () {
+        List<Container> containers = getContainersTypeList("exited");
+        return getContainersIdList(containers);
+    }
+    
+    public static List<String> getDeadContainersIdList () {
+        List<Container> containers = getContainersTypeList("dead");
+        return getContainersIdList(containers);
+    }
+    
+    public static List<String> getContainersIdListToStart () {
+        List<String> list1 = getCreatedContainersIdList();
+        List<String> list2 = getPausedContainersIdList();
+        list1 = Util.merge2ListsWithoutDup(list1, list2);
+        list2 = getExitedContainersIdList();
+        return Util.merge2ListsWithoutDup(list1, list2);
+    }
+    
+    public static List<String> getContainersIdListToStop () {
+        List<String> list1 = getRunningContainersIdList();
+        List<String> list2 = getCreatedContainersIdList();
+        list1 = Util.merge2ListsWithoutDup(list1, list2);
+        list2 = getRestartingContainersIdList();
+        list1 = Util.merge2ListsWithoutDup(list1, list2);
+        list2 = getPausedContainersIdList();
+        list1 = Util.merge2ListsWithoutDup(list1, list2);
+        list2 = getUpContainersIdList();
+        return Util.merge2ListsWithoutDup(list1, list2);
+    }
+    
+    public static List<String> getContainersIdListToRemove () {
+        List<String> list1 = getExitedContainersIdList();
+        List<String> list2 = getDeadContainersIdList();
+        return Util.merge2ListsWithoutDup(list1, list2);
     }
     
     /**
@@ -704,8 +734,8 @@ public class Docker {
         closeDockerClient(dockerClient);
     }
 
-    public static void startAllArmadilloContainer(){
-        List<String> l = getExitedContainersList();
+    public static void startAllArmadilloContainers(){
+        List<String> l = getContainersIdListToStart();
         for (String s : l){
             startContainer(s);
         }
@@ -725,8 +755,8 @@ public class Docker {
         closeDockerClient(dockerClient);
     }
 
-    public static void stopAllArmadilloContainer(){
-        List<String> l = getRunningContainersList();
+    public static void stopAllArmadilloContainers(){
+        List<String> l = getContainersIdListToStop();
         for (String s : l){
             stopContainer(s);
         }
@@ -748,27 +778,20 @@ public class Docker {
 
     public static void removeContainer(String s) {
         DockerClient dockerClient = getDockerClient();
-        List<Container> list = getAllArmadilloContainersList();
-        for (Container c : list){
-            String cId = c.getId();
-            if (cId.contains(s)){
-                if (c.getStatus().equals("paused")){
-                    killContainer(c.getId());
-                }
-                    
-                if (c.getStatus().equals("running") ||
-                        c.getStatus().toLowerCase().contains("up")){
-                    stopContainer(c.getId());
-                }
-                    
-            }
-        }
+        List<String> list = getContainersIdListToStop();
+        for (String id : list)
+            if (id.contains(s))
+                    stopContainer(id);
+        list = getContainersIdListToStop();
+        for (String id : list)
+            if (id.contains(s))
+                    killContainer(id);
         dockerClient.removeContainerCmd(s).exec();
         closeDockerClient(dockerClient);
     }
 
-    public static void removeAllArmadilloContainer(){
-        List<String> l = getExitedContainersList();
+    public static void removeAllArmadilloContainers(){
+        List<String> l = getContainersIdListToRemove();
         for (String s : l){
             removeContainer(s);
         }
@@ -802,8 +825,8 @@ public class Docker {
         closeDockerClient(dockerClient);
     }
     
-    public static void killAllArmadilloContainer(){
-        List<String> l = getRunningContainersList();
+    public static void killAllArmadilloContainers(){
+        List<String> l = getContainersIdListToStop();
         for (String s : l){
             killContainer(s);
         }

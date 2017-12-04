@@ -5,7 +5,6 @@
 */
 package editors;
 
-import editor.dockerEditor;
 import configuration.Config;
 import configuration.Util;
 import editor.EditorInterface;
@@ -259,16 +258,16 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
         OO_OO1_JLabel.setText("OO_OO1_JLabel");
         OO_OO1_JLabel.setName("OO_OO1_JLabel"); // NOI18N
 
-        OO_OO1_matchoo1_box.setName("OO_OO1_matchoo1_box"); // NOI18N
         OO_OO1_matchoo1_box.setText("-matchOO1");
+        OO_OO1_matchoo1_box.setName("OO_OO1_matchoo1_box"); // NOI18N
         OO_OO1_matchoo1_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OO_OO1_matchoo1_box_ActionPerformed(evt);
             }
         });
 
-        OO_OO1_matchoo1_JSpinnerValue.setName("OO_OO1_matchoo1_JSpinnerValue"); // NOI18N
         OO_OO1_matchoo1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
+        OO_OO1_matchoo1_JSpinnerValue.setName("OO_OO1_matchoo1_JSpinnerValue"); // NOI18N
         OO_OO1_matchoo1_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
         javax.swing.GroupLayout OO_jPanelLayout = new javax.swing.GroupLayout(OO_jPanel);
@@ -298,16 +297,16 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
 
         options_tab_panel.addTab("Other Options", OO_jPanel);
 
-        RO_RO1_nomatchao1_box.setName("RO_RO1_nomatchao1_box"); // NOI18N
         RO_RO1_nomatchao1_box.setText("-NOmatchAO1");
+        RO_RO1_nomatchao1_box.setName("RO_RO1_nomatchao1_box"); // NOI18N
         RO_RO1_nomatchao1_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RO_RO1_nomatchao1_box_ActionPerformed(evt);
             }
         });
 
-        RO_RO1_nomatchao1_JSpinnerValue.setName("RO_RO1_nomatchao1_JSpinnerValue"); // NOI18N
         RO_RO1_nomatchao1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
+        RO_RO1_nomatchao1_JSpinnerValue.setName("RO_RO1_nomatchao1_JSpinnerValue"); // NOI18N
         RO_RO1_nomatchao1_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
         javax.swing.GroupLayout RO1_jPanelLayout = new javax.swing.GroupLayout(RO1_jPanel);
@@ -331,16 +330,16 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
 
         RO_RO_JTabbedPane.addTab("Returned Options 1", RO1_jPanel);
 
-        RO_RO2_nomatchao2_box.setName("RO_RO2_nomatchao2_box"); // NOI18N
         RO_RO2_nomatchao2_box.setText("-NOmatchAO2");
+        RO_RO2_nomatchao2_box.setName("RO_RO2_nomatchao2_box"); // NOI18N
         RO_RO2_nomatchao2_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RO_RO2_nomatchao2_box_ActionPerformed(evt);
             }
         });
 
-        RO_RO2_nomatchao2_JSpinnerValue.setName("RO_RO2_nomatchao2_JSpinnerValue"); // NOI18N
         RO_RO2_nomatchao2_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
+        RO_RO2_nomatchao2_JSpinnerValue.setName("RO_RO2_nomatchao2_JSpinnerValue"); // NOI18N
         RO_RO2_nomatchao2_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
         javax.swing.GroupLayout RO2_jPanelLayout = new javax.swing.GroupLayout(RO2_jPanel);
@@ -385,48 +384,48 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
         AO_AO1_JLabel.setText("AO_AO1_JLabel");
         AO_AO1_JLabel.setName("AO_AO1_JLabel"); // NOI18N
 
-        AO_AO1_matchao1_box.setName("AO_AO1_matchao1_box"); // NOI18N
         AO_AO1_matchao1_box.setText("-matchAO1");
+        AO_AO1_matchao1_box.setName("AO_AO1_matchao1_box"); // NOI18N
         AO_AO1_matchao1_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO1_matchao1_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO1_matchao1_JSpinnerValue.setName("AO_AO1_matchao1_JSpinnerValue"); // NOI18N
         AO_AO1_matchao1_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
+        AO_AO1_matchao1_JSpinnerValue.setName("AO_AO1_matchao1_JSpinnerValue"); // NOI18N
         AO_AO1_matchao1_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
         AO_AO2_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         AO_AO2_JLabel.setText("AO_AO2_JLabel");
         AO_AO2_JLabel.setName("AO_AO2_JLabel"); // NOI18N
 
-        AO_AO2_matchao2_box.setName("AO_AO2_matchao2_box"); // NOI18N
         AO_AO2_matchao2_box.setText("-matchAO2");
+        AO_AO2_matchao2_box.setName("AO_AO2_matchao2_box"); // NOI18N
         AO_AO2_matchao2_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO2_matchao2_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO2_matchao2_JSpinnerValue.setName("AO_AO2_matchao2_JSpinnerValue"); // NOI18N
         AO_AO2_matchao2_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
+        AO_AO2_matchao2_JSpinnerValue.setName("AO_AO2_matchao2_JSpinnerValue"); // NOI18N
         AO_AO2_matchao2_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
         AO_AO3_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         AO_AO3_JLabel.setText("AO_AO3_JLabel");
         AO_AO3_JLabel.setName("AO_AO3_JLabel"); // NOI18N
 
-        AO_AO3_matchao3_box.setName("AO_AO3_matchao3_box"); // NOI18N
         AO_AO3_matchao3_box.setText("-matchAO3");
+        AO_AO3_matchao3_box.setName("AO_AO3_matchao3_box"); // NOI18N
         AO_AO3_matchao3_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO3_matchao3_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO3_matchao3_JSpinnerValue.setName("AO_AO3_matchao3_JSpinnerValue"); // NOI18N
         AO_AO3_matchao3_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
+        AO_AO3_matchao3_JSpinnerValue.setName("AO_AO3_matchao3_JSpinnerValue"); // NOI18N
         AO_AO3_matchao3_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
         AO_AO4_JLabel.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
@@ -445,28 +444,28 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
         AO_AO4_matchao4_JSpinnerValue.setName("AO_AO4_matchao4_JSpinnerValue"); // NOI18N
         AO_AO4_matchao4_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
-        AO_AO4_mismatchao4_box.setName("AO_AO4_mismatchao4_box"); // NOI18N
         AO_AO4_mismatchao4_box.setText("-mismatchAO4");
+        AO_AO4_mismatchao4_box.setName("AO_AO4_mismatchao4_box"); // NOI18N
         AO_AO4_mismatchao4_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO4_mismatchao4_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO4_mismatchao4_JSpinnerValue.setName("AO_AO4_mismatchao4_JSpinnerValue"); // NOI18N
         AO_AO4_mismatchao4_JSpinnerValue.setModel(new javax.swing.SpinnerNumberModel(1, null, 100, 1));
+        AO_AO4_mismatchao4_JSpinnerValue.setName("AO_AO4_mismatchao4_JSpinnerValue"); // NOI18N
         AO_AO4_mismatchao4_JSpinnerValue.setPreferredSize(new java.awt.Dimension(115, 28));
 
-        AO_AO4_graphao4_box.setName("AO_AO4_graphao4_box"); // NOI18N
         AO_AO4_graphao4_box.setText("-graphAO4");
+        AO_AO4_graphao4_box.setName("AO_AO4_graphao4_box"); // NOI18N
         AO_AO4_graphao4_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO4_graphao4_box_ActionPerformed(evt);
             }
         });
 
-        AO_AO4_graphao4_JComboBoxValue.setName("AO_AO4_graphao4_JComboBoxValue"); // NOI18N
         AO_AO4_graphao4_JComboBoxValue.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ps", "hpgl", "hp7470", "hp7580" }));
+        AO_AO4_graphao4_JComboBoxValue.setName("AO_AO4_graphao4_JComboBoxValue"); // NOI18N
         AO_AO4_graphao4_JComboBoxValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AO_AO4_graphao4_JComboBoxValue_ActionPerformed(evt);
@@ -643,12 +642,12 @@ public class EMBOSS_est2testEditors extends javax.swing.JDialog implements Edito
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ClusterProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(docker_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(close_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(how_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EMBOSS_est2test_tab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

@@ -607,9 +607,7 @@ public class Docker {
     
     public static List<String> getContainersIdListToStop () {
         List<String> list1 = getRunningContainersIdList();
-        List<String> list2 = getCreatedContainersIdList();
-        list1 = Util.merge2ListsWithoutDup(list1, list2);
-        list2 = getRestartingContainersIdList();
+        List<String> list2 = getRestartingContainersIdList();
         list1 = Util.merge2ListsWithoutDup(list1, list2);
         list2 = getPausedContainersIdList();
         list1 = Util.merge2ListsWithoutDup(list1, list2);
@@ -619,7 +617,9 @@ public class Docker {
     
     public static List<String> getContainersIdListToRemove () {
         List<String> list1 = getExitedContainersIdList();
-        List<String> list2 = getDeadContainersIdList();
+        List<String> list2 = getCreatedContainersIdList();
+        list1 = Util.merge2ListsWithoutDup(list1, list2);
+        list2 = getDeadContainersIdList();
         return Util.merge2ListsWithoutDup(list1, list2);
     }
     
@@ -781,12 +781,27 @@ public class Docker {
         List<String> list = getContainersIdListToStop();
         for (String id : list)
             if (id.contains(s))
+                try{
                     stopContainer(id);
+                } catch (Exception ex) {
+                    System.out.println("Can't stop container >"+s);
+                    System.out.println(ex);
+                }
         list = getContainersIdListToStop();
         for (String id : list)
             if (id.contains(s))
+                try{
                     killContainer(id);
-        dockerClient.removeContainerCmd(s).exec();
+                } catch (Exception ex) {
+                    System.out.println("Can't kill container >"+s);
+                    System.out.println(ex);
+                }
+        try{
+            dockerClient.removeContainerCmd(s).exec();
+        } catch (Exception ex) {
+            System.out.println("Can't remove container >"+s);
+            System.out.println(ex);
+        }
         closeDockerClient(dockerClient);
     }
 

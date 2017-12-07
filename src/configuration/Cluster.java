@@ -163,8 +163,7 @@ public class Cluster {
         ArrayList<String> tab = new ArrayList<String>();
         if (isP2RsaHere()){
             String c = "module avail";
-            String p2rsa = getP2Rsa();
-            tab = runSshCommand(properties,p2rsa,c);
+            tab = runSshCommand(properties,c);
         }
         return tab;
     }
@@ -218,80 +217,68 @@ public class Cluster {
         return false;
     }
     
-    public static String getCommandLineRunning(workflow_properties properties) {
-        if (properties.isSet("ClusterRunningCLi"))
-            return properties.get("ClusterRunningCLi");
-        return "";
-    }
-    
-    public static String getDockerCommandLineRunning(workflow_properties properties) {
-        if (properties.isSet("DockerCommandLine"))
-            return properties.get("DockerCommandLine");
-        return "";
-    }
+    public static String updateCommandProgramForCluster(
+            workflow_properties properties,
+            String clusterDir){
+        String cmd = properties.get("Commandline_Running");
+        boolean b = isDocker(properties);
+        if (b)
+            cmd = getClusterRunningCLiFromDocker(properties);
         
-    public static String updateCommandFromProgramToCluster(workflow_properties properties, String c){
-        String clusterDir = properties.get("ClusterDirPath");
         Enumeration<Object> e = properties.keys();
         while(e.hasMoreElements()) {
             String key=(String)e.nextElement();
-            if (key.contains("ClusterLocalInput_")){
-                String fLocal = properties.get(key);
-                String fRem  = getClusterFilePath(properties,fLocal);
-                c = c.replace(fLocal, fRem);
-            }
-            if (key.contains("ClusterLocalOutput_")){
-                String fLocal = properties.get(key);
-                String fName = Util.getFileNameAndExt(fLocal);
-                String fRem = clusterDir+"/outputs/"+fName;
-                c = c.replace(fLocal, fRem);
-            }
-            if (key.contains("ExecutableCluster")){
-                String pLoc = Util.getOSCommandLine(properties);
-                String pRem = properties.get(key);
-                c = c.replace(pLoc, pRem);
+            if (b) {
+                if (key.contains("ClusterDockerInput_")){
+                    String[] fLocal = restoreLocalDocker(properties.get(key));
+                    String i = getInputsDir4ClusterFile(key);
+                    String fRem  = getClusterFilePath(properties,fLocal[0],i);
+                    cmd = cmd.replace(fLocal[1], fRem);
+                }
+                if (key.contains("ClusterLocalOutput_")){
+                    String[] fLocal = restoreLocalDocker(properties.get(key));
+                    String fName = Util.getFileNameAndExt(fLocal[0]);
+                    String fRem = clusterDir+"/outputs/"+fName;
+                    cmd = cmd.replace(fLocal[1], fRem);
+                }
+                /*
+                USELESS
+                NOW, it's setted in cluster command line creation from docker
+                */
+                if (key.contains("ExecutableCluster")){
+                    String pLoc = properties.get("ExecutableDocker");
+                    String pRem = properties.get(key);
+                    cmd = cmd.replace(pLoc, pRem);
+                }
+            } else {
+                if (key.contains("ClusterLocalInput_")){
+                    String fLocal = properties.get(key);
+                    String i = getInputsDir4ClusterFile(key);
+                    String fRem  = getClusterFilePath(properties,fLocal,i);
+                    cmd = cmd.replace(fLocal, fRem);
+                }
+                if (key.contains("ClusterLocalOutput_")){
+                    String fLocal = properties.get(key);
+                    String fName = Util.getFileNameAndExt(fLocal);
+                    String fRem = clusterDir+"/outputs/"+fName;
+                    cmd = cmd.replace(fLocal, fRem);
+                }
+                if (key.contains("ExecutableCluster")){
+                    String pLoc = Util.getOSCommandLine(properties);
+                    String pRem = properties.get(key);
+                    cmd = cmd.replace(pLoc, pRem);
+                }
             }
         }
-        return c;
+        return cmd;
     }
     
-    public static String updateCommandFromDockerToCluster(workflow_properties properties, String c){
-        String clusterDir = properties.get("ClusterDirPath");
-        Enumeration<Object> e = properties.keys();
-        while(e.hasMoreElements()) {
-            String key=(String)e.nextElement();
-            if (key.contains("ClusterDockerInput_")){
-                String[] fLocal = restoreLocalDocker(properties.get(key));
-                String fRem  = getClusterFilePath(properties,fLocal[0]);
-                c = c.replace(fLocal[1], fRem);
-            }
-            if (key.contains("ClusterLocalOutput_")){
-                String[] fLocal = restoreLocalDocker(properties.get(key));
-                String fName = Util.getFileNameAndExt(fLocal[0]);
-                String fRem = clusterDir+"/outputs/"+fName;
-                c = c.replace(fLocal[1], fRem);
-            }
-            /*
-            USELESS
-            NOW, it's setted in command line creation
-            */
-            if (key.contains("ExecutableCluster")){
-                String pLoc = properties.get("ExecutableDocker");
-                String pRem = properties.get(key);
-                c = c.replace(pLoc, pRem);
-            }
-        }
-        return c;
-    }
-            
     public static String[] restoreLocalDocker(String c){
         //Util.dm("c"+c);
         String[] s = c.split("<<>>");
         //Util.dm("Taille de split>"+Integer.toString(s.length));
         return s;
     }
-            
-        
 
     /**
      * Prepare the remote cluster directory and file name
@@ -316,11 +303,11 @@ public class Cluster {
         return false;
     }
     
-    public static String getClusterFilePath(workflow_properties properties, String localPath) {
+    public static String getClusterFilePath(workflow_properties properties, String localPath, String i) {
         String clusterDir = properties.get("ClusterDirPath");
         String fName = Util.getFileNameAndExt(localPath);
         if (clusterDir!=""){
-            return clusterDir+"/"+fName;
+            return clusterDir+i+"/"+fName;
         }
         return "";
     }
@@ -343,10 +330,20 @@ public class Cluster {
         properties.put("ClusterLocalOutput_1",localOutput+"<<>>"+dockerOutput);
     }
     
-    public static void createLinkDockerClusterCli(workflow_properties properties, String clusterCli) {
-        properties.put("ClusterRunningCLi",clusterCli);
+    /**
+     * It's the way to link Docker command line and Cluster command line
+     * Added by JG 2017
+     */
+    public static void createClusterRunningCLiFromDocker(workflow_properties properties, String clusterCli) {
+        properties.put("ClusterRunningCLiFromDocker",clusterCli);
     }
 
+    public static String getClusterRunningCLiFromDocker(workflow_properties properties) {
+        if (properties.isSet("ClusterRunningCLiFromDocker"))
+            return properties.get("ClusterRunningCLiFromDocker");
+        return "";
+    }
+    
     ///////////////////////////////////////////////////////////////////////////
     // Functions
     ///////////////////////////////////////////////////////////////////////////
@@ -359,8 +356,13 @@ public class Cluster {
     public static boolean isASimpleUnixPath(String s) {
         return (s.matches("(/\\w*)+"));
     }
+    
+    public static String getInputsDir4ClusterFile(String s) {
+        String dir = "/inputs/"+s.substring(s.lastIndexOf( '_' )+1,s.length());
+        return dir;
+    }
+    
     /**
-     * 
      * @param s
      * @return 
      */
@@ -387,7 +389,6 @@ public class Cluster {
             s.contains("Add a group"))
             return false;
         return true;
-        
     }
     
     public static ArrayList<String> getListOfFilesinDirectory(String dir){
@@ -417,18 +418,23 @@ public class Cluster {
     ///////////////////////////////////////////////////////////////////////////
     // Functions to access to the server by ssh and scp
     ///////////////////////////////////////////////////////////////////////////
-    public static ArrayList<String>  runSshCommand(workflow_properties properties,String p2rsa, String command) {
-        ArrayList<String> tab = new ArrayList<String>();
+    public static Connection getConnection(workflow_properties properties) throws IOException {
         String hostName = clusterSeverAddress(properties);
         String userName = clusterSeverUserName(properties);
+        Connection conn = new Connection(hostName);
+        conn.connect();
+        File f = new File(getP2Rsa());
+        boolean isAuthenticated = conn.authenticateWithPublicKey(userName, f, "");
+        if (isAuthenticated == false) {
+            throw new IOException("Authentication failed.");
+        }
+        return conn;
+    }
+
+    public static ArrayList<String> runSshCommand(workflow_properties properties,String command) {
+        ArrayList<String> tab = new ArrayList<String>();
         try {
-            Connection conn = new Connection(hostName);
-            conn.connect();
-            File f = new File(p2rsa);
-            boolean isAuthenticated = conn.authenticateWithPublicKey(userName,f,"");
-            if (isAuthenticated == false)
-                throw new IOException("Authentication failed.");
-            /* Create a session */
+            Connection conn = getConnection(properties);
             Session sess = conn.openSession();
             sess.execCommand(command);
             InputStream stdout = new StreamGobbler(sess.getStdout());
@@ -447,34 +453,20 @@ public class Cluster {
                     break;
                 tab.add(line);
             }
-            tab.add("ExitCode: >" + sess.getExitStatus()+"<");
+            tab.add("ExitCode: >"+sess.getExitStatus()+"<");
             sess.close();
             conn.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace(System.err);
-            System.exit(2);
+            Logger.getLogger(Cluster.class.getName()).log(Level.SEVERE, null, e);
+            //System.exit(2);
         }
-        
-        //Util.dm(Arrays.toString(tab.toArray()));
-        
         return tab;
     }
 
-    public static boolean runUploadFile(workflow_properties properties,String p2rsa, String local, String remote) {
-        String hostName = clusterSeverAddress(properties);
-        String userName = clusterSeverUserName(properties);
+    public static boolean runUploadFile(workflow_properties properties, String local, String remote) {
         try {
-            Connection conn = new Connection(hostName);
-            conn.connect();
-            /* Now connect */
-            File f = new File(p2rsa);
-            boolean isAuthenticated = conn.authenticateWithPublicKey(userName, f,"");
-
-            if (isAuthenticated == false) {
-                throw new IOException("Authentication failed.");
-            }
+            Connection conn = getConnection(properties);
             SCPClient scp = conn.createSCPClient();
             scp.put(local, remote);
             conn.close();
@@ -485,25 +477,11 @@ public class Cluster {
         return true;
     }
     
-    public static boolean runUploadDir(workflow_properties properties,String p2rsa, String local, String remote) {
-        String hostName = clusterSeverAddress(properties);
-        String userName = clusterSeverUserName(properties);
-        String dirPath  = Util.getParentOfFile(Util.getCanonicalPath(local));
-        if (!dirPath.endsWith(File.separator))
-            dirPath += File.separator;
-            
+    public static boolean runUploadDir(workflow_properties properties, String[] local, String remote) {
         try {
-            Connection conn = new Connection(hostName);
-            conn.connect();
-            /* Now connect */
-            File f = new File(p2rsa);
-            boolean isAuthenticated = conn.authenticateWithPublicKey(userName, f,"");
-
-            if (isAuthenticated == false) {
-                throw new IOException("Authentication failed.");
-            }
+            Connection conn = getConnection(properties);
             SCPClient scp = conn.createSCPClient();
-            scp.put(dirPath+"*", remote);
+            scp.put(local, remote);
             conn.close();
         } catch (IOException ex) {
             Logger.getLogger(Cluster.class.getName()).log(Level.SEVERE, null, ex);
@@ -512,18 +490,10 @@ public class Cluster {
         return true;
     }
     
-    public static boolean runDownloadFile(workflow_properties properties,String p2rsa, String local, String remote) {
-        String hostName = clusterSeverAddress(properties);
-        String userName = clusterSeverUserName(properties);
+    public static boolean runDownloadFile(workflow_properties properties,
+            String local, String remote) {
         try {
-            Connection conn = new Connection(hostName);
-            conn.connect();
-            /* Now connect */
-            File f = new File(p2rsa);
-            boolean isAuthenticated = conn.authenticateWithPublicKey(userName, f, "");
-            if (isAuthenticated == false) {
-                throw new IOException("Authentication failed.");
-            }
+            Connection conn = getConnection(properties);
             SCPClient scp = conn.createSCPClient();
             scp.get(remote, local);
             conn.close();
@@ -534,18 +504,12 @@ public class Cluster {
         return true;
     }
     
-    public static boolean runDownloadDir(workflow_properties properties, String p2rsa, String local, String[] remote) {
-        String hostName = clusterSeverAddress(properties);
-        String userName = clusterSeverUserName(properties);
+    public static boolean runDownloadDir(
+            workflow_properties properties,
+            String local,
+            String[] remote) {
         try {
-            Connection conn = new Connection(hostName);
-            conn.connect();
-            /* Now connect */
-            File f = new File(p2rsa);
-            boolean isAuthenticated = conn.authenticateWithPublicKey(userName, f, "");
-            if (isAuthenticated == false) {
-                throw new IOException("Authentication failed.");
-            }
+            Connection conn = getConnection(properties);
             SCPClient scp = conn.createSCPClient();
             scp.get(remote, local);
             conn.close();
@@ -554,6 +518,15 @@ public class Cluster {
             return false;
         }
         return true;
+    }
+    
+    public static boolean runCreateDir(workflow_properties properties, String s) {
+        String program = "mkdir -p";
+        ArrayList<String> tab = runSshCommand(properties, program+" "+s);
+        if (tab.size()==1)
+            if(tab.get(0).contains("ExitCode: >0<")||tab.get(0).contains("ExitCode: >null<"))
+                return true;
+        return false;
     }
     
     /**
@@ -592,9 +565,9 @@ public class Cluster {
      * @param s path ex: ./path/to/file/file.f or \sdfkbgk\ls sldkf\
      * @return true or false
      */
-    public static String executePbsOnCluster(workflow_properties properties, String p2rsa, String file) {
+    public static String executePbsOnCluster(workflow_properties properties, String file) {
         String c = "qsub ";
-        ArrayList<String> tab = runSshCommand(properties,p2rsa,c+" "+file);
+        ArrayList<String> tab = runSshCommand(properties,c+" "+file);
         if (tab.size()==2){
             if (tab.get(0).contains(".mp2.m"))
                 return tab.get(0);
@@ -624,7 +597,7 @@ public class Cluster {
     
     public static boolean isClusterDockerNeededInfoHere (workflow_properties properties){
         List<String> lines = Arrays.asList("ClusterDockerInput_",
-                "ClusterRunningCLi", "ExecutableDocker");
+                "ClusterRunningCLiFromDocker", "ExecutableDocker");
         return Util.isListInProperties(properties,lines);
     }
     
@@ -633,8 +606,7 @@ public class Cluster {
     public static boolean getAccessToCluster(workflow_properties properties){
         String c = "pwd";
         if (isP2RsaHere()){
-            String p2rsa = getP2Rsa();
-            ArrayList<String> tab = runSshCommand(properties,p2rsa,c);
+            ArrayList<String> tab = runSshCommand(properties,c);
             if (tab.size()==2 && isASimpleUnixPath(tab.get(0))){
                 properties.put("ClusterPWD",tab.get(0));
                 return true;
@@ -669,17 +641,23 @@ public class Cluster {
      * @return true or false
      */
     public static boolean createClusterDir(workflow_properties properties) {
-        if(getClusterDirPath(properties)){
-            String program = "mkdir -p";
-            if (isP2RsaHere()){
-                String p2rsa = getP2Rsa();
-                String clusterDir = properties.get("ClusterDirPath");
-                ArrayList<String> tab = runSshCommand(properties,p2rsa, program+" "+clusterDir+"/outputs");
-                //Util.dm(Arrays.toString(tab.toArray()));
-                if (tab.size()==1)
-                    if(tab.get(0).contains("ExitCode: >0<")||tab.get(0).contains("ExitCode: >null<"))
-                        return true;
+        if(getClusterDirPath(properties)&&isP2RsaHere()){
+            String clusterDir = properties.get("ClusterDirPath");
+            // Create inputs directories on Cluster
+            Enumeration<Object> e = properties.keys();
+            while(e.hasMoreElements()) {
+                String key=(String)e.nextElement();
+                if (key.contains("ClusterLocalInput_")){
+                    String i = getInputsDir4ClusterFile(key);
+                    String s = clusterDir+i+"";
+                    if (!runCreateDir(properties,s))
+                        return false;
+                }
             }
+            // Create outputs directory on Cluster
+            if (!runCreateDir(properties,clusterDir+"/outputs"))
+                return false;
+            return true;
         }
         return false;
     }
@@ -687,10 +665,7 @@ public class Cluster {
     /////////////
     // Step 4
     public static boolean sendFilesOnCluster(workflow_properties properties) {
-        String clusterDir = properties.get("ClusterDirPath");
         if (isP2RsaHere()){
-            String p2rsa = getP2Rsa();
-
             Enumeration<Object> e = properties.keys();
             boolean b = true;
             while(e.hasMoreElements() && b==true) {
@@ -700,12 +675,12 @@ public class Cluster {
                     String dir = Util.getParentOfFile(Util.getCanonicalPath(file));
                     ArrayList<String> listFiles = getListOfFilesinDirectory(dir);
                     if (listFiles.size()>0){
-                        for (String f:listFiles){
-                            boolean b2 = runUploadFile(properties,p2rsa,f,clusterDir);
-                            if (!b2){
-                                return false;
-                            }
-                        }
+                        String clusterDir = properties.get("ClusterDirPath");
+                        String[] tabTmp = listFiles.toArray(new String[listFiles.size()]);
+                        String i = getInputsDir4ClusterFile(k)+"/";
+                        boolean b2 = runUploadDir(properties,tabTmp,clusterDir+i);
+                        if (!b2)
+                            return false;
                     } else {
                         return false;
                     }
@@ -721,22 +696,12 @@ public class Cluster {
     public static boolean clusterPbs(workflow_properties properties) {
         // Server name
         String serverName = getClusterServerName(clusterAccessAddress(properties));
-        String c = "";
-        if(isDocker(properties)){
-            // Prepare variables
-            c = getDockerCommandLineRunning(properties);
-            c = updateCommandFromDockerToCluster(properties,c);
-        } else {
-            // Prepare variables
-            c = getCommandLineRunning(properties);
-            c = updateCommandFromProgramToCluster(properties,c);
-        }
-        
+        String clusterDir = properties.get("ClusterDirPath");
+        String c = updateCommandProgramForCluster(properties,clusterDir);
         Util.dm("Cluster CLI >"+c);
         
-        String stdOut = getClusterFilePath(properties,"stdOutFile");
-        String stdErr = getClusterFilePath(properties,"stdErrFile");
-        
+        String stdOut = getClusterFilePath(properties,"stdOutFile","");
+        String stdErr = getClusterFilePath(properties,"stdErrFile","");
         
         String hours = "00";
         String minutes = "05";
@@ -801,16 +766,14 @@ public class Cluster {
             return false;
         }
         if (isP2RsaHere()){
-            String p2rsa = getP2Rsa();
-            String clusterDir = properties.get("ClusterDirPath");
-            boolean b = runUploadFile(properties,p2rsa,fBash,clusterDir);
+            boolean b = runUploadFile(properties,fBash,clusterDir);
             if (!b){
                 return false;
             }
             properties.put("ClusterCommandLineRunning", c);
             properties.put("ClusterPBSInfo", String.join("\n", lines));
             Util.deleteFile(fBash);
-            String tasksNum = executePbsOnCluster(properties,p2rsa,clusterDir+"/clusterPbs.sh");
+            String tasksNum = executePbsOnCluster(properties,clusterDir+"/clusterPbs.sh");
             if (tasksNum!=""){
                 properties.put("ClusterTasksNumber",tasksNum);
                 return true;
@@ -840,11 +803,10 @@ public class Cluster {
         if (taskId!=""){
             Integer[] l = {60,60,60,60,60,60,120,240,480,960,1920};
             if (isP2RsaHere()){
-                String p2rsa = getP2Rsa();
                 String command = "qstat -f "+taskId+"";
                 int i = 0;
                 while(b == false && i<l.length) {
-                    ArrayList<String> tab = runSshCommand(properties,p2rsa,command);
+                    ArrayList<String> tab = runSshCommand(properties,command);
                     if (tab.size()==2 && tab.get(0).contains("qstat: Unknown Job Id")){
                         b = true;
                     } else {
@@ -872,7 +834,6 @@ public class Cluster {
      */
     public static boolean downloadResults(workflow_properties properties) {
         if (isP2RsaHere()){
-            String p2rsa = getP2Rsa();
             Enumeration<Object> e = properties.keys();
             while(e.hasMoreElements()) {
                 String key=(String)e.nextElement();
@@ -888,14 +849,14 @@ public class Cluster {
                         fDir = Util.getParentOfFile(fLoc);
                     String clusterDir = properties.get("ClusterDirPath");
                     String fClus = clusterDir+"/outputs/";
-                    ArrayList<String> tab = runSshCommand(properties,p2rsa,"ls "+fClus);
+                    ArrayList<String> tab = runSshCommand(properties,"ls "+fClus);
                     if (tab.size()>=2 && !tab.get(0).contains("ls")){
                         tab.remove(tab.size()-1);
                         for (int i=0; i<tab.size(); i++){
                             tab.set(i,fClus+tab.get(i));
                         }
                         String[] tabTmp = tab.toArray(new String[tab.size()]);
-                        boolean b2 = runDownloadDir(properties,p2rsa,fDir,tabTmp);
+                        boolean b2 = runDownloadDir(properties,fDir,tabTmp);
                         if(!b2){
                             return false;
                         }
@@ -913,9 +874,8 @@ public class Cluster {
     // Step 8
     public static String getPgrmOutput(workflow_properties properties,String std){
         if (isP2RsaHere()){
-            String p2rsa = getP2Rsa();
-            String fClus = getClusterFilePath(properties,std);
-            ArrayList<String> tab = runSshCommand(properties,p2rsa,"cat "+fClus);
+            String fClus = getClusterFilePath(properties,std,"");
+            ArrayList<String> tab = runSshCommand(properties,"cat "+fClus);
             if (tab.size()==1 && tab.get(0).contains("cat"))
                 return "";
             else

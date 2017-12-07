@@ -23,9 +23,9 @@ It can be run on local machine with Docker or on Mammouth Parallèle II (https:/
 On mac or windows, you can use http://www.bioinfo.uqam.ca/armadillo/download.html \
 Then replace ./src/ ./data/ ./lib/ directories by the directories from this depot \
 Remove also ./config.dat and ./armadillo.log \
-Remove ./Armadillo.jar. Rename ./Armadillo.jar_mac for Mac (and ./Armadillo.jar_win for Windows) in Armadillo.jar \
+Remove ./Armadillo.jar. Rename ./Armadillo.jar_all in Armadillo.jar \
 Then run Armadillo as before.
-On linux, just follow instruction from here: https://github.com/JeGoi/Armadillo_SNPs_WF_test/blob/master/README.md or clone (download this depot) and use Armadillo.jar_lin as Armadillo.jar
+On linux, just follow instruction from here: https://github.com/JeGoi/Armadillo_SNPs_WF_test/blob/master/README.md or clone (download this depot) and use Armadillo.jar_all as Armadillo.jar
 
 # NGS not on Docker
 The following programs are not on Docker, you will have to add their binary files in ./executable

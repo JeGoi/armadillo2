@@ -2097,7 +2097,7 @@ public class WorkFlowPreferenceJDialog extends javax.swing.JDialog {
                 config.remove("ClusterModules");
                 config.remove("ClusterPWD");
             }
-            jTabbedPane1.setSelectedIndex(1);
+            jTabbedPane3.setSelectedIndex(1);
             clusterUpdateValues();
         } else {
             System.out.println(Util.BRClusterUnableToAccess());

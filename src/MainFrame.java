@@ -1207,7 +1207,6 @@ public class MainFrame extends javax.swing.JFrame implements WindowListener,
                             int workflow_id=df.getNextWorkflowsID()-1;
                             if (workflow_id>0) {
                                 workbox.getWorkFlowJInternalFrame().setSelectedWay("local");
-                                Cluster.removeAllClusterObject(workbox.getCurrentArmadilloWorkflow());
                                 workbox.loadWorkflowFromDatabase(workflow_id);
                                 workbox.getCurrentArmadilloWorkflow().setName(destination);
                                 //--Enable saving to the Save-Menu

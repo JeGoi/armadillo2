@@ -354,7 +354,7 @@ public class RunProgram implements runningThreadInterface {
                                 if (properties.isSet("ClusterFilesDownload"))
                                     setStatus(status_BadRequirements,"<- Wait to download files later ->");
                                 else if (properties.isSet("ClusterWaitJob"))
-                                    setStatus(status_BadRequirements,"<- Wait to download until job is done on cluster ->");
+                                    setStatus(status_BadRequirements,"<- Wait to download until job is done on Cluster ->");
                                 else
                                     jobNotDoneOnCluster=true;
                             }
@@ -1554,24 +1554,24 @@ public class RunProgram implements runningThreadInterface {
         if (!runLocal){
             if (!testAccessAlreadyDone) {
                 long startTime = System.nanoTime();
-                setStatus(status_running, "\tStart test online. PSSST, you can do a pre-test before in the cluster editor box.");
+                setStatus(status_running, "\tStart test online. PSSST, you can do a pre-test before, Clic on Cluster button.");
                 if (!Cluster.getAccessToCluster(properties)){
                     runLocal = true;
-                    setStatus(status_running, "\tUnable to access to the cluster");
+                    setStatus(status_running, "\tUnable to access to the Cluster");
                     setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress());
                     if (!Cluster.isP2RsaHere())
                         setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa());
                 } else {
-                    setStatus(status_running, "\tCan access to the cluster");
+                    setStatus(status_running, "\tCan access to the Cluster");
                     long endTime = System.nanoTime();
                     long duration = (endTime - startTime);
                     duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                    setStatus(status_running, "\t<TIME> Time to test access to the cluster and get the cluster path is >"+duration+" s");
+                    setStatus(status_running, "\t<TIME> Time to test access to the Cluster and get the Cluster path is >"+duration+" s");
                     setStatus(status_running, "Start Test if module is here");
                 }
             } else {
-                setStatus(status_running, "\tTest to access and get modules on cluster already done! Congratulation.");
-                setStatus(status_running, "\tCan access to the cluster");
+                setStatus(status_running, "\tTest to access and get modules on Cluster already done! Congratulation.");
+                setStatus(status_running, "\tCan access to the Cluster");
                 setStatus(status_running, "Start Test if module is here");
             }
         }
@@ -1591,12 +1591,12 @@ public class RunProgram implements runningThreadInterface {
                             runLocal = true;
                             setStatus(status_running, "\tThe program and it's version has not been found online. Check the program properties");
                         } else {
-                            setStatus(status_running,"\t<-The program is available on the cluster->");
+                            setStatus(status_running,"\t<-The program is available on the Cluster->");
                             long endTime = System.nanoTime();
                             long duration = (endTime - startTime);
                             duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
                             setStatus(status_running, "\t<TIME> Time to check program availability on line is >"+duration+" s");
-                            setStatus(status_running,"\t<-The program is available on the cluster->\nStart to create directories.");
+                            setStatus(status_running,"\t<-The program is available on the Cluster->\nStart to create directories.");
                         }
                     } else {
                         setStatus(status_running,"\nStart to create directories.");
@@ -1607,13 +1607,13 @@ public class RunProgram implements runningThreadInterface {
                 long startTime = System.nanoTime();
                 if (!Cluster.createClusterDir(properties)) {
                     runLocal = true;
-                    setStatus(status_running, "\tNot able to create a directory on the cluster.");
+                    setStatus(status_running, "\tNot able to create a directory on the Cluster.");
                 } else {
-                    setStatus(status_running,"\t<-Directories created on the cluster->");
+                    setStatus(status_running,"\t<-Directories created on the Cluster->");
                     long endTime = System.nanoTime();
                     long duration = (endTime - startTime);
                     duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                    setStatus(status_running, "\t<TIME> Time to create directories on cluster is >"+duration+" s");
+                    setStatus(status_running, "\t<TIME> Time to create directories on Cluster is >"+duration+" s");
                     setStatus(status_running,"\nStart to send file(s)");
                 }
             }
@@ -1622,13 +1622,13 @@ public class RunProgram implements runningThreadInterface {
                 long startTime = System.nanoTime();
                 if (!Cluster.sendFilesOnCluster(properties)) {
                     runLocal = true;
-                    setStatus(status_running, "\tNot able to send files to the cluster.");
+                    setStatus(status_running, "\tNot able to send files to the Cluster.");
                 } else {
                     setStatus(status_running,"\t<-Files sended->");
                     long endTime = System.nanoTime();
                     long duration = (endTime - startTime);
                     duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                    setStatus(status_running, "\t<TIME> Time to send files on cluster is >"+duration+" s");
+                    setStatus(status_running, "\t<TIME> Time to send files on Cluster is >"+duration+" s");
                     setStatus(status_running,"\nStart create PBS file, send and execute");
                 }
             }
@@ -1637,16 +1637,16 @@ public class RunProgram implements runningThreadInterface {
                 long startTime = System.nanoTime();
                 if (!Cluster.clusterPbs(properties)) {
                     runLocal = true;
-                    setStatus(status_running, "\tNot able to create and send the pbs file to the cluster.");
+                    setStatus(status_running, "\tNot able to create and send the pbs file to the Cluster.");
                 } else {
                     long endTime = System.nanoTime();
                     long duration = (endTime - startTime);
                     duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                    setStatus(status_running, "\t<TIME> Time to create pbs file and launch it on cluster is >"+duration+" s");
+                    setStatus(status_running, "\t<TIME> Time to create pbs file and launch it on Cluster is >"+duration+" s");
                     setStatus(status_running,"\t<-Program Cluster Status->");
-                    setStatus(status_running, "\tRunning program on cluster...");
-                    setStatus(status_running, "\n>> PBS File on cluster contains\n"+properties.get("ClusterPBSInfo"));
-                    setStatus(status_running, "\n>> Command line running on cluster is\n"+properties.get("ClusterCommandLineRunning"));
+                    setStatus(status_running, "\tRunning program on Cluster...");
+                    setStatus(status_running, "\n>> PBS File on Cluster contains\n"+properties.get("ClusterPBSInfo"));
+                    setStatus(status_running, "\n>> Command line running on Cluster is\n"+properties.get("ClusterCommandLineRunning"));
                     setStatus(status_running, "\n>> The CLuster task number is \n"+properties.get("ClusterTasksNumber"));
                     setStatus(status_running,"\n\nWait until job is done or time is up (after 68 minutes)"+
                             "\nIn seconds, the time between two tests is 60,60,60,60,60,60,120,240,480,960,1920"+
@@ -1666,29 +1666,29 @@ public class RunProgram implements runningThreadInterface {
                 long endTime = System.nanoTime();
                 long duration = (endTime - startTime);
                 duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                setStatus(status_running, "\t<TIME> Time to wait until tasks is still running on the cluster is >"+duration+" s");
+                setStatus(status_running, "\t<TIME> Time to wait until tasks is still running on the Cluster is >"+duration+" s");
                 return false;
             } else {
                 properties.remove("ClusterWaitJob");
                 long endTime = System.nanoTime();
                 long duration = (endTime - startTime);
                 duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                setStatus(status_running, "\t<TIME> Time to wait until tasks done on the cluster is >"+duration+" s");
+                setStatus(status_running, "\t<TIME> Time to wait until tasks done on the Cluster is >"+duration+" s");
             }
             startTime = System.nanoTime();
             if (!Cluster.downloadResults(properties)) {
                 cantDownload = true;
-                setStatus(status_BadRequirements, "\tNot able to download results from the cluster.");
+                setStatus(status_BadRequirements, "\tNot able to download results from the Cluster.");
                 properties.put("ClusterFilesDownload",false);
                 addClusterStdFilesInfos();
                 return false;
             } else {
                 properties.remove("ClusterFilesDownload");
-                setStatus(status_running,"\t<-Results downloaded from cluster->");
+                setStatus(status_running,"\t<-Results downloaded from Cluster->");
                 long endTime = System.nanoTime();
                 long duration = (endTime - startTime);
                 duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                setStatus(status_running, "\t<TIME> Time to donwload files from the cluster is >"+duration+" s");
+                setStatus(status_running, "\t<TIME> Time to donwload files from the Cluster is >"+duration+" s");
             }
             addClusterStdFilesInfos();
             
@@ -1699,10 +1699,10 @@ public class RunProgram implements runningThreadInterface {
             if (properties.isSet("ClusterDeleteAllFiles")){
                 if (Boolean.parseBoolean((properties.get("ClusterDeleteAllFiles")))){
                     Cluster.removeFilesFromCluster(properties);
-                    setStatus(status_running,"\t<-Sorry, Deleted files on cluster is not yet available->");
+                    setStatus(status_running,"\t<-Sorry, Deleted files on Cluster is not yet available->");
                 } else {
                     Cluster.savePathOfFilesOnCluster(properties);
-                    setStatus(status_running,"\t<-Sorry, Keep files on cluster is not yet available->");
+                    setStatus(status_running,"\t<-Sorry, Keep files on Cluster is not yet available->");
                 }
             }
             int exitvalue=0;
@@ -1743,7 +1743,6 @@ public class RunProgram implements runningThreadInterface {
                 setStatus(status_running, "\tNot enough information from Docker to run on Cluster");
             return false;
             }
-        } else {
             setStatus(status_running, "\tGet enough information from Docker");
         }
         
@@ -1751,24 +1750,24 @@ public class RunProgram implements runningThreadInterface {
         
         if (!testAccessAlreadyDone) {
             long startTime = System.nanoTime();
-            setStatus(status_running, "\tStart test online. PSSST, you can do a pre-test before in the cluster editor box.");
+            setStatus(status_running, "\tStart test online. PSSST, you can do a pre-test before, Clic on Cluster button.");
             if (!Cluster.getAccessToCluster(properties)){
-                setStatus(status_running, "\tUnable to access to the cluster");
+                setStatus(status_running, "\tUnable to access to the Cluster");
                 setStatus(status_running, "\tThe current running connexion is using >"+Cluster.clusterAccessAddress());
                 if (!Cluster.isP2RsaHere())
                     setStatus(status_running, "\tThe path to private key is net setted >"+Cluster.getP2Rsa());
                 return false;
             } else {
-                setStatus(status_running, "\tCan access to the cluster");
+                setStatus(status_running, "\tCan access to the Cluster");
                 long endTime = System.nanoTime();
                 long duration = (endTime - startTime);
                 duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-                setStatus(status_running, "\t<TIME> Time to test access to the cluster and get the cluster path is >"+duration+" s");
+                setStatus(status_running, "\t<TIME> Time to test access to the Cluster and get the Cluster path is >"+duration+" s");
                 setStatus(status_running, "Start Test if module is here");
             }
         } else {
-            setStatus(status_running, "\tTest to access and get modules on cluster already done! Congratulation.");
-            setStatus(status_running, "\tCan access to the cluster");
+            setStatus(status_running, "\tTest to access and get modules on Cluster already done! Congratulation.");
+            setStatus(status_running, "\tCan access to the Cluster");
             setStatus(status_running, "Start Test if module is here");
             
             boolean moduleIsHere = Cluster.isTheProgramOnClusterFromLocal(properties);
@@ -1779,12 +1778,12 @@ public class RunProgram implements runningThreadInterface {
                     setStatus(status_running, "\tThe program and it's version has not been found online. Check the program properties");
                     return false;
                 } else {
-                    setStatus(status_running,"\t<-The program is available on the cluster->");
+                    setStatus(status_running,"\t<-The program is available on the Cluster->");
                     long endTime = System.nanoTime();
                     long duration = (endTime - startTime);
                     duration = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
                     setStatus(status_running, "\t<TIME> Time to check program availability on line is >"+duration+" s");
-                    setStatus(status_running,"\t<-The program is available on the cluster->\nStart to create directories.");
+                    setStatus(status_running,"\t<-The program is available on the Cluster->\nStart to create directories.");
                 }
             } else {
                 setStatus(status_running, "\tStart to run...");

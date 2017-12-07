@@ -1025,8 +1025,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
             workflow_object o=workflow.work.get(i);
             this.workflow.RemoveAllConnection(o);
             if (!o.getProperties().get("ObjectType").equals("Program")) {
-                if (!Cluster.isCluster(o))
-                    this.workflow.delete(o);
+                this.workflow.delete(o);
             } else {
                 //--Verify if we have the name to remove duplicate
                 if (obj_names.containsKey(o.getName())) {
@@ -2193,7 +2192,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
         Paste_count=0;
         
         for (workflow_object obj:this.workflow.work) {
-            if (obj.selected && !Cluster.isCluster(obj)) {
+            if (obj.selected) {
                 CopyPaste_selection.work.add(obj);
             }
         }
@@ -3729,7 +3728,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
             
             for (int i=work.size()-1;i>-1;i--) {
                 workflow_object tmp=(workflow_object)work.get(i);
-                if (tmp.selected && !Cluster.isCluster(tmp)) {
+                if (tmp.selected) {
                     delete(tmp);
                 }
             }
@@ -3974,8 +3973,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
         public void selectAll() {
             for (int i=0;i<work.size(); i++) {
                 workflow_object tmp=(workflow_object)work.get(i);
-                if (!Cluster.isCluster(tmp))
-                    tmp.selected=true;
+                tmp.selected=true;
             }
             for (int i=0; i<work_connection.size();i++) {
                 workflow_connector_edge tmp=(workflow_connector_edge)work_connection.get(i);
@@ -3997,8 +3995,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
         public void inverseSelection() {
             for (int i=0;i<work.size(); i++) {
                 workflow_object tmp=(workflow_object)work.get(i);
-                if (!Cluster.isCluster(tmp))
-                    tmp.selected=!tmp.selected;
+                tmp.selected=!tmp.selected;
             }
             for (int i=0; i<work_connection.size();i++) {
                 workflow_connector_edge tmp=(workflow_connector_edge)work_connection.get(i);
@@ -4017,7 +4014,7 @@ public class armadillo_workflow extends PApplet implements ActionListener {
                 if (selected instanceof workflow_object) {
                     for (int i=0;i<work.size(); i++) {
                         workflow_object tmp=(workflow_object)work.get(i);
-                        if ((tmp.selected||tmp.moving)&&!Cluster.isCluster(tmp))
+                        if (tmp.selected||tmp.moving)
                             tmp.featureTranslate(px,py);
                     }
                     //((workflow_object)selected).featureTranslate(px,py);

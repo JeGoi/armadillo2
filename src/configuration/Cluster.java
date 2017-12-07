@@ -114,35 +114,6 @@ public class Cluster {
         }
     }
     
-    public static boolean isCluster(workflow_object tmp){
-        return isCluster(tmp.getProperties());
-    }
-
-    public static boolean isCluster(workflow_properties p){
-        if (p.isSet("ObjectType")) {
-            String s = p.get("ObjectType");
-            if (s.equals("Cluster"))
-                return true;
-        }
-        return false;
-    }
-
-    public static void removeAllClusterObject(armadillo_workflow aw){
-        ArrayList<Integer> tab = new ArrayList<Integer>();
-        ArrayList<workflow_object> tabO = new ArrayList<workflow_object>();
-        Vector<workflow_object> vWO = aw.workflow.work;
-        for (int i = 0 ; i < vWO.size() ; i += 1){
-            workflow_object obj = vWO.get(i);
-            if (isCluster(obj)){
-                tab.add(i);
-                tabO.add(obj);
-            }
-        }
-        for (int j = tab.size() ; j>0; j-=1){
-            aw.workflow.safelyDelete(tabO.get(j-1));
-        }
-    }
-    
     public static boolean isClusterEnable(){
         if (config.isSet("ClusterEnabled")){
             return config.getBoolean("ClusterEnabled");
@@ -156,7 +127,10 @@ public class Cluster {
      * Add Specific properties that will be used in bashfile preparation
      * During the creation updateDependance()
      */
-    public static void addSpecificClusterProperties(armadillo_workflow.workflow_object source, armadillo_workflow.workflow_object dest, Integer i) {
+    public static void addSpecificClusterProperties(
+            armadillo_workflow.workflow_object source,
+            armadillo_workflow.workflow_object dest,
+            Integer i) {
         workflow_properties pSource = source.getProperties();
         workflow_properties pDest = dest.getProperties();
         if (pSource.isSet("FileNameFromId")){

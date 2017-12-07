@@ -173,8 +173,8 @@ public class miRcheck_evaluate_miRNA_candidates extends RunProgram{
         
         // Cluster
         String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
-        Cluster.createLinkDockerClusterCli(properties, clusterCli);
-        setStatus(status_running, Util.RUNCommandLine("Cluster",clusterCli));
+        Cluster.createClusterRunningCLiFromDocker(properties, clusterCli);
+        
 
         // Command line
         String[] com = {""};

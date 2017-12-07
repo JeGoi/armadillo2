@@ -163,8 +163,8 @@ public class samtools_faidx extends RunProgram {
         
         // Cluster
         String clusterCli = properties.get("ExecutableCluster")+" "+preCli;
-        Cluster.createLinkDockerClusterCli(properties, clusterCli);
-        setStatus(status_running,"Cluster CommandLine: \n$ "+clusterCli);
+        Cluster.createClusterRunningCLiFromDocker(properties, clusterCli);
+        
         
         // Command line
         String[] com = {""};

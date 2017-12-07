@@ -967,7 +967,6 @@ public class Docker {
     
     public static HashMap<String,String> addInSharedFolder(HashMap<String,String> sf, String outputPath, String doOutputs) {
         String dir = Util.getCanonicalPath(outputPath);
-        dir = Util.getCanonicalPath(dir);
         dir = cleanWindowsPath4DockerVolume(dir);
         sf.put(dir, doOutputs);
         return sf;

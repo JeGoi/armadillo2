@@ -57,6 +57,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -326,10 +327,10 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
         Database_jTree.setDragEnabled(true);
         Database_jTree.setMaximumSize(new java.awt.Dimension(300, 64));
         Database_jTree.addTreeWillExpandListener(new javax.swing.event.TreeWillExpandListener() {
-            public void treeWillCollapse(javax.swing.event.TreeExpansionEvent evt)throws javax.swing.tree.ExpandVetoException {
-            }
             public void treeWillExpand(javax.swing.event.TreeExpansionEvent evt)throws javax.swing.tree.ExpandVetoException {
                 Database_jTreeTreeWillExpand(evt);
+            }
+            public void treeWillCollapse(javax.swing.event.TreeExpansionEvent evt)throws javax.swing.tree.ExpandVetoException {
             }
         });
         Database_jTree.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -344,10 +345,10 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
             }
         });
         Database_jTree.addTreeExpansionListener(new javax.swing.event.TreeExpansionListener() {
-            public void treeCollapsed(javax.swing.event.TreeExpansionEvent evt) {
-            }
             public void treeExpanded(javax.swing.event.TreeExpansionEvent evt) {
                 Database_jTreeTreeExpanded(evt);
+            }
+            public void treeCollapsed(javax.swing.event.TreeExpansionEvent evt) {
             }
         });
         Database_jTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
@@ -369,23 +370,23 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(RechercheJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                .addComponent(RechercheJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(refresh_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(expandCollapseTool_jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addComponent(expandCollapseTool_jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(RechercheJTextField)
-                    .addComponent(refresh_jButton, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE))
+                    .addComponent(refresh_jButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(expandCollapseTool_jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -396,17 +397,19 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                .addGap(6, 6, 6))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(expandCollapseTool_jButton, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(expandCollapseTool_jButton, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,10 +434,10 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
         CurrentWorkflow_jTree.setDragEnabled(true);
         CurrentWorkflow_jTree.setMaximumSize(new java.awt.Dimension(300, 64));
         CurrentWorkflow_jTree.addTreeWillExpandListener(new javax.swing.event.TreeWillExpandListener() {
-            public void treeWillCollapse(javax.swing.event.TreeExpansionEvent evt)throws javax.swing.tree.ExpandVetoException {
-            }
             public void treeWillExpand(javax.swing.event.TreeExpansionEvent evt)throws javax.swing.tree.ExpandVetoException {
                 CurrentWorkflow_jTreeTreeWillExpand(evt);
+            }
+            public void treeWillCollapse(javax.swing.event.TreeExpansionEvent evt)throws javax.swing.tree.ExpandVetoException {
             }
         });
         CurrentWorkflow_jTree.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -449,10 +452,10 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
             }
         });
         CurrentWorkflow_jTree.addTreeExpansionListener(new javax.swing.event.TreeExpansionListener() {
-            public void treeCollapsed(javax.swing.event.TreeExpansionEvent evt) {
-            }
             public void treeExpanded(javax.swing.event.TreeExpansionEvent evt) {
                 CurrentWorkflow_jTreeTreeExpanded(evt);
+            }
+            public void treeCollapsed(javax.swing.event.TreeExpansionEvent evt) {
             }
         });
         CurrentWorkflow_jTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
@@ -468,11 +471,11 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Tools_jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+            .addComponent(Tools_jTabbedPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Tools_jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+            .addComponent(Tools_jTabbedPane)
         );
 
         pack();
@@ -618,51 +621,50 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
      *  This load the armadillo program list (/data/properties) into the tool jTree
      */
     public void loadProgram() {
-        Vector<workflow_properties>program=new Vector<workflow_properties>();
-        HashMap<String,ToolboxMutableTreeNode> ListCategoryNode=new HashMap<String,ToolboxMutableTreeNode>();
+        Vector<workflow_properties>programs=new Vector<workflow_properties>();
+        // Load programs information
         for (String filename:workflow_properties.loadPropertieslisting(config.get("propertiesPath"))) {
             workflow_properties tmp=new workflow_properties();
             tmp.load(filename, config.get("propertiesPath"));
-            program.add(tmp);
+            programs.add(tmp);
         }
+        
+        // Prepare tree
         workflow_properties rootnode=new workflow_properties();
         rootnode.setName("Armadillo");
         ToolboxMutableTreeNode treeroot=new ToolboxMutableTreeNode(rootnode);
-        for (workflow_properties lnode:program) {
-           String category=lnode.get("Type");
-           if (category.equals(lnode.NotSet)) {
-               Config.log("Not Set: "+lnode+"\n"+lnode.filename);
-           } 
-           ToolboxMutableTreeNode newNode=new ToolboxMutableTreeNode(lnode);
-           ToolboxMutableTreeNode rootNode=ListCategoryNode.get(category);           
-           if (category.equals("For")) {
-                //--Not needed for now..
-               //category.equals("Begin")||
-               treeroot.add(newNode);
-           } else
-               if (rootNode==null) {
-                  workflow_properties newnode_properties=new workflow_properties();
-                  newnode_properties.put("Type",category);
-                  newnode_properties.setName(category);
-                  ToolboxMutableTreeNode newRootNode=new ToolboxMutableTreeNode(newnode_properties);
-                  newRootNode.add(newNode);
-                  ListCategoryNode.put(category, newRootNode);
-               } else {
-                  rootNode.add(newNode);
-               }
-       }
-       LinkedList<ToolboxMutableTreeNode> list=new LinkedList<ToolboxMutableTreeNode>();
-       list.addAll(ListCategoryNode.values());
-       Collections.sort(list);
-
-       for (ToolboxMutableTreeNode lnode:list) treeroot.add(lnode);
-
-       Applications_jTree.setModel(new javax.swing.tree.DefaultTreeModel(treeroot));
-       //--Enable tooltip
-       ToolTipManager.sharedInstance().registerComponent(Applications_jTree);
-       ToolTipManager.sharedInstance().registerComponent(CurrentWorkflow_jTree);
+        // Create tree
+        for (workflow_properties lnode:programs) {
+            String category = lnode.get("Type");
+            if (category.equals(lnode.NotSet)) {
+                Config.log("Not Set: "+lnode+"\n"+lnode.filename);
+            }
+            String[] leafs = category.split("<>");
+            ToolboxMutableTreeNode leaf=new ToolboxMutableTreeNode(lnode);
+            // Objectif creer les categories
+            for (int i =0 ; i < leafs.length; i++){
+                ToolboxMutableTreeNode parent=new ToolboxMutableTreeNode(leafs[i]);
+                if (i==0){
+                    parent = treeroot.add(parent);
+                } else {
+                    parent = leaf.add(parent);
+                }
+                leaf=parent;
+            }
+            // Objectif ajouter le node final
+            ToolboxMutableTreeNode newNode=new ToolboxMutableTreeNode(lnode);
+            leaf.add(newNode);
+        }
+        // Reorder tree recursively
+        treeroot.reOrderChildren();
+        
+        // Show tree
+        Applications_jTree.setModel(new javax.swing.tree.DefaultTreeModel(treeroot));
+        //--Enable tooltip
+        ToolTipManager.sharedInstance().registerComponent(Applications_jTree);
+        ToolTipManager.sharedInstance().registerComponent(CurrentWorkflow_jTree);
     }
-
+    
     ////////////////////////////////////////////////////////////////////////////
     /// Tree
 

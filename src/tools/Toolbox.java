@@ -28,7 +28,7 @@ import workflows.armadillo_workflow;
 
 /**
  * This is a container to the ToolJInternalFrame to ensure there is only one
- * This is the displayed toolboix
+ * This is the displayed toolbox
  * @author Etienne Lord
  * @since June 2009
  */

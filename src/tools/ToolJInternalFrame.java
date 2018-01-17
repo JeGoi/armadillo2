@@ -639,21 +639,24 @@ public class ToolJInternalFrame extends javax.swing.JInternalFrame implements Ac
             if (category.equals(lnode.NotSet)) {
                 Config.log("Not Set: "+lnode+"\n"+lnode.filename);
             }
-            String[] leafs = category.split("<>");
-            ToolboxMutableTreeNode leaf=new ToolboxMutableTreeNode(lnode);
-            // Objectif creer les categories
-            for (int i =0 ; i < leafs.length; i++){
-                ToolboxMutableTreeNode parent=new ToolboxMutableTreeNode(leafs[i]);
-                if (i==0){
-                    parent = treeroot.add(parent);
-                } else {
-                    parent = leaf.add(parent);
+            String[] multiMenus = category.split("<->");
+            // Create multiple categories and sub categories
+            for (int j =0 ; j < multiMenus.length; j++){
+                String[] leafs = multiMenus[j].split("<>");
+                ToolboxMutableTreeNode leaf=new ToolboxMutableTreeNode(lnode);
+                for (int i =0 ; i < leafs.length; i++){
+                    ToolboxMutableTreeNode parent=new ToolboxMutableTreeNode(leafs[i]);
+                    if (i==0){
+                        parent = treeroot.add(parent);
+                    } else {
+                        parent = leaf.add(parent);
+                    }
+                    leaf=parent;
                 }
-                leaf=parent;
+                // Add to the final node
+                ToolboxMutableTreeNode newNode=new ToolboxMutableTreeNode(lnode);
+                leaf.add(newNode);
             }
-            // Objectif ajouter le node final
-            ToolboxMutableTreeNode newNode=new ToolboxMutableTreeNode(lnode);
-            leaf.add(newNode);
         }
         // Reorder tree recursively
         treeroot.reOrderChildren();
